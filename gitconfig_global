@@ -1,0 +1,31 @@
+[user]
+	name = UCHIDA Masaru
+	email = usadamasa@gmail.com
+[alias]
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    graphAll = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    ignore = !"f() { local s=$1; shift; \
+      while [ $# -gt 0 ]; do s="$s,$1"; shift; done;\
+      curl "http://gitignore.io/api/$s"; }; f"
+[color]
+	ui = true
+[page]
+    log = diff-highlight | less
+    show = diff-highlight | less
+    diff = diff-highlight | less
+[diff]
+    tool = vimdiff
+[core]
+	excludesfile = /Users/usadamasa/.gitignore_global
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[ghq]
+	root = /Users/usadamasa/workspace/go/src
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
