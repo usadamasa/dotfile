@@ -1,9 +1,6 @@
 dotfiles
 ===
 
-## python
-* pyenv
-
 ## vim
 
 ### dein
@@ -15,20 +12,10 @@ dotfiles
 
 ### link
 
-    ln -sfn vimdir ~/.vim
-    ln -sfn vimrc ~/.vimrc
+    ln -sfn $(pwd)/vimdir ~/.vim
+    ln -sfn $(pwd)/vimrc ~/.vimrc
 
 ## bash
 
-    ln -sfn .bashrc ~/.bashrc
+    ln -sfn $(pwd)/.bashrc ~/.bashrc
 
-## powerline
-
-copy font
-
-    cp fonts/* ~/Library/Fonts/
-
-
-install powerline
-
-    pip install powerline-shell
