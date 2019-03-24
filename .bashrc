@@ -18,6 +18,7 @@ export NEXINIT=set exrc
 GIT_EDITOR=vim
 export GIT_EDITOR
 
+
 # ページ送りにless
 export PAGER="less -R"
 
@@ -45,11 +46,3 @@ alias diff='colordiff'
 
 export PIPENV_VENV_IN_PROJECT=true
 
-# powerline
-function _update_ps1() {
-    PS1=$(powerline-shell $?)
-}
-
-#if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
-#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-#fi
