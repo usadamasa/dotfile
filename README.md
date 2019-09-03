@@ -35,7 +35,7 @@ dotfiles
 ## git
 
     brew install git
-    cp /usr/local/opt/git/etc/bash_completion.d/git-completion.bash .git-completion.bash
+    cp /usr/local/opt/git/etc/bash_completion.d/git-completion.bash ~/.git-completion.bash
     ln -sfn $(pwd)/gitconfig_global ~/.gitconfig
     ln -sfn $(pwd)/gitignore_global ~/.gitignore_global
 
