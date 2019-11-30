@@ -1,12 +1,6 @@
 [user]
-	name = UCHIDA Masaru
+	name = usadamasa
 	email = usadamasa@gmail.com
-[alias]
-    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    graphAll = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    ignore = !"f() { local s=$1; shift; \
-      while [ $# -gt 0 ]; do s="$s,$1"; shift; done;\
-      curl "http://gitignore.io/api/$s"; }; f"
 [color]
 	ui = true
 [page]
@@ -22,7 +16,7 @@
 	smudge = git-lfs smudge %f
 	required = true
 [ghq]
-	root = /Users/usadamasa/workspace/go/src
+	root = /Users/usadamasa/go/src
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
