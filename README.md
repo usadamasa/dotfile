@@ -7,6 +7,21 @@ dotfiles
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+### git
+
+    brew install git
+    cp /usr/local/opt/git/etc/bash_completion.d/git-completion.bash .git-completion.bash
+
+
+### clone this repo.
+
+    mkdir -p workspace
+    git clone git@github.com:usadamasa/dotfile.git
+    cd dotfile
+    ln -sfn $(pwd)/gitconfig_global ~/.gitconfig
+    ln -sfn $(pwd)/gitignore_global ~/.gitignore_global
+
+
 ## bash
 
     ln -sfn $(pwd)/.bashrc ~/.bashrc
@@ -32,21 +47,12 @@ dotfiles
     mkdir -p ~/.cache
     sh /tmp/installer.sh ~/.cache/dein
 
-## git
-
-    brew install git
-    cp /usr/local/opt/git/etc/bash_completion.d/git-completion.bash .git-completion.bash
-    ln -sfn $(pwd)/gitconfig_global ~/.gitconfig
-    ln -sfn $(pwd)/gitignore_global ~/.gitignore_global
-
 ## fonts
 
-### ricty-powerline
+### cica
 
-    brew tap sanemat/font
-    brew install ricty --with-powerline
-    cp -f /usr/local/opt/ricty/share/fonts/Ricty*.ttf ~/Library/Fonts/
-    fc-cache -vf
+Download from https://github.com/miiton/Cica/releases .
 
 ## misc
 * [sdkman](https://sdkman.io/)
+* [google-cloud-sdk](https://cloud.google.com/sdk/downloads?hl=JA)
