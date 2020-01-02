@@ -7,6 +7,7 @@ dotfiles
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+
 ### git
 
     brew install git
@@ -37,6 +38,9 @@ dotfiles
     fpath=(path/to/zsh-completions/src $fpath)
     rm -f ~/.zcompdump; compinit
     chmod go-w '/usr/local/share'
+
+    ## symlink
+    ln -sfn $(pwd)/.zshrc ~/.zshrc
 
 ### [powerline-shell](https://github.com/b-ryan/powerline-shell)
 
