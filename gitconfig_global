@@ -2,7 +2,7 @@
 	name = usadamasa
 	email = usadamasa@gmail.com
 [color]
-	ui = true
+    ui = true
 [page]
     log = diff-highlight | less
     show = diff-highlight | less
@@ -10,16 +10,6 @@
 [diff]
     tool = vimdiff
 [core]
-	excludesfile = /Users/usadamasa/.gitignore_global
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+	excludesfile = ~/.gitignore_global
 [ghq]
-	root = /Users/usadamasa/go/src
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+	root = ~/src

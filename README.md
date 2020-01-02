@@ -14,21 +14,26 @@ dotfiles
     cp /usr/local/opt/git/etc/bash_completion.d/git-completion.bash .git-completion.bash
 
 
-### clone this repo.
+### clone this repo via [ghq](https://github.com/motemen/ghq).
 
-    mkdir -p workspace
-    git clone git@github.com:usadamasa/dotfile.git
-    cd dotfile
+    brew install ghq
+    GHQ_ROOT=~/src
+    ghq get git@github.com:usadamasa/dotfile.git
+    cd ~/src/github.com/usadamasa/dotfile
+
+## link
+
+### git
+
     ln -sfn $(pwd)/gitconfig_global ~/.gitconfig
     ln -sfn $(pwd)/gitignore_global ~/.gitignore_global
 
-
-## bash
+### bash
 
     ln -sfn $(pwd)/.bashrc ~/.bashrc
     ln -sfn $(pwd)/.bash_profile ~/.bash_profile
 
-## zsh
+### zsh
 
     ## oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
