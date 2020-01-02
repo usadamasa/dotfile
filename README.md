@@ -27,6 +27,17 @@ dotfiles
     ln -sfn $(pwd)/.bashrc ~/.bashrc
     ln -sfn $(pwd)/.bash_profile ~/.bash_profile
 
+## zsh
+
+    ## oh-my-zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    ## zsh-completions
+    brew install zsh-completions
+    fpath=(path/to/zsh-completions/src $fpath)
+    rm -f ~/.zcompdump; compinit
+    chmod go-w '/usr/local/share'
+
 ### [powerline-shell](https://github.com/b-ryan/powerline-shell)
 
     brew install python3
