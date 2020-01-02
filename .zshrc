@@ -68,7 +68,19 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    ansible
+    docker
+    docker-compose
+    gcloud
+    git
+    github
+    golang
+    osx
+    pipenv
+    python
+    tig
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -77,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=ja_JP.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -93,7 +105,29 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ll='ls -al'
+
+# 色を使用出来るようにする
+autoload -Uz colors
+colors
+
+# 日本語ファイル名を表示可能にする
+setopt print_eight_bit
+
+# ビープ音の停止
+setopt no_beep
+
+# ビープ音の停止(補完時)
+setopt nolistbeep
+
+# 同時に起動したzshの間でヒストリを共有する
+setopt share_history
+
+# 直前と同じコマンドの場合は履歴に追加しない
+setopt hist_ignore_dups
+
+# スペースから始まるコマンド行はヒストリに残さない
+setopt hist_ignore_space
+
+# ヒストリに保存するときに余分なスペースを削除する
+setopt hist_reduce_blanks
