@@ -91,8 +91,6 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 export LANG=ja_JP.UTF-8
 
-export XDG_CONFIG_HOME="${HOME}/.config"
-
 #
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -150,3 +148,8 @@ function peco-src () {
 }
 zle -N peco-src
 bindkey '^]' peco-src
+
+# pyenv
+eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"

@@ -3,6 +3,11 @@ dotfiles
 
 ## bootstrap
 
+### enable XDG Base Directory
+
+    ln -sfn $(pwd)/.zshenv ~/
+    # reboot terminal
+
 ### [homebrew](https://brew.sh/index_ja)
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -44,7 +49,7 @@ dotfiles
     chmod go-w '/usr/local/share'
 
     ## symlink
-    ln -sfn $(pwd)/.zshrc ~/.zshrc
+    ln -sfn $(pwd)/config/zsh ~/.config/
 
 ### [powerline-shell](https://github.com/b-ryan/powerline-shell)
 
