@@ -91,6 +91,9 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 export LANG=ja_JP.UTF-8
 
+export XDG_CONFIG_HOME="${HOME}/.config"
+
+#
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'

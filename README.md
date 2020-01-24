@@ -25,8 +25,7 @@ dotfiles
 
 ### git
 
-    ln -sfn $(pwd)/gitconfig_global ~/.gitconfig
-    ln -sfn $(pwd)/gitignore_global ~/.gitignore_global
+    ln -sfn $(pwd)/config/git ~/.config/
 
 ### bash
 
