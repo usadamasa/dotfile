@@ -10,7 +10,7 @@
 [diff]
     tool = vimdiff
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.config/git/ignore
 [ghq]
 	root = ~/src
 [http]

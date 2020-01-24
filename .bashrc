@@ -46,3 +46,4 @@ alias diff='colordiff'
 
 export PIPENV_VENV_IN_PROJECT=true
 
+export XDG_CONFIG_HOME="${HOME}/.config"
