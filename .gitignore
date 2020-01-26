@@ -2,3 +2,5 @@
 .tmp/
 /vimdir/dein/
 GetLatest/
+config/zsh/.zcompdump*
+config/zsh/.zsh_history
