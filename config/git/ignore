@@ -190,7 +190,6 @@ local.properties
 ##
 # Linux
 ##
-.*
 !.gitignore
 *~
 
