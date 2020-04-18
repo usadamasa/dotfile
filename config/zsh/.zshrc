@@ -76,6 +76,7 @@ plugins=(
     git
     github
     golang
+    kubectl
     osx
     pipenv
     python
@@ -153,3 +154,6 @@ bindkey '^]' peco-src
 eval "$(pyenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+
+eval "$(anyenv init -)"
+
