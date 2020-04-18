@@ -1,6 +1,5 @@
-[user]
-	name = usadamasa
-	email = usadamasa@gmail.com
+[include]
+    path = ~/.config/git/gitconfig.local
 [color]
     ui = true
 [page]

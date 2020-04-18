@@ -1,6 +1,7 @@
 .netrwhist
 .tmp/
+/config/git/gitconfig.local
+/config/zsh/.zcompdump*
+/config/zsh/.zsh_history
 /vimdir/dein/
 GetLatest/
-config/zsh/.zcompdump*
-config/zsh/.zsh_history
