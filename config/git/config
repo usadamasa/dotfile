@@ -12,5 +12,6 @@
 	excludesfile = ~/.config/git/ignore
 [ghq]
 	root = ~/src
+    root = ~/go
 [http]
 	sslVerify = false
