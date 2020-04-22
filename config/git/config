@@ -10,6 +10,7 @@
     tool = vimdiff
 [core]
 	excludesfile = ~/.config/git/ignore
+	ignorecase = false
 [ghq]
 	root = ~/src
     root = ~/go
