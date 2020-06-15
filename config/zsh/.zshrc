@@ -157,3 +157,5 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 
 eval "$(anyenv init -)"
 
+export PATH="/usr/local/opt/protobuf@3.6/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
