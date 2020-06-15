@@ -12,7 +12,7 @@
 	excludesfile = ~/.config/git/ignore
 	ignorecase = false
 [ghq]
-	root = ~/src
     root = ~/go
+    root = ~/src
 [http]
 	sslVerify = false
