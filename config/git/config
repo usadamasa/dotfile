@@ -13,6 +13,6 @@
 	ignorecase = false
 [ghq]
     root = ~/go
-	root = ~/src
+    root = ~/src
 [http]
 	sslVerify = false
