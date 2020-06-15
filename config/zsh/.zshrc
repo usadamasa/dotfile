@@ -156,6 +156,10 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 eval "$(anyenv init -)"
+<<<<<<< HEAD
 
 export PATH="/usr/local/opt/protobuf@3.6/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+=======
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+>>>>>>> bf1bfd8270a34b0b25d18d809311be66a52feb53
