@@ -29,3 +29,5 @@ if [ -f "${HOME}/google-cloud-sdk/completion.bash.inc" ]; then . "${HOME}/google
 eval "$(pyenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+
+export PATH="$HOME/.cargo/bin:$PATH"
