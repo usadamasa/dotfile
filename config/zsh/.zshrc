@@ -134,9 +134,9 @@ setopt hist_ignore_space
 # ヒストリに保存するときに余分なスペースを削除する
 setopt hist_reduce_blanks
 
-# sdkman
-export SDKMAN_DIR="${HOME}/.sdkman"
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+#
+# functions
+#
 
 # peco
 function peco-src () {
@@ -150,12 +150,27 @@ function peco-src () {
 zle -N peco-src
 bindkey '^]' peco-src
 
+#
+# envs
+#
+
+# sdkman
+export SDKMAN_DIR="${HOME}/.sdkman"
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
 # pyenv
 eval "$(pyenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
-eval "$(anyenv init -)"
+# golang
+export PATH="$HOME/go/bin:$PATH"
+
+# k8s
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# rustlang
 [[ -s ${HOME}/.cargo/env ]] && source ${HOME}/.cargo/env
+
+# anyenv
+eval "$(anyenv init -)"
