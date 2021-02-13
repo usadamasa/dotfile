@@ -203,4 +203,4 @@ local.properties
 *.un~
 Session.vim
 
-/.idea/
+.idea/
