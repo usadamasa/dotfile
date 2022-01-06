@@ -77,7 +77,7 @@ plugins=(
     github
     golang
     kubectl
-    osx
+    macos
     pipenv
     python
     tig
