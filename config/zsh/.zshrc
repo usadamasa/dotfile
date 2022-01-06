@@ -166,7 +166,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 # golang
-export PATH="$HOME/go/bin:$PATH"
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # k8s
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
