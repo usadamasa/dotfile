@@ -3,11 +3,6 @@ dotfiles
 
 ## bootstrap
 
-### enable XDG Base Directory
-
-    ln -sfn $(pwd)/.zshenv ~/
-    # reboot terminal
-
 ### [homebrew](https://brew.sh/index_ja)
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -22,11 +17,17 @@ dotfiles
 ### clone this repo via [ghq](https://github.com/motemen/ghq).
 
     brew install ghq
-    GHQ_ROOT=~/src
-    ghq get git@github.com:usadamasa/dotfile.git
+    export GHQ_ROOT=~/src
+    ghq get https://github.com/usadamasa/dotfile.git
     cd ~/src/github.com/usadamasa/dotfile
 
 ## link
+
+### enable XDG Base Directory
+
+    ln -sfn $(pwd)/.zshenv ~/
+    # reboot terminal
+    mkdir -p ~/.config
 
 ### git
 
