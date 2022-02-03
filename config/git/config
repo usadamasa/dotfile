@@ -9,10 +9,10 @@
 [diff]
     tool = vimdiff
 [core]
-	excludesfile = ~/.config/git/ignore
-	ignorecase = false
+    excludesfile = ~/.config/git/ignore
+    ignorecase = false
 [ghq]
     root = ~/go
     root = ~/src
 [http]
-	sslVerify = false
+    sslVerify = false
