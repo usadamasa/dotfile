@@ -122,17 +122,7 @@ setopt no_beep
 # ビープ音の停止(補完時)
 setopt nolistbeep
 
-# 同時に起動したzshの間でヒストリを共有する
-setopt share_history
-
-# 直前と同じコマンドの場合は履歴に追加しない
-setopt hist_ignore_dups
-
-# スペースから始まるコマンド行はヒストリに残さない
-setopt hist_ignore_space
-
-# ヒストリに保存するときに余分なスペースを削除する
-setopt hist_reduce_blanks
+source ${ZDOTDIR}/history_settings.sh
 
 #
 # envs
