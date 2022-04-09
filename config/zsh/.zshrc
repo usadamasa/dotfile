@@ -135,22 +135,6 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 
 #
-# functions
-#
-
-# peco
-function peco-src () {
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-src
-bindkey '^]' peco-src
-
-#
 # envs
 #
 
@@ -183,3 +167,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
 export PATH="$PATH:/Users/usadamasa/.local/bin"
+
+#
+# functions
+#
+source ${ZDOTDIR}/funcs/peco-select-history.sh
+source ${ZDOTDIR}/funcs/peco-src.sh
