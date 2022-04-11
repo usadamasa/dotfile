@@ -158,6 +158,13 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$PATH:/Users/usadamasa/.local/bin"
 
+# ruby
+[[ -d ~/.rbenv  ]] && \
+  export PATH=${HOME}/.rbenv/bin:${PATH} && \
+  eval "$(rbenv init -)"
+
+eval "$(direnv hook zsh)"
+
 #
 # functions
 #
