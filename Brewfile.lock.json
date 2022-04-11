@@ -11,10 +11,10 @@
         "revision": "3588af94bd2422ec9b905f5b75f4f23926318f96"
       },
       "homebrew/cask": {
-        "revision": "925ae552cb56349e44e8fe5d001f63bf0865f8c7"
+        "revision": "ab30e13fef2c9b3c5a6751cc969a954793db3d19"
       },
       "homebrew/core": {
-        "revision": "86dfd1c86bafdfc8d5d9d834b6899814fa67f0a7"
+        "revision": "62a353fda059922d984f49b10f67e8391060a60e"
       },
       "mongodb/brew": {
         "revision": "11cb57e8c9d898cff3c2caf7f2ea2e331706a498"
@@ -26,7 +26,7 @@
         "revision": "33784e8b25e6296c0788a7d34065677558da002d"
       },
       "homebrew/cask-fonts": {
-        "revision": "036f565736dc7b2c3994905e50d3478e8eb5a8e7"
+        "revision": "7c15e94c7e2bdbfc9e16c06867492bef8c1519cc"
       }
     },
     "brew": {
@@ -1417,15 +1417,39 @@
         "options": {
           "full_name": "font-cica"
         }
+      },
+      "firefox": {
+        "version": "99.0",
+        "options": {
+          "full_name": "firefox"
+        }
+      },
+      "jetbrains-toolbox": {
+        "version": "1.23,1.23.11731",
+        "options": {
+          "full_name": "jetbrains-toolbox"
+        }
+      },
+      "onyx": {
+        "version": "4.1.7",
+        "options": {
+          "full_name": "onyx"
+        }
+      },
+      "visual-studio-code": {
+        "version": "1.66.1",
+        "options": {
+          "full_name": "visual-studio-code"
+        }
       }
     }
   },
   "system": {
     "macos": {
       "monterey": {
-        "HOMEBREW_VERSION": "3.4.5",
-        "HOMEBREW_PREFIX": "/usr/local",
-        "Homebrew/homebrew-core": "86dfd1c86bafdfc8d5d9d834b6899814fa67f0a7",
+        "HOMEBREW_VERSION": "3.4.6",
+        "HOMEBREW_PREFIX": "/opt/homebrew",
+        "Homebrew/homebrew-core": "62a353fda059922d984f49b10f67e8391060a60e",
         "CLT": "13.3.0.0.1.1645755326",
         "Xcode": "13.3",
         "macOS": "12.3.1"
