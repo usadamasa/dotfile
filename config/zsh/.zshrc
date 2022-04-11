@@ -122,33 +122,7 @@ setopt no_beep
 # ビープ音の停止(補完時)
 setopt nolistbeep
 
-# 同時に起動したzshの間でヒストリを共有する
-setopt share_history
-
-# 直前と同じコマンドの場合は履歴に追加しない
-setopt hist_ignore_dups
-
-# スペースから始まるコマンド行はヒストリに残さない
-setopt hist_ignore_space
-
-# ヒストリに保存するときに余分なスペースを削除する
-setopt hist_reduce_blanks
-
-#
-# functions
-#
-
-# peco
-function peco-src () {
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-src
-bindkey '^]' peco-src
+source ${ZDOTDIR}/history_settings.sh
 
 #
 # envs
@@ -183,3 +157,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
 export PATH="$PATH:/Users/usadamasa/.local/bin"
+
+#
+# functions
+#
+source ${ZDOTDIR}/funcs/peco-select-history.sh
+source ${ZDOTDIR}/funcs/peco-src.sh
