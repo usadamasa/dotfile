@@ -172,3 +172,6 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 #
 source ${ZDOTDIR}/funcs/peco-select-history.sh
 source ${ZDOTDIR}/funcs/peco-src.sh
+
+# local env
+[ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
