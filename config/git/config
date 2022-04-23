@@ -7,14 +7,15 @@
     show = diff-highlight | less
     diff = diff-highlight | less
 [pull]
-    rebase = false
+    rebase = true
+    ff = only
 [diff]
     tool = vimdiff
 [core]
     excludesfile = ~/.config/git/ignore
     ignorecase = false
 [ghq]
-    root = ~/go
     root = ~/src
+    root = ~/go
 [http]
     sslVerify = false
