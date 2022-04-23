@@ -1,5 +1,6 @@
 .netrwhist
 .tmp/
+/Brewfile.lock.json
 /config/git/gitconfig.local
 /config/zsh/.zcompdump*
 /config/zsh/.zsh_history
