@@ -19,3 +19,5 @@
     root = ~/go
 [http]
     sslVerify = false
+[merge]
+    conflictStyle = diff3
