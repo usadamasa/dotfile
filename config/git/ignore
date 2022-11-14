@@ -1,3 +1,8 @@
+/.env.*
+/.env_*
+/.env
+/.vscode/
+/.graphqlconfig
 cmake-build-*/
 #
 ##

@@ -16,7 +16,6 @@
     ignorecase = false
 [ghq]
     root = ~/src
-    root = ~/go
 [http]
     sslVerify = false
 [merge]
