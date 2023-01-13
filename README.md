@@ -32,6 +32,7 @@ $ mkdir -p ~/.config
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # symlink
+$ rm -rf ~/.config/zsh
 $ ln -sfn $(pwd)/config/zsh ~/.config/
 ```
 
@@ -48,12 +49,16 @@ $ ln -sfn $(pwd)/vimdir ~/.vim
 $ ln -sfn $(pwd)/vimrc ~/.vimrc
 
 # [powerline-shell](https://github.com/b-ryan/powerline-shell)
-$ pip3 install powerline-shell
+$ pipx install powerline-shell
+```
 
-# dein
-$ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
-$ mkdir -p ~/.cache
-$ sh /tmp/installer.sh ~/.cache/dein
+## maintenances
+
+### Sync Brewfile
+
+```sh
+$ brew bundle cleanup
+$ brew bundle dump
 ```
 
 ## misc
