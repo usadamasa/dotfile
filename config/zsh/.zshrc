@@ -78,6 +78,7 @@ plugins=(
     golang
     kubectl
     macos
+    nvm
     pipenv
     python
     tig
@@ -175,3 +176,9 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
+
+# Created by `pipx` on 2023-02-03 02:10:32
+export PATH="$PATH:/Users/uchida.masaru/.local/bin"
+
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
