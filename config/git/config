@@ -27,3 +27,5 @@
 	required = true
 [alias]
 	ac = !git add -A && aicommits -a
+[fetch]
+	prune = true
