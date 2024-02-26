@@ -26,6 +26,8 @@
 	process = git-lfs filter-process
 	required = true
 [alias]
-	ac = !git add -A && aicommits -a
+    ac = !git add -A && aicommits -a
+    sw = switch
+    oc = !git add -A && opencommit
 [fetch]
 	prune = true
