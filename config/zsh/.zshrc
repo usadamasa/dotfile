@@ -182,3 +182,4 @@ export PATH="$PATH:/Users/uchida.masaru/.local/bin"
 
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
