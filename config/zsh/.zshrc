@@ -140,12 +140,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
-# golang
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export MallocNanoZone=0
-
 # k8s
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
@@ -163,10 +157,6 @@ export PATH="$PATH:/Users/usadamasa/.local/bin"
 [[ -d ~/.rbenv  ]] && \
   export PATH=${HOME}/.rbenv/bin:${PATH} && \
   eval "$(rbenv init -)"
-
-eval "$(direnv hook zsh)"
-
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 #
 # functions
