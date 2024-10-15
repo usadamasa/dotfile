@@ -126,39 +126,6 @@ setopt nolistbeep
 source ${ZDOTDIR}/history_settings.sh
 
 #
-# envs
-#
-
-# sdkman
-export SDKMAN_DIR="${HOME}/.sdkman"
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
-
-# k8s
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-# rustlang
-[[ -s ${HOME}/.cargo/env ]] && source ${HOME}/.cargo/env
-
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
-
-export PATH="$PATH:/Users/usadamasa/.local/bin"
-
-# ruby
-[[ -d ~/.rbenv  ]] && \
-  export PATH=${HOME}/.rbenv/bin:${PATH} && \
-  eval "$(rbenv init -)"
-
-#
 # functions
 #
 source ${ZDOTDIR}/funcs/peco-select-history.sh
@@ -166,10 +133,3 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
-
-# Created by `pipx` on 2023-02-03 02:10:32
-export PATH="$PATH:/Users/uchida.masaru/.local/bin"
-
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
