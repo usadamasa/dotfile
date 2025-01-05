@@ -31,3 +31,5 @@
     oc = !git add -A && opencommit
 [fetch]
 	prune = true
+[init]
+	defaultBranch = main
