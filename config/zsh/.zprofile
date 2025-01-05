@@ -1,6 +1,8 @@
+# homebrew
 if [ -e /opt/homebrew/bin/brew ] ; then
     eval $(/opt/homebrew/bin/brew shellenv)
 fi
+export HOMEBREW_NO_ENV_HINTS=true
 
 # sdkman
 export SDKMAN_DIR="${HOME}/.sdkman"
