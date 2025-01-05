@@ -7,8 +7,7 @@
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # clone this repo
-brew install git
-brew install ghq
+brew install git ghq
 export GHQ_ROOT=~/src
 ghq get https://github.com/usadamasa/dotfile.git
 cd ~/src/github.com/usadamasa/dotfile
@@ -51,7 +50,26 @@ brew install pipx
 pipx install powerline-shell
 ```
 
+## Others
+
+```sh
+brew install \
+  direnv \
+  git-now \
+  gh \
+  jq \
+  peco \
+  tig
+
+# cask
+brew install --cask \
+  font-cica \
+  jetbrains-toolbox \
+  visual-studio-code
+```
+
 ## misc
 
 * [sdkman](https://sdkman.io/)
 * [google-cloud-sdk](https://cloud.google.com/sdk/downloads)
+* [gh-poi](https://github.com/seachicken/gh-poi)
