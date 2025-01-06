@@ -6,5 +6,6 @@
 /config/zsh/.zsh_history
 /config/zsh/.zsh_sessions
 /config/zsh/.zshrc.local
+/config/zsh/local_funcs/
 /vimdir/dein/
 GetLatest/
