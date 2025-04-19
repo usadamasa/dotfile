@@ -29,4 +29,3 @@ runtime! userautoload/*.vim
 " -------------------------------------------
 let g:Powerline_synbols = 'fancy'
 set t_Co=256
-
