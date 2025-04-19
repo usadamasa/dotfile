@@ -15,17 +15,11 @@ if !($CACHE->isdirectory())
   call mkdir($CACHE, 'p')
 endif
 
-" dein.vimの設定
-if &runtimepath !~# '/dein.vim'
-  let s:dir = 'dein.vim'->fnamemodify(':p')
-  if !(s:dir->isdirectory())
-    let s:dir = $XDG_CACHE_HOME .. '/dein/repos/github.com/Shougo/dein.vim'
-    if !(s:dir->isdirectory())
-      execute '!git clone https://github.com/Shougo/dein.vim' s:dir
-    endif
-  endif
-  execute 'set runtimepath^='
-    \ .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
+" vim-plug initialization
+if empty(glob('$XDG_DATA_HOME/vim/autoload/plug.vim'))
+  silent !curl -fLo $XDG_DATA_HOME/vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " ランタイムパスの設定
