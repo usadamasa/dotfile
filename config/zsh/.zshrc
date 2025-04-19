@@ -134,3 +134,8 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/usadamasa/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
