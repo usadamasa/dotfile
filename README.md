@@ -3,8 +3,8 @@
 ## bootstrap
 
 ```sh
-# install [homebrew](https://brew.sh/index_ja)
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# install [homebrew](https://brew.sh)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # clone this repo
 brew install git ghq
@@ -25,7 +25,7 @@ ln -sfn $(pwd)/.zshenv ~/
 mkdir -p ~/.config
 
 # oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
 
 # symlink
 rm -rf ~/.config/zsh

@@ -21,7 +21,7 @@ export PATH="$PATH:${HOME}/.local/bin"
 # k8s
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# rustlang
+# rust lang
 [[ -s ${HOME}/.cargo/env ]] && source ${HOME}/.cargo/env
 
 # nvm
@@ -38,5 +38,10 @@ export PATH="${VOLTA_HOME}/bin:$PATH"
   export PATH=${HOME}/.rbenv/bin:${PATH} && \
   eval "$(rbenv init -)"
 
-export PATH="${HOME}/local/bin:$PATH"
+# Docker CLI completions.
+fpath=(/Users/usadamasa/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 
+export PATH="${HOME}/local/bin:$PATH"
