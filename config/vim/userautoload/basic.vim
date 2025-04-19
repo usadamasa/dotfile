@@ -31,7 +31,7 @@ syntax on
 " 検索キーワードをハイライトから除外
 set nohlsearch
 " カーソルラインの強調表示を有効化
-set cursorline 
+set cursorline
 " 行番号を表示
 set number
 " ルーラー表示
@@ -73,10 +73,10 @@ set autoindent
 set showmatch
 
 set backup
-" タブの挿入幅" 
-set tabstop=4
+" タブの挿入幅"
+set tabstop=2
 " タブの表示幅
-set shiftwidth=4
+set shiftwidth=2
 " タブをスペースに展開
 set expandtab
 " 新しいウィンドウを下に開く

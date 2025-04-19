@@ -1,35 +1,35 @@
 [include]
-    path = ~/.config/git/gitconfig.local
+  path = ~/.config/git/gitconfig.local
 [color]
-    ui = true
+  ui = true
 [page]
-    log = diff-highlight | less
-    show = diff-highlight | less
-    diff = diff-highlight | less
+  log = diff-highlight | less
+  show = diff-highlight | less
+  diff = diff-highlight | less
 [pull]
-    rebase = true
-    ff = only
+  rebase = true
+  ff = only
 [diff]
-    tool = vimdiff
+  tool = vimdiff
 [core]
-    excludesfile = ~/.config/git/ignore
-    ignorecase = false
+  excludesfile = ~/.config/git/ignore
+  ignorecase = false
 [ghq]
-    root = ~/src
+  root = ~/src
 [http]
-    sslVerify = false
+  sslVerify = false
 [merge]
-    conflictStyle = diff3
+  conflictStyle = diff3
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 [alias]
-    ac = !git add -A && aicommits -a
-    sw = switch
-    oc = !git add -A && opencommit
+  ac = !git add -A && aicommits -a
+  sw = switch
+  oc = !git add -A && opencommit
 [fetch]
-	prune = true
+  prune = true
 [init]
-	defaultBranch = main
+  defaultBranch = main
