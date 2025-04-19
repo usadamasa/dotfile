@@ -1,0 +1,49 @@
+" XDG Base Directory 対応
+if empty($XDG_CACHE_HOME)
+  let $XDG_CACHE_HOME= $HOME . '/.cache'
+endif
+if empty($XDG_CONFIG_HOME)
+  let $XDG_CONFIG_HOME= $HOME . '/.config'
+endif
+if empty($XDG_DATA_HOME)
+  let $XDG_DATA_HOME= $HOME . '/.local/share'
+endif
+
+" キャッシュディレクトリの設定
+let $CACHE = $XDG_CACHE_HOME
+if !($CACHE->isdirectory())
+  call mkdir($CACHE, 'p')
+endif
+
+" dein.vimの設定
+if &runtimepath !~# '/dein.vim'
+  let s:dir = 'dein.vim'->fnamemodify(':p')
+  if !(s:dir->isdirectory())
+    let s:dir = $XDG_CACHE_HOME .. '/dein/repos/github.com/Shougo/dein.vim'
+    if !(s:dir->isdirectory())
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dir
+    endif
+  endif
+  execute 'set runtimepath^='
+    \ .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
+endif
+
+" ランタイムパスの設定
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+set runtimepath+=$XDG_DATA_HOME/vim
+set runtimepath+=$XDG_DATA_HOME/vim/after
+set packpath=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim,$VIM,$VIMRUNTIME
+
+" 自動的にファイルを読み込むパスを設定
+runtime! userautoload/*.vim
+
+" -------------------------------------------
+" 以下プラグイン向けの設定
+" -------------------------------------------
+
+" -------------------------------------------
+" Powerline向けフォントを指定
+" -------------------------------------------
+let g:airline_powerline_fonts = 1
+let g:Powerline_synbols = 'fancy'
+set t_Co=256

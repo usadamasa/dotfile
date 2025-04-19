@@ -3,10 +3,10 @@ if &compatible
   set nocompatible
 endif
 
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=$XDG_CACHE_HOME/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.cache/dein')
-    call dein#begin('~/.cache/dein')
+if dein#load_state($XDG_CACHE_HOME . '/dein')
+    call dein#begin($XDG_CACHE_HOME . '/dein')
 
     call dein#add('Shougo/deoplete.nvim')
 
@@ -21,6 +21,7 @@ if dein#load_state('~/.cache/dein')
     " powerline
     call dein#add('davidhalter/jedi-vim')
     call dein#add('taichouchou2/alpaca_powertabline')
+    call dein#add('tpope/vim-fugitive')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
 
