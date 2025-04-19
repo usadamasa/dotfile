@@ -20,7 +20,6 @@ if dein#load_state($XDG_CACHE_HOME . '/dein')
 
     " powerline
     call dein#add('davidhalter/jedi-vim')
-    call dein#add('taichouchou2/alpaca_powertabline')
     call dein#add('tpope/vim-fugitive')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
