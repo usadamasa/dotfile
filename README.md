@@ -69,6 +69,11 @@ brew install --cask \
   font-cica \
   jetbrains-toolbox \
   visual-studio-code
+
+# gh extensions
+gh extension install \
+  seachicken/gh-poi
+
 ```
 
 ## misc
