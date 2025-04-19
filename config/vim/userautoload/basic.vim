@@ -1,8 +1,8 @@
 " swapファイル、backupファイル格納場所の指定
 set swapfile
-set directory=~/.vim/.tmp/.vimswap
+set directory=$XDG_CACHE_HOME/vim/swap//
 set backup
-set backupdir=~/.vim/.tmp/.vimbackup
+set backupdir=$XDG_CACHE_HOME/vim/backup//
 
 " [Backspace]で既存の文字を削除できるように設定
 " start	-既存の文字を削除できるように設定

@@ -41,9 +41,12 @@ ln -sfn $(pwd)/config/git ~/.config/
 ### vim
 
 ```sh
-# link
-ln -sfn $(pwd)/vimdir ~/.vim
-ln -sfn $(pwd)/vimrc ~/.vimrc
+# XDG Base Directory 対応
+mkdir -p ~/.config/vim
+mkdir -p ~/.local/share/vim
+mkdir -p ~/.cache/vim/{swap,backup}
+
+ln -sfn $(pwd)/config/vim ~/.config/
 
 # [powerline-shell](https://github.com/b-ryan/powerline-shell)
 brew install pipx
