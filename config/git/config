@@ -27,9 +27,10 @@
   required = true
 [alias]
   ac = !git add -A && aicommits -a -g 3
+  mc = !git switch main && git pull origin main && gh poi
+  oc = !git add -A && opencommit
   sw = switch
   swc = switch -c
-  mc = !git switch main && git pull origin main && gh poi
 [fetch]
   prune = true
 [init]
