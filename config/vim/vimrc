@@ -8,6 +8,9 @@ endif
 if empty($XDG_DATA_HOME)
   let $XDG_DATA_HOME= $HOME . '/.local/share'
 endif
+if !has('nvim')
+  set viminfofile=$XDG_CACHE_HOME/vim/viminfo
+endif
 
 " キャッシュディレクトリの設定
 let $CACHE = $XDG_CACHE_HOME
