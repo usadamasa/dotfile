@@ -13,9 +13,7 @@ ghq get https://github.com/usadamasa/dotfile.git
 cd ~/src/github.com/usadamasa/dotfile
 ```
 
-## link configs
-
-### zsh
+## zsh
 
 ```sh
 brew install zsh
@@ -37,13 +35,13 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
   ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
 ```
 
-### git
+## git
 
 ```sh
 ln -sfn $(pwd)/config/git ~/.config/
 ```
 
-### vim
+## vim
 
 ```sh
 # XDG Base Directory 対応
@@ -58,7 +56,7 @@ brew install pipx
 pipx install powerline-shell
 ```
 
-### npm
+## npm
 
 ```sh
 ln -sfn $(pwd)/config/npm ~/.config/
