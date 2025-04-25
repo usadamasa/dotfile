@@ -62,6 +62,7 @@ ZSH_THEME="amuse"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
+export HISTFILE="$XDG_CACHE_HOME/zsh/zsh_history"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -86,6 +87,8 @@ plugins=(
     pipenv
     python
     tig
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
