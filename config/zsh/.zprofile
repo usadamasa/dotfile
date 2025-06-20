@@ -45,3 +45,7 @@ compinit
 # End of Docker CLI completions
 
 export PATH="${HOME}/local/bin:$PATH"
+
+# aqua
+export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
+
