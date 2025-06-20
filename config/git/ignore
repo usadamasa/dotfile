@@ -107,7 +107,6 @@ publish
 # Others
 [Bb]in
 [Oo]bj
-sql
 TestResults
 [Tt]est[Rr]esult*
 *.Cache
@@ -210,3 +209,5 @@ Session.vim
 
 .idea/
 runn.prof
+
+**/.claude/settings.local.json
