@@ -83,6 +83,7 @@ plugins=(
     golang
     kubectl
     macos
+    npm
     nvm
     pipenv
     python

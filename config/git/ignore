@@ -1,3 +1,4 @@
+CLAUDE.local.md
 typescript
 /*.iml
 
@@ -210,3 +211,7 @@ Session.vim
 
 .idea/
 runn.prof
+
+**/.claude/settings.local.json
+
+**/CLAUDE.local.md
