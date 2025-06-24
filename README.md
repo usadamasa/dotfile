@@ -1,92 +1,106 @@
 # dotfiles
 
-## bootstrap
+macOS開発環境用のdotfilesリポジトリです。XDG Base Directory仕様に準拠し、[Homebrew](https://brew.sh/)と[go-task](https://taskfile.dev/)を使用して自動化されたセットアップを提供します。
+
+## 🚀 クイックスタート
+
+### 初回セットアップ（推奨）
 
 ```sh
-# install [homebrew](https://brew.sh)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# リポジトリをクローン（Homebrewがない場合は先にインストール）
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install \
+  ghq \
+  git \
+  go-task
 
-# clone this repo
-brew install git ghq
 export GHQ_ROOT=~/src
 ghq get https://github.com/usadamasa/dotfile.git
 cd ~/src/github.com/usadamasa/dotfile
+
+# 初回セットアップを実行（Homebrew + go-task + 完全セットアップ）
+task bootstrap
 ```
 
-## zsh
+### 通常セットアップ（go-taskがインストール済みの場合）
 
 ```sh
-brew install zsh
-# enable XDG Base Directory
-ln -sfn $(pwd)/.zshenv ~/
-# reboot terminal
-mkdir -p ~/.config
+# セットアップを実行
+task setup
 
-# oh-my-zsh
-sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
-
-# symlink
-rm -rf ~/.config/zsh
-ln -sfn $(pwd)/config/zsh ~/.config/
-
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-  ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+# セットアップ状況を確認
+task status
 ```
 
-## git
+## 📋 利用可能なタスク
 
 ```sh
-ln -sfn $(pwd)/config/git ~/.config/
+# 初回セットアップ（Homebrew + go-task + 完全セットアップ）
+task bootstrap
+
+# 完全セットアップ
+task setup
+
+# セットアップ状況確認
+task status
+
+# 設定クリーンアップ（注意：設定ファイルが削除されます）
+task clean
+
+# 利用可能なタスク一覧
+task --list
 ```
 
-## vim
+## 🛠️ 管理されるツール
+
+### Homebrewで管理されるツール
+
+- **Git関連**: git, gh, ghq, git-now, tig
+- **開発ツール**: jq, direnv, peco
+- **シェル**: zsh
+- **Python**: pipx (powerline-shell用)
+- **タスクランナー**: go-task
+- **フォント**: font-cica
+- **IDE/エディタ**: jetbrains-toolbox, visual-studio-code
+
+### 手動インストールが必要なツール
+
+- [sdkman](https://sdkman.io/) - Java環境管理
+- [google-cloud-sdk](https://cloud.google.com/sdk/downloads) - GCP CLI
+- 各種ランタイム管理ツール (nvm, pyenv, rbenv)
+
+## 📁 ディレクトリ構成
+
+```tree
+dotfile/
+├── Taskfile.yml       # タスク定義（セットアップ自動化）
+├── .zshenv           # XDG Base Directory設定
+└── config/           # 各種設定ファイル
+    ├── git/          # Git設定
+    ├── npm/          # npm設定
+    ├── vim/          # Vim設定
+    └── zsh/          # Zsh設定
+```
+
+## 🔧 トラブルシューティング
+
+### セットアップが失敗した場合
 
 ```sh
-# XDG Base Directory 対応
-mkdir -p ~/.config/vim
-mkdir -p ~/.local/share/vim
-mkdir -p ~/.cache/vim/{swap,backup}
+# 現在の状況を確認
+task status
 
-ln -sfn $(pwd)/config/vim ~/.config/
-
-# [powerline-shell](https://github.com/b-ryan/powerline-shell)
-brew install pipx
-pipx install powerline-shell
+# 設定をクリーンアップして再実行
+task clean
+task setup
 ```
 
-## npm
+### 特定のツールのみ再インストール
 
 ```sh
-ln -sfn $(pwd)/config/npm ~/.config/
+# 主要ツールの再インストール
+task install-core-tools
+
+# oh-my-zshプラグインの再インストール
+task setup-zsh-plugins
 ```
-
-## Others
-
-```sh
-brew install \
-  direnv \
-  git-now \
-  gh \
-  jq \
-  peco \
-  tig
-
-# cask
-brew install --cask \
-  font-cica \
-  jetbrains-toolbox \
-  visual-studio-code
-
-# gh extensions
-gh extension install \
-  seachicken/gh-poi
-
-```
-
-## misc
-
-* [sdkman](https://sdkman.io/)
-* [google-cloud-sdk](https://cloud.google.com/sdk/downloads)
-* [gh-poi](https://github.com/seachicken/gh-poi)
