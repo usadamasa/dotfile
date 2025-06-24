@@ -9,3 +9,9 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # Set vim configuration directory
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
+
+# Set XDG Base Directory Specification for Docker
+export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+
+# Set XDG Base Directory Specification for Gradle
+export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
