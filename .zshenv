@@ -15,3 +15,6 @@ export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
 
 # Set XDG Base Directory Specification for Gradle
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+
+# Set XDG Base Directory Specification for npm
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
