@@ -33,6 +33,9 @@ export NVM_DIR="$HOME/.nvm"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="${VOLTA_HOME}/bin:$PATH"
 
+# npm
+export PATH=$PATH:$(npm prefix --location=global)/bin
+
 # ruby
 [[ -d ~/.rbenv  ]] && \
   export PATH=${HOME}/.rbenv/bin:${PATH} && \
