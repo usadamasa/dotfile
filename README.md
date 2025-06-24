@@ -60,7 +60,6 @@ pipx install powerline-shell
 
 ```sh
 ln -sfn $(pwd)/config/npm ~/.config/
-ln -sfn $(pwd)/config/npm/npmrc ~/.npmrc
 ```
 
 ## Others
