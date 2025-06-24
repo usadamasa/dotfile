@@ -49,10 +49,65 @@ From `.windsurfrules`:
 - Japanese language for documentation
 - Conventional commit format: `type(scope): subject`
 
+## Common Commands
+
+### Bootstrap Process
+```sh
+# Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Clone repository
+brew install git ghq
+export GHQ_ROOT=~/src
+ghq get https://github.com/usadamasa/dotfile.git
+cd ~/src/github.com/usadamasa/dotfile
+```
+
+### Configuration Setup
+```sh
+# Enable XDG Base Directory
+ln -sfn $(pwd)/.zshenv ~/
+
+# Create config directory
+mkdir -p ~/.config
+
+# Symlink configurations
+ln -sfn $(pwd)/config/zsh ~/.config/
+ln -sfn $(pwd)/config/git ~/.config/
+ln -sfn $(pwd)/config/vim ~/.config/
+ln -sfn $(pwd)/config/npm ~/.config/
+
+# Create vim directories
+mkdir -p ~/.local/share/vim
+mkdir -p ~/.cache/vim/{swap,backup}
+```
+
+### Tool Installation
+```sh
+# Core development tools
+brew install zsh direnv git-now gh jq peco tig pipx
+
+# oh-my-zsh and plugins
+sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+
+# powerline-shell for vim
+pipx install powerline-shell
+
+# GUI applications
+brew install --cask font-cica jetbrains-toolbox visual-studio-code
+
+# GitHub extensions
+gh extension install seachicken/gh-poi
+```
+
 ## Installation Process
 
 The repository uses symlinks to install configurations:
 1. Clone to `~/src/github.com/usadamasa/dotfile` via ghq
-2. Create XDG directories
-3. Symlink configuration directories to `~/.config/`
-4. Install additional tools via Homebrew and package managers
+2. Enable XDG Base Directory by symlinking `.zshenv`
+3. Create necessary directories (`~/.config`, vim cache/data dirs)
+4. Symlink configuration directories to `~/.config/`
+5. Install shell framework (oh-my-zsh) and plugins
+6. Install development tools via Homebrew
