@@ -1,92 +1,48 @@
 # dotfiles
 
-## bootstrap
+macOS開発環境用のdotfilesリポジトリです。[Homebrew](https://brew.sh/)と[go-task](https://taskfile.dev/)で自動化されたセットアップを提供します。
+
+## 🚀 セットアップ
 
 ```sh
-# install [homebrew](https://brew.sh)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# clone this repo
+# リポジトリをクローン
 brew install git ghq
 export GHQ_ROOT=~/src
 ghq get https://github.com/usadamasa/dotfile.git
 cd ~/src/github.com/usadamasa/dotfile
+
+# 初回セットアップ
+task bootstrap
+
+# セットアップ状況確認
+task status
 ```
 
-## zsh
+## 📋 コマンド
 
 ```sh
-brew install zsh
-# enable XDG Base Directory
-ln -sfn $(pwd)/.zshenv ~/
-# reboot terminal
-mkdir -p ~/.config
-
-# oh-my-zsh
-sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
-
-# symlink
-rm -rf ~/.config/zsh
-ln -sfn $(pwd)/config/zsh ~/.config/
-
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-  ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+task              # タスク一覧表示
+task bootstrap    # 初回セットアップ
+task setup        # 完全セットアップ
+task status       # 状況確認
+task clean        # 設定削除
 ```
 
-## git
+## 🛠️ 管理ツール
 
-```sh
-ln -sfn $(pwd)/config/git ~/.config/
-```
+- **Git関連**: git, gh, ghq, git-now, tig
+- **開発ツール**: jq, direnv, peco, zsh, pipx
+- **GUI**: font-cica, jetbrains-toolbox, visual-studio-code
 
-## vim
-
-```sh
-# XDG Base Directory 対応
-mkdir -p ~/.config/vim
-mkdir -p ~/.local/share/vim
-mkdir -p ~/.cache/vim/{swap,backup}
-
-ln -sfn $(pwd)/config/vim ~/.config/
-
-# [powerline-shell](https://github.com/b-ryan/powerline-shell)
-brew install pipx
-pipx install powerline-shell
-```
-
-## npm
-
-```sh
-ln -sfn $(pwd)/config/npm ~/.config/
-```
-
-## Others
-
-```sh
-brew install \
-  direnv \
-  git-now \
-  gh \
-  jq \
-  peco \
-  tig
-
-# cask
-brew install --cask \
-  font-cica \
-  jetbrains-toolbox \
-  visual-studio-code
-
-# gh extensions
-gh extension install \
-  seachicken/gh-poi
+## 📁 構成
 
 ```
-
-## misc
-
-* [sdkman](https://sdkman.io/)
-* [google-cloud-sdk](https://cloud.google.com/sdk/downloads)
-* [gh-poi](https://github.com/seachicken/gh-poi)
+dotfile/
+├── Taskfile.yml  # セットアップ自動化
+├── .zshenv      # XDG Base Directory設定
+└── config/      # 各種設定ファイル
+    ├── git/
+    ├── npm/
+    ├── vim/
+    └── zsh/
+```

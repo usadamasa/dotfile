@@ -1,0 +1,130 @@
+version: '3'
+
+vars:
+  DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
+
+tasks:
+  default:
+    desc: 利用可能なタスク一覧を表示
+    cmds:
+      - task --list
+
+  bootstrap:
+    desc: 初回セットアップ（Homebrew + go-task + 完全セットアップ）
+    cmds:
+      - echo "🚀 初回セットアップを開始します..."
+      - task: _install-homebrew
+      - task: _install-go-task
+      - task: setup
+      - echo "🎉 セットアップ完了！新しいターミナルを開いて設定を有効化してください"
+
+  setup:
+    desc: 完全セットアップ（ツール + 設定）
+    cmds:
+      - echo "⚙️ セットアップを開始します..."
+      - task: _install-tools
+      - task: _setup-config
+      - task: _setup-shell
+      - task: _setup-additional
+      - echo "✅ セットアップ完了"
+
+  status:
+    desc: セットアップ状況を確認
+    cmds:
+      - echo "=== セットアップ状況 ==="
+      - |
+        echo "Homebrew: $(command -v brew >/dev/null && echo '✓' || echo '✗')"
+        echo "主要ツール: $(command -v git >/dev/null && command -v gh >/dev/null && echo '✓' || echo '✗')"
+        echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
+        echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
+        echo "oh-my-zsh: $(test -d "$HOME/.oh-my-zsh" && echo '✓' || echo '✗')"
+
+  clean:
+    desc: 設定をクリーンアップ（注意：設定ファイルが削除されます）
+    prompt: "設定ファイルを削除しますか？"
+    cmds:
+      - rm -f "$HOME/.zshenv"
+      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
+      - echo "🗑️ 設定をクリーンアップしました"
+
+  _install-homebrew:
+    internal: true
+    cmds:
+      - |
+        if ! command -v brew &> /dev/null; then
+          echo "📦 Homebrewをインストール中..."
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+          fi
+        fi
+    status:
+      - command -v brew
+
+  _install-go-task:
+    internal: true
+    deps: [_install-homebrew]
+    cmds:
+      - |
+        if ! command -v task &> /dev/null; then
+          echo "📦 go-taskをインストール中..."
+          brew install go-task
+        fi
+
+  _install-tools:
+    internal: true
+    deps: [_install-homebrew]
+    cmds:
+      - echo "🛠️ 開発ツールをインストール中..."
+      - |
+        brew install \
+          git gh ghq jq direnv peco tig zsh pipx git-now \
+        2>/dev/null || echo "⚠️ 一部ツールは既にインストール済みです"
+
+  _setup-config:
+    internal: true
+    cmds:
+      - echo "⚙️ 設定ファイルをセットアップ中..."
+      - ln -sfn "{{.DOTFILE_DIR}}/.zshenv" "$HOME/"
+      - mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache"
+      - rm -rf "$HOME/.config/zsh"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/zsh" "$HOME/.config/"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
+
+  _setup-shell:
+    internal: true
+    deps: [_install-tools, _setup-config]
+    cmds:
+      - echo "🐚 シェル環境をセットアップ中..."
+      - |
+        if [ ! -d "$HOME/.oh-my-zsh" ]; then
+          RUNZSH=no sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+        fi
+      - |
+        ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+          git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+        fi
+        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+          git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+        fi
+
+  _setup-additional:
+    internal: true
+    deps: [_install-tools]
+    cmds:
+      - echo "🛠️ 追加ツールをセットアップ中..."
+      - mkdir -p "$HOME/.local/share/vim" "$HOME/.cache/vim/swap" "$HOME/.cache/vim/backup"
+      - |
+        if ! command -v powerline-shell &> /dev/null; then
+          pipx install powerline-shell
+        fi
+      - |
+        brew install --cask font-cica jetbrains-toolbox visual-studio-code 2>/dev/null || true
+      - |
+        if command -v gh &> /dev/null && ! gh extension list | grep -q "seachicken/gh-poi"; then
+          gh extension install seachicken/gh-poi
+        fi
