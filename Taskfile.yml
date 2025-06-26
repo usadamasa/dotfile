@@ -13,7 +13,6 @@ tasks:
     desc: 初回セットアップ（Homebrew + go-task + 完全セットアップ）
     cmds:
       - echo "🚀 初回セットアップを開始します..."
-      - task: _check-macos
       - task: _install-homebrew
       - task: _install-go-task
       - task: setup
@@ -47,16 +46,6 @@ tasks:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
       - echo "🗑️ 設定をクリーンアップしました"
-
-  # 内部タスク（プライベート）
-  _check-macos:
-    internal: true
-    cmds:
-      - |
-        if [[ "$OSTYPE" != "darwin"* ]]; then
-          echo "❌ このセットアップはmacOS専用です"
-          exit 1
-        fi
 
   _install-homebrew:
     internal: true
