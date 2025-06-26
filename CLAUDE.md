@@ -77,3 +77,11 @@ The repository has been modernized with automated dependency management:
 - **Error Handling**: Graceful failure recovery and status reporting
 - **Zero External Dependencies**: Only requires Homebrew and go-task
 - **Modular Tasks**: Individual components can be installed/updated separately
+
+## Code Formatting Guidelines
+
+When working with long commands in this repository:
+- Use backslashes (`\`) for line breaks in multi-argument commands
+- Sort options and packages alphabetically when syntactically appropriate
+- Maintain consistent indentation for readability
+- Follow the established pattern in existing commands (e.g., `brew install` formatting)
