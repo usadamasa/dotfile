@@ -4,50 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Architecture
 
-This is a personal dotfiles repository for macOS development environment setup. The structure follows XDG Base Directory standards where possible:
+This is a personal dotfiles repository for macOS development environment setup. The structure follows XDG Base Directory standards:
 
 - `config/` - Contains all configuration files organized by tool
-  - `git/` - Git configuration and global gitignore
+  - `git/` - Git configuration and global gitignore  
   - `npm/` - npm configuration with custom registry and cache settings
   - `vim/` - Vim configuration with XDG compliance and plugin management
   - `zsh/` - Zsh configuration with oh-my-zsh integration
 - `.zshenv` - XDG environment variables (symlinked to home directory)
-
-## Development Environment
-
-The setup assumes:
-- macOS with Homebrew package manager
-- Zsh as the default shell with oh-my-zsh framework
-- XDG Base Directory specification compliance
-- Multiple language runtimes managed via version managers (nvm, pyenv, rbenv, sdkman)
-
-## Key Configuration Patterns
-
-### XDG Base Directory Compliance
-All configurations follow XDG standards:
-- `XDG_CONFIG_HOME` for configuration files
-- `XDG_DATA_HOME` for data files  
-- `XDG_CACHE_HOME` for cache files
-
-### Vim Configuration Structure
-- Main config in `config/vim/vimrc` with XDG path setup
-- Modular configuration via `userautoload/*.vim` files
-- Plugin management with vim-plug
-
-### Zsh Configuration Structure
-- `.zshrc` handles oh-my-zsh setup and plugin loading
-- `.zprofile` manages PATH and environment for various development tools
-- Custom functions in `funcs/` directory
-- History settings in separate `history_settings.sh`
-
-## Code Style Guidelines
-
-From `.windsurfrules`:
-- Indentation: 2 spaces
-- Line endings: LF
-- Encoding: UTF-8
-- Japanese language for documentation
-- Conventional commit format: `type(scope): subject`
 
 ## Common Commands
 
@@ -71,42 +35,6 @@ task setup
 
 # Check setup status
 task status
-```
-
-### Individual Tasks
-```sh
-# Check macOS environment
-task check-macos
-
-# Install only Homebrew
-task install-homebrew
-
-# Install go-task (initial setup version)
-task install-go-task-initial
-
-# Install only core development tools
-task install-core-tools
-
-# Setup only XDG directories
-task setup-xdg
-
-# Setup only zsh environment
-task setup-zsh
-
-# Setup only zsh plugins
-task setup-zsh-plugins
-
-# Setup only configuration symlinks
-task setup-symlinks
-
-# Setup only vim environment
-task setup-vim
-
-# Install additional tools (GUI apps, extensions)
-task setup-additional-tools
-
-# Clean up configuration (WARNING: removes config files)
-task clean
 ```
 
 ### Tool Management
