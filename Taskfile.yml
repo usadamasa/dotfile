@@ -92,7 +92,17 @@ tasks:
       - echo "🛠️ 開発ツールをインストール中..."
       - |
         brew install \
-          git gh ghq jq direnv peco tig zsh pipx git-now editorconfig \
+          direnv \
+          editorconfig \
+          gh \
+          ghq \
+          git \
+          git-now \
+          jq \
+          peco \
+          pipx \
+          tig \
+          zsh \
         2>/dev/null || echo "⚠️ 一部ツールは既にインストール済みです"
 
   _setup-config:
@@ -136,7 +146,11 @@ tasks:
           pipx install powerline-shell
         fi
       - |
-        brew install --cask font-cica jetbrains-toolbox visual-studio-code 2>/dev/null || true
+        brew install --cask \
+          font-cica \
+          jetbrains-toolbox \
+          visual-studio-code \
+        2>/dev/null || true
       - |
         if command -v gh &> /dev/null && ! gh extension list | grep -q "seachicken/gh-poi"; then
           gh extension install seachicken/gh-poi
