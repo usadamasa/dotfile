@@ -39,6 +39,19 @@ tasks:
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "$HOME/.oh-my-zsh" && echo '✓' || echo '✗')"
 
+  format:
+    desc: .editorconfigに従ってファイルをフォーマット・修正
+    cmds:
+      - echo "📝 .editorconfigに従ってフォーマット中..."
+      - |
+        if ! command -v editorconfig-checker &> /dev/null; then
+          echo "⚠️ editorconfig-checkerが見つかりません。editorconfig-checkerをインストールしてください"
+          exit 1
+        fi
+        echo "🔍 editorconfig-checkerでチェック中..."
+        editorconfig-checker
+        echo "✅ フォーマットチェック完了"
+
   clean:
     desc: 設定をクリーンアップ（注意：設定ファイルが削除されます）
     prompt: "設定ファイルを削除しますか？"
@@ -79,7 +92,7 @@ tasks:
       - echo "🛠️ 開発ツールをインストール中..."
       - |
         brew install \
-          git gh ghq jq direnv peco tig zsh pipx git-now \
+          git gh ghq jq direnv peco tig zsh pipx git-now editorconfig \
         2>/dev/null || echo "⚠️ 一部ツールは既にインストール済みです"
 
   _setup-config:
