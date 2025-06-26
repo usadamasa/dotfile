@@ -60,6 +60,11 @@ tasks:
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
       - echo "🗑️ 設定をクリーンアップしました"
 
+  check-xdg:
+    desc: Run xdg-ninja to check XDG compliance
+    cmds:
+      - xdg-ninja --skip-unsupported
+
   _install-homebrew:
     internal: true
     cmds:
@@ -102,6 +107,7 @@ tasks:
           peco \
           pipx \
           tig \
+          xdg-ninja \
           zsh \
         2>/dev/null || echo "⚠️ 一部ツールは既にインストール済みです"
 

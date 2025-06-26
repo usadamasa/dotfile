@@ -78,6 +78,33 @@ The repository has been modernized with automated dependency management:
 - **Zero External Dependencies**: Only requires Homebrew and go-task
 - **Modular Tasks**: Individual components can be installed/updated separately
 
+## XDG Compliance Tools
+
+### xdg-ninja
+Tool for checking XDG Base Directory compliance and identifying files in $HOME that should be moved to XDG directories.
+
+```sh
+# Check for XDG compliance violations
+xdg-ninja
+
+# Verbose mode - show all checked files
+xdg-ninja --no-skip-ok
+xdg-ninja -v
+
+# Skip files without fixes (default behavior)
+xdg-ninja --skip-ok
+
+# Skip unsupported files
+xdg-ninja --skip-unsupported
+```
+
+**Common XDG Environment Variables:**
+- `XDG_CONFIG_HOME` - User-specific configuration files (`~/.config`)
+- `XDG_DATA_HOME` - User-specific data files (`~/.local/share`)
+- `XDG_STATE_HOME` - User-specific state files (`~/.local/state`)
+- `XDG_CACHE_HOME` - User-specific cache files (`~/.cache`)
+- `XDG_RUNTIME_DIR` - User-specific runtime files (`/run/user/$UID`)
+
 ## Code Formatting Guidelines
 
 When working with long commands in this repository:
