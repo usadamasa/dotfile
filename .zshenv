@@ -8,6 +8,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
 
 # vim
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
@@ -16,6 +17,10 @@ export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
 # less
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 mkdir -p "$XDG_STATE_HOME/less"
+
+# sqlite
+export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
+mkdir -p "$SQLITE_HISTORY"
 
 # Docker
 # https://github.com/usadamasa/dotfile/issues/14
