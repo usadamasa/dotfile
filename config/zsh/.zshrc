@@ -62,7 +62,6 @@ ZSH_THEME="amuse"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
-export HISTFILE="$XDG_CACHE_HOME/zsh/zsh_history"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -141,8 +140,3 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/masaru_uchida/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
