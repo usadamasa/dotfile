@@ -39,11 +39,6 @@ export PATH="${VOLTA_HOME}/bin:$PATH"
 export PATH=$PATH:$(npm prefix --location=global)/bin
 
 # User-specific paths
-# pipx (Python packages)
-export PATH="$PATH:${HOME}/.local/bin"
-
-# local bin
-export PATH="${HOME}/local/bin:$PATH"
 
 # Kubernetes tools
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
