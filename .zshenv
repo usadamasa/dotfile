@@ -4,20 +4,20 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# Tools
+# XDG for Tools
 
-# Set zsh configuration directory
+# zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# Set vim configuration directory
+# vim
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
 
-# Set XDG Base Directory Specification for less
+# less
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 mkdir -p "$XDG_STATE_HOME/less"
 
-# Set XDG Base Directory Specification for Docker
+# Docker
 # https://github.com/usadamasa/dotfile/issues/14
 # export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
 # mkdir -p "$DOCKER_CONFIG"
@@ -26,24 +26,23 @@ mkdir -p "$XDG_STATE_HOME/less"
 
 # Languages
 
-# Set XDG Base Directory Specification for npm
+# js
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 mkdir -p "$XDG_CONFIG_HOME/npm"
+export NVM_DIR="$HOME/.nvm"
+export VOLTA_HOME="$HOME/.volta"
 
-# Set XDG Base Directory Specification for golang
+# golang
 export GOPATH="$XDG_DATA_HOME/go"
 mkdir -p "$GOPATH"
 
-# Set XDG Base Directory Specification for Java tools
+# Java
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 mkdir -p "$GRADLE_USER_HOME"
 export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
 
-# Set XDG Base Directory Specification for python tools
+# Python
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 mkdir -p "$PYENV_ROOT"
 export PIPX_HOME=$XDG_DATA_HOME/pipx
 mkdir -p "$PIPX_HOME"
-
-export NVM_DIR="$HOME/.nvm"
-export VOLTA_HOME="$HOME/.volta"
