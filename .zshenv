@@ -13,15 +13,23 @@ export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
 
 # Set XDG Base Directory Specification for Docker
 export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+mkdir -p "$DOCKER_CONFIG"
 
 # Set XDG Base Directory Specification for npm
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+mkdir -p "$XDG_CONFIG_HOME/npm"
+
+# Set XDG Base Directory Specification for golang
+export GOPATH="$XDG_DATA_HOME/go"
+mkdir -p "$GOPATH"
 
 # Set XDG Base Directory Specification for Gradle
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+mkdir -p "$GRADLE_USER_HOME"
 
 # Set XDG Base Directory Specification for less
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
+mkdir -p "$XDG_STATE_HOME/less"
 
 # Language-specific environment variables
 export PYENV_ROOT="$HOME/.pyenv"
