@@ -19,3 +19,9 @@ export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 
 # Set XDG Base Directory Specification for npm
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+
+# Language-specific environment variables
+export PYENV_ROOT="$HOME/.pyenv"
+export SDKMAN_DIR="$HOME/.sdkman"
+export NVM_DIR="$HOME/.nvm"
+export VOLTA_HOME="$HOME/.volta"
