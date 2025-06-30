@@ -142,5 +142,5 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/usadamasa/.local/share/sdkman"
-[[ -s "/Users/usadamasa/.local/share/sdkman/bin/sdkman-init.sh" ]] && source "/Users/usadamasa/.local/share/sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/Users/masaru_uchida/.local/share/sdkman"
+[[ -s "/Users/masaru_uchida/.local/share/sdkman/bin/sdkman-init.sh" ]] && source "/Users/masaru_uchida/.local/share/sdkman/bin/sdkman-init.sh"

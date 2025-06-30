@@ -44,6 +44,6 @@ export PATH=$PATH:$(npm prefix --location=global)/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Docker CLI completions
-fpath=(/Users/usadamasa/.docker/completions $fpath)
+fpath=(${HOME}/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
