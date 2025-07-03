@@ -52,4 +52,5 @@ mkdir -p "$PYENV_ROOT"
 export PIPX_HOME=$XDG_DATA_HOME/pipx
 mkdir -p "$PIPX_HOME"
 # uv
+touch "${XDG_DATA_HOME}/../bin/env"
 source "${XDG_DATA_HOME}/../bin/env"
