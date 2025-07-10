@@ -38,6 +38,7 @@ tasks:
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "$HOME/.oh-my-zsh" && echo '✓' || echo '✗')"
+        echo "Claude設定: $(test -L "$HOME/.claude" && echo '✓' || echo '✗')"
 
   format:
     desc: .editorconfigに従ってファイルをフォーマット・修正
@@ -58,6 +59,7 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
+      - rm -rf "$HOME/.claude"
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -122,6 +124,7 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/claude" "$HOME/.claude"
 
   _setup-shell:
     internal: true
