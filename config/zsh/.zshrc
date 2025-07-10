@@ -140,4 +140,3 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
-
