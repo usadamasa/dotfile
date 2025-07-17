@@ -35,7 +35,7 @@ mkdir -p "$SQLITE_HISTORY"
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 mkdir -p "$XDG_CONFIG_HOME/npm"
 export NVM_DIR="$HOME/.nvm"
-export VOLTA_HOME="$HOME/.volta"
+export VOLTA_HOME="$XDG_DATA_HOME/volta"
 
 # golang
 export GOPATH="$XDG_DATA_HOME/go"
