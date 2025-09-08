@@ -27,7 +27,7 @@
   required = true
 [alias]
   ac = !git add -A && aicommits -a -g 3
-  mc = !git switch main && git pull origin main && gh poi
+  mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull origin HEAD && gh poi
   oc = !git add -A && opencommit
   sw = switch
   swc = switch -c
