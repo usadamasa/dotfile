@@ -47,6 +47,3 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fpath=(${HOME}/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
-
-# Claude Code
-alias claude="${HOME}/.claude/local/claude"

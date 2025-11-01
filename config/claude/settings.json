@@ -29,5 +29,6 @@
       "Read(id_rsa)",
       "Write(.env*)"
     ]
-  }
+  },
+  "alwaysThinkingEnabled": true
 }
