@@ -51,6 +51,10 @@ export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 mkdir -p "$PYENV_ROOT"
 export PIPX_HOME=$XDG_DATA_HOME/pipx
 mkdir -p "$PIPX_HOME"
+
+# Rust
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+
 # uv
 touch "${XDG_DATA_HOME}/../bin/env"
 source "${XDG_DATA_HOME}/../bin/env"

@@ -38,6 +38,9 @@ export PATH="${VOLTA_HOME}/bin:$PATH"
 # npm global packages
 export PATH=$PATH:$(npm prefix --location=global)/bin
 
+# cargo
+export PATH=${CARGO_HOME}/bin:$PATH
+
 # User-specific paths
 
 # Kubernetes tools
