@@ -143,6 +143,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+*.hprof
 
 # External tool builders
 .externalToolBuilders/

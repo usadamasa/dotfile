@@ -2,8 +2,10 @@
 /history.jsonl
 /ide
 /local
+/plans
 /plugins
 /projects
 /shell-snapshots
 /statsig
 /todos
+stats-cache.json

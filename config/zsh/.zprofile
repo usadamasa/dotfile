@@ -6,7 +6,7 @@ export HOMEBREW_NO_ENV_HINTS=true
 
 # System-level package managers
 # aqua (binary manager)
-export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
+# export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
 
 # Language version managers (order matters for precedence)
 # pyenv (Python)
