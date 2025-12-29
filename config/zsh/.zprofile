@@ -41,6 +41,9 @@ export PATH=$PATH:$(npm prefix --location=global)/bin
 # cargo
 export PATH=${CARGO_HOME}/bin:$PATH
 
+# go install
+export PATH="$(go env GOPATH)/bin:$PATH"
+
 # User-specific paths
 
 # Kubernetes tools
