@@ -1,22 +1,45 @@
 # find repo with ghq
 function peco-src () {
+  # Check if ghq command exists
+  if ! command -v ghq >/dev/null 2>&1; then
+    echo "peco-src: Error: ghq is not installed" >&2
+    zle reset-prompt
+    return 1
+  fi
+
+  # Enable pipefail to catch errors in pipeline
+  setopt local_options pipefail
+
   local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
   fi
-  zle clear-screen
 }
 zle -N peco-src
 bindkey '^]' peco-src
 
 # checkout git branch with peco
 function peco-gcop() {
+  # Check if inside a git repository
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo -n "peco-gcop: Error: Not in a git repository" >&2
+    zle accept-line
+    return 1
+  fi
+
+  # Enable pipefail to catch errors in pipeline
+  setopt local_options pipefail
+
   # Get current branch for highlighting
   local current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 
   # Create temporary file for local branches
   local tmp_file=$(mktemp)
+
+  # Set up trap to ensure cleanup on function exit
+  trap "rm -f '$tmp_file'" EXIT
+
   git branch --format="%(refname:short)" > "$tmp_file"
 
   # List and format branches
@@ -48,9 +71,6 @@ function peco-gcop() {
       peco --query "$LBUFFER" --prompt="BRANCH>"
   )
 
-  # Remove temporary file
-  rm -f "$tmp_file"
-
   # Check if a branch was selected
   if [ -n "$selected_branch" ]; then
     # Remove status suffixes if present
@@ -62,6 +82,8 @@ function peco-gcop() {
   else
     zle clear-screen
   fi
+
+  # Trap will handle cleanup automatically
 }
 zle -N peco-gcop
 bindkey '^[' peco-gcop
