@@ -1,5 +1,7 @@
 [include]
   path = ~/.config/git/gitconfig.local
+[includeIf "gitdir:~/src/github.com/usadamasa/"]
+  path = ~/.config/git/gitconfig.private
 [color]
   ui = true
 [page]
@@ -26,11 +28,7 @@
   process = git-lfs filter-process
   required = true
 [alias]
-  ac = !git add -A && aicommits -a -g 3
   mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull origin HEAD && gh poi
-  oc = !git add -A && opencommit
-  sw = switch
-  swc = switch -c
 [fetch]
   prune = true
 [init]
