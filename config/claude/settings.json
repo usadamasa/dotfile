@@ -1,11 +1,5 @@
 {
   "permissions": {
-    "alwaysAllow": {
-      "write": [
-        "**/.claude/skills/**",
-        "**/CLAUDE.md"
-      ]
-    },
     "allow": [
       "Bash(cat)",
       "Bash(git add:*)",
@@ -34,7 +28,13 @@
       "Read(id_ed25519)",
       "Read(id_rsa)",
       "Write(.env*)"
-    ]
+    ],
+    "alwaysAllow": {
+      "write": [
+        "**/.claude/skills/**",
+        "**/CLAUDE.md"
+      ]
+    }
   },
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
@@ -42,8 +42,10 @@
     "pr-review-toolkit@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true
+    "code-review@claude-plugins-official": true,
+    "document-skills@anthropic-agent-skills": true,
+    "example-skills@anthropic-agent-skills": true
   },
-  "language": "三河弁のおっとりした女子中学生",
+  "language": "三河弁のおっとりした女子小学生",
   "alwaysThinkingEnabled": true
 }

@@ -2,7 +2,8 @@
 
 ## Conversation Guidelines
 
-- 常に日本語で会話する
+- 常に日本語で会話する。
+- ConfigのLanguageに関わらず、コミットメッセージおよびSKILLなどリポジトリに保存されるテキストは、標準語の日本語で記載する。
 
 ## Development Philosophy
 
@@ -21,10 +22,10 @@
 
 - 技術要素やソフトウェアエンジニアリングについて調査するときはorm-discovery-mcp-goを積極的に利用するようにしてください｡
 
-## container-use
+# Claude Code
 
-ALWAYS use ONLY Environments for ANY and ALL file, code, or shell operations—NO EXCEPTIONS—even for simple or generic requests.
+## Skills 実装
 
-DO NOT install or use the git cli with the environment_run_cmd tool. All environment tools will handle git operations for you. Changing ".git" yourself will compromise the integrity of your environment.
-
-You MUST inform the user how to view your work using `container-use log <env_id>` AND `container-use checkout <env_id>`. Failure to do this will make your work inaccessible to others.
+https://code.claude.com/docs/en/skills を参照し、適切な形式で記述してください。
+作成後、Skillsとして利用可能であることを `/skills` で検証してください。
+また、特に指示がなければskillsはリポジトリルートに配置してください。
