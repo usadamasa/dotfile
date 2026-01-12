@@ -1,5 +1,11 @@
 {
   "permissions": {
+    "alwaysAllow": {
+      "write": [
+        "**/.claude/skills/**",
+        "**/CLAUDE.md"
+      ]
+    },
     "allow": [
       "Bash(cat)",
       "Bash(git add:*)",
