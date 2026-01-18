@@ -2,24 +2,33 @@
   "permissions": {
     "allow": [
       "Bash(cat)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh repo view:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)",
       "Bash(git diff:*)",
       "Bash(git init:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
+      "Bash(git rev-parse:*)",
       "Bash(go test:*)",
       "Bash(ls:*)",
       "Read(**)",
       "WebFetch(domain:*)",
       "Write(.tmp/**)",
+      "Write(.claude/skills/**)",
+      "Write(CLAUDE.md)",
       "Write(docs/**)",
       "Write(src/**)"
     ],
-    "deny": [
-      "Bash(curl:*)",
+    "ask": [
+      "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
+      "Bash(gh:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)",
       "Bash(git reset:*)",
       "Bash(rm -rf:*)",
       "Bash(sudo:*)",
@@ -28,14 +37,9 @@
       "Read(id_ed25519)",
       "Read(id_rsa)",
       "Write(.env*)"
-    ],
-    "alwaysAllow": {
-      "write": [
-        "**/.claude/skills/**",
-        "**/CLAUDE.md"
-      ]
-    }
+    ]
   },
+  "model": "claude-opus-4-5@20251101",
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
     "asana@claude-plugins-official": true,
