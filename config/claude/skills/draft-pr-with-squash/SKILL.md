@@ -16,8 +16,9 @@ allowed-tools: Bash(git:*), Bash(gh:*)
    - **差分コミットがないが未コミット変更がある場合**: 新規コミットを作成
 3. コミットメッセージをユーザーに確認
 4. `git push --force-with-lease` でプッシュ
-5. PRが存在しなければ `gh pr create --draft` で新規作成
-6. PRが存在すれば `gh pr edit` でタイトル/内容を更新
+5. PRテンプレートを自動検出（存在する場合）
+6. PRが存在しなければ `gh pr create --draft` で新規作成（テンプレートがあれば使用）
+7. PRが存在すれば `gh pr edit` でタイトル/内容を更新
 
 ## Context
 
@@ -75,7 +76,36 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
 - `git push --force-with-lease origin <current-branch>` でプッシュ
 - push に失敗した場合はエラーメッセージを表示
 
-### 6. PRの作成または更新
+### 6. PRテンプレートの検出
+
+GitHub CLIでリポジトリのPRテンプレートを自動検出：
+
+```bash
+# テンプレート情報を取得（ファイル名と内容が含まれる）
+TEMPLATES_JSON=$(gh repo view --json pullRequestTemplates -q '.pullRequestTemplates')
+TEMPLATE_COUNT=$(echo "$TEMPLATES_JSON" | jq 'length')
+```
+
+**テンプレートが1つの場合：**
+- そのテンプレートのファイル名を使用
+
+**複数テンプレートがある場合：**
+- テンプレート一覧を表示してユーザーに選択を促す
+
+```bash
+if [[ "$TEMPLATE_COUNT" -eq 1 ]]; then
+  TEMPLATE_FILE=$(echo "$TEMPLATES_JSON" | jq -r '.[0].filename')
+elif [[ "$TEMPLATE_COUNT" -gt 1 ]]; then
+  echo "複数のPRテンプレートが見つかりました："
+  echo "$TEMPLATES_JSON" | jq -r 'to_entries[] | "\(.key + 1). \(.value.filename)"'
+  # ユーザーに選択を促す（AskUserQuestionツールで実装）
+fi
+```
+
+**テンプレートがない場合：**
+- テンプレートなしで従来通り作成
+
+### 7. PRの作成または更新
 
 1. **既存PRの確認**
    ```bash
@@ -83,7 +113,14 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
    ```
 
 2. **PRが存在しない場合: 新規作成**
-   - `gh pr create --draft --base $BASE` でDraft PRを作成
+   - テンプレートが見つかった場合：
+     ```bash
+     gh pr create --draft --base $BASE --template "$TEMPLATE_FILE"
+     ```
+   - テンプレートが見つからない場合：
+     ```bash
+     gh pr create --draft --base $BASE
+     ```
 
 3. **PRが存在する場合: 更新**
    - `gh pr edit --title "..." --body "..."` でタイトルと内容を更新
@@ -102,3 +139,6 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
   - 差分コミットがない場合: 変更をそのまま新規コミットとして作成
 - **変更なしエラー**: 差分コミットも未コミット変更もない場合はPR作成の意味がないためエラーとする
 - **rebase失敗時**: コンフリクトが発生した場合は `git rebase --abort` で中止し、ユーザーに手動解決を促す
+- **PRテンプレート自動検出**: `gh repo view --json pullRequestTemplates`でテンプレートを自動検出し、`gh pr create --template`で使用
+- **複数テンプレート対応**: 複数テンプレートがある場合はユーザーに選択を促す
+- **テンプレートがない場合**: テンプレートが存在しないリポジトリでは従来通りの動作を維持（後方互換性）
