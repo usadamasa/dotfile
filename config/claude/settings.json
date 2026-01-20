@@ -14,6 +14,7 @@
       "Bash(git rev-parse:*)",
       "Bash(go test:*)",
       "Bash(ls:*)",
+      "Read(classes/**)",
       "Read(**)",
       "WebFetch(domain:*)",
       "Write(.tmp/**)",
@@ -25,8 +26,7 @@
     "ask": [
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git rebase:*)",
-      "Bash(gh:*)"
+      "Bash(git rebase:*)"
     ],
     "deny": [
       "Bash(curl:*)",
