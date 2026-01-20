@@ -11,3 +11,7 @@
 /todos
 stats-cache.json
 /paste-cache
+
+# skills内のusadamasa-プレフィックスがないフォルダを無視
+/skills/*/
+!/skills/usadamasa-*/
