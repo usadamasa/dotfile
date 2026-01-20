@@ -39,6 +39,10 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
 
 ### 2. 前提条件の確認
 - 現在のブランチが分岐元ブランチと異なることを確認
+  - **同じ場合**: ユーザーに新しいブランチ名を確認し、新規ブランチを作成
+    ```bash
+    git checkout -b <new-branch-name>
+    ```
 - 分岐元ブランチが存在することを確認
 - 分岐元からのコミット数を確認: `git rev-list --count origin/$BASE..HEAD`
   - **コミットが1つ以上ある場合** → 通常のsquashフローへ進む（ケースA）
@@ -62,21 +66,18 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
    ```
 
 3. **コミットメッセージの確認**
-   - ユーザーにコミットメッセージを確認し、必要に応じて `git commit --amend` で修正
+   - ユーザーにコミットメッセージを提示し、必要に応じて `git commit --amend` で修正
 
 #### ケースB: 差分コミットがない場合（新規コミットフロー）
 - 全変更をステージング: `git add -A`
-- 新規コミットを作成（メッセージはユーザーに確認）
+- 新規コミットを作成
+  - **ユーザーにコミットメッセージを確認してから** コミットを実行
 
-### 4. コミットメッセージ確認
-- ユーザーにコミットメッセージを提示
-- 必要に応じて `git commit --amend` で修正
-
-### 5. Force Push（安全版）
+### 4. Force Push（安全版）
 - `git push --force-with-lease origin <current-branch>` でプッシュ
 - push に失敗した場合はエラーメッセージを表示
 
-### 6. PRテンプレートの検出
+### 5. PRテンプレートの検出
 
 GitHub CLIでリポジトリのPRテンプレートを自動検出：
 
@@ -87,14 +88,14 @@ TEMPLATE_COUNT=$(echo "$TEMPLATES_JSON" | jq 'length')
 ```
 
 **テンプレートが1つの場合：**
-- そのテンプレートのファイル名を使用
+- そのテンプレートの内容を使用
 
 **複数テンプレートがある場合：**
 - テンプレート一覧を表示してユーザーに選択を促す
 
 ```bash
 if [[ "$TEMPLATE_COUNT" -eq 1 ]]; then
-  TEMPLATE_FILE=$(echo "$TEMPLATES_JSON" | jq -r '.[0].filename')
+  TEMPLATE_BODY=$(echo "$TEMPLATES_JSON" | jq -r '.[0].body')
 elif [[ "$TEMPLATE_COUNT" -gt 1 ]]; then
   echo "複数のPRテンプレートが見つかりました："
   echo "$TEMPLATES_JSON" | jq -r 'to_entries[] | "\(.key + 1). \(.value.filename)"'
@@ -105,7 +106,7 @@ fi
 **テンプレートがない場合：**
 - テンプレートなしで従来通り作成
 
-### 7. PRの作成または更新
+### 6. PRの作成または更新
 
 1. **既存PRの確認**
    ```bash
@@ -113,14 +114,32 @@ fi
    ```
 
 2. **PRが存在しない場合: 新規作成**
+   - コミットメッセージをタイトルに使用
    - テンプレートが見つかった場合：
      ```bash
-     gh pr create --draft --base $BASE --template "$TEMPLATE_FILE"
+     TITLE=$(git log -1 --pretty=%s)
+     BODY=$(gh repo view --json pullRequestTemplates -q '.pullRequestTemplates[0].body')
+     gh pr create --draft --base $BASE --title "$TITLE" --body "$BODY"
      ```
-   - テンプレートが見つからない場合：
+   - テンプレートが見つからない場合（デフォルト構造を使用）：
+     1. まず差分を確認: `git diff origin/$BASE..HEAD`
+     2. 差分の内容を読み取り、変更の要約（Summary）を生成
+     3. 以下の構造でPR bodyを作成：
      ```bash
-     gh pr create --draft --base $BASE
+     TITLE=$(git log -1 --pretty=%s)
+     CHANGED_FILES=$(git diff --name-only origin/$BASE..HEAD | sed 's/^/- /')
+
+     # デフォルトのPR body構造
+     BODY="## Summary
+<差分から読み取った変更内容の要約を記載>
+
+## Changes
+${CHANGED_FILES}"
+
+     gh pr create --draft --base $BASE --title "$TITLE" --body "$BODY"
      ```
+     ※ 非対話モードでは `--title` と `--body` の両方が必須
+     ※ Summaryはコミットメッセージの本文があればそれを使用、なければ差分を読んで生成
 
 3. **PRが存在する場合: 更新**
    - `gh pr edit --title "..." --body "..."` でタイトルと内容を更新
@@ -139,6 +158,10 @@ fi
   - 差分コミットがない場合: 変更をそのまま新規コミットとして作成
 - **変更なしエラー**: 差分コミットも未コミット変更もない場合はPR作成の意味がないためエラーとする
 - **rebase失敗時**: コンフリクトが発生した場合は `git rebase --abort` で中止し、ユーザーに手動解決を促す
-- **PRテンプレート自動検出**: `gh repo view --json pullRequestTemplates`でテンプレートを自動検出し、`gh pr create --template`で使用
+- **デフォルトブランチでの実行**: HEADがデフォルトブランチの場合は、ユーザーに新しいブランチ名を確認して作成してから作業を継続
+- **PRテンプレートの扱い**: `--template`オプションは対話モードになるため使用せず、テンプレート内容を読み込んで`--body`で指定
 - **複数テンプレート対応**: 複数テンプレートがある場合はユーザーに選択を促す
 - **テンプレートがない場合**: テンプレートが存在しないリポジトリでは従来通りの動作を維持（後方互換性）
+- **gh pr create の非対話モード**: 非対話モードでは `--title` と `--body` の両方が必須
+- **デフォルトPR body構造**: テンプレートがない場合でも「Summary」と「Changes」セクションを含む最低限の構造を自動生成
+- **Summary生成**: コミットメッセージに本文があればそれを使用。なければ差分（`git diff`）を読み取って変更内容の要約を生成
