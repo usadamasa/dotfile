@@ -75,8 +75,32 @@ git fetch origin $BASE
    GIT_SEQUENCE_EDITOR="sed -i '' '2,\$s/^pick/squash/'" git rebase -i origin/$BASE
    ```
 
-3. **コミットメッセージの確認**
-   - ユーザーにコミットメッセージを提示し、必要に応じて `git commit --amend` で修正
+3. **コミットメッセージの自動クリーンアップ**
+   rebase完了後、一時的コミットメッセージを自動的に削除する:
+   ```bash
+   COMMIT_MSG=$(git log -1 --pretty=%B)
+   CLEANED_MSG=$(echo "$COMMIT_MSG" | \
+     sed '/^[Ww][Ii][Pp]$/d' | \
+     sed 's/^[Ww][Ii][Pp]: //' | \
+     sed '/^fixup! /d' | \
+     sed '/^squash! /d' | \
+     sed '/^[Tt][Mm][Pp]$/d' | \
+     sed '/^[Tt][Ee][Mm][Pp]$/d' | \
+     sed 's/[[:space:]]*$//' | \
+     cat -s)
+
+   # 先頭と末尾の空行を削除（macOS対応）
+   CLEANED_MSG=$(echo "$CLEANED_MSG" | awk 'NF{found=1} found' | tac | awk 'NF{found=1} found' | tac)
+
+   # 空行のみの場合を除いて amend
+   if [ -n "$(echo "$CLEANED_MSG" | tr -d '[:space:]')" ]; then
+     git commit --amend -m "$CLEANED_MSG"
+   fi
+   ```
+
+4. **コミットメッセージの確認**
+   - 修正後のコミットメッセージをユーザーに提示
+   - 追加の修正が必要な場合のみ `git commit --amend` で修正を促す
 
 #### ケースB: 差分コミットがない場合（新規コミットフロー）
 - 全変更をステージング: `git add -A`
@@ -167,6 +191,10 @@ ${CHANGED_FILES}"
 - **未コミット変更の扱い**:
   - 差分コミットがある場合: 先にWIPコミットしてからrebaseでsquash
   - 差分コミットがない場合: 変更をそのまま新規コミットとして作成
+- **コミットメッセージの自動クリーンアップ**: rebase後に自動的に以下を削除。問い合わせは行わない
+  - 一時的コミット: WIP, wip, fixup!, squash!, tmp, temp
+  - フォーマット整理: 連続空行の縮小、末尾空白の削除、先頭・末尾の余分な空行削除
+- **フォールバック**: メッセージが空になった場合は元のメッセージを保持
 - **変更なしエラー**: 差分コミットも未コミット変更もない場合はPR作成の意味がないためエラーとする
 - **rebase失敗時**: コンフリクトが発生した場合は `git rebase --abort` で中止し、ユーザーに手動解決を促す
 - **デフォルトブランチでの実行**: HEADがデフォルトブランチの場合は、ユーザーに新しいブランチ名を確認して作成してから作業を継続
