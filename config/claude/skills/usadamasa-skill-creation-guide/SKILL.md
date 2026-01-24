@@ -31,6 +31,27 @@ Claude Code Skillは、特定のタスクやトピックに関する専門知識
 
 Skillの先頭にはYAML frontmatterが必要です。現在、2つのパターンが存在します。
 
+### 命名規則
+
+**gerund形式 (verb + -ing) を推奨**:
+
+| 推奨度 | パターン | 例 |
+|--------|----------|-----|
+| ✅ 推奨 | gerund形式 | `processing-pdfs`, `analyzing-data`, `managing-configs` |
+| ⚠️ 許容 | 名詞句 | `pdf-processing`, `data-analysis` |
+| ⚠️ 許容 | 動詞形 | `process-pdfs`, `analyze-data` |
+| ❌ 避ける | 曖昧な名前 | `helper`, `utils`, `tools`, `stuff` |
+
+**制約**:
+- 小文字、数字、ハイフンのみ
+- 最大64文字
+- `anthropic`, `claude` は予約語のため使用不可
+
+**userスコープのprefix規則**:
+- userスコープ (`~/.claude/skills/`) に配置するskillは `usadamasa-` をprefixとして付ける
+- 例: `usadamasa-skill-creation-guide`, `usadamasa-draft-pr-with-squash`
+- プロジェクトスコープ (`.claude/skills/`) にはprefixは不要
+
 ### パターン比較
 
 | 項目 | name パターン（推奨） | skill_invocation パターン（レガシー） |
@@ -50,9 +71,12 @@ description: Claude Codeのskillを効果的に作成・運用するためのガ
 ```
 
 **descriptionの書き方**:
-- 1-2文で簡潔に（80-150文字程度）
-- スキルの目的を明確に
-- 使用タイミングを含める（「〜の時に使用してください」）
+- **三人称で記述** (重要)
+  - ✅ 良い例: "Processes Excel files and generates reports"
+  - ❌ 避ける: "I can help you process Excel files"
+  - ❌ 避ける: "You can use this to process Excel files"
+- 何をするか + いつ使うかを含める
+- 1-2文で簡潔に（80-150文字程度、最大1024文字）
 - 句点で終わる
 
 ### レガシーパターン（skill_invocation:）
@@ -121,11 +145,17 @@ Skillは以下の5段階ピラミッド構造で構成します。
 ## よく使うコマンド
 
 \`\`\`bash
-# コマンド1の説明
-./gradlew task1
+# Finderでディレクトリを開く
+open ~/.config/
 
-# コマンド2の説明
-./gradlew task2
+# クリップボードにコピー
+cat file.txt | pbcopy
+
+# クリップボードから貼り付け
+pbpaste > output.txt
+
+# Homebrewでツール確認
+brew list | grep [tool-name]
 \`\`\`
 
 または
@@ -208,6 +238,51 @@ description: [1-2文の説明。使用タイミングを含める。]
 - [リンク1](URL)
 ```
 
+### macOS向けスキルのテンプレート
+
+```markdown
+---
+name: example-macos-skill
+description: [目的]を提供します。macOSの[機能]を活用して[効果]を実現します。
+---
+
+# [Skill名]
+
+このスキルは、macOS環境での[目的]を提供します。
+
+## 前提条件
+
+- macOS 12以降
+- Homebrew がインストール済み
+- 必要なツール: `brew install [tool-name]`
+
+## よく使うコマンド
+
+\`\`\`bash
+# コマンド1の説明
+open /path/to/directory
+
+# コマンド2の説明
+brew list | grep [keyword]
+\`\`\`
+
+## [主要セクション]
+
+内容...
+
+## トラブルシューティング
+
+### ツールが見つからない
+
+\`\`\`bash
+# Homebrewでインストール
+brew install [tool-name]
+
+# パスを確認
+which [tool-name]
+\`\`\`
+```
+
 ## 記述スタイルガイド
 
 Skillを読みやすくするための視覚表現パターンを紹介します。
@@ -281,9 +356,83 @@ ignoredConflicts:
 ```
 ````
 
+#### macOS特有のコマンド推奨
+
+macOS向けのスキルでは、以下のコマンドを積極的に活用してください:
+
+| コマンド | 用途 | 例 |
+|---------|------|-----|
+| `open` | Finderやアプリでファイル/URLを開く | `open .` `open -a Safari https://example.com` |
+| `pbcopy` | クリップボードにコピー | `cat file.txt \| pbcopy` |
+| `pbpaste` | クリップボードから貼り付け | `pbpaste > output.txt` |
+| `brew` | Homebrewパッケージ管理 | `brew install [tool]` `brew list` |
+| `defaults` | macOS設定の読み書き | `defaults read com.apple.finder` |
+| `mdfind` | Spotlight検索 | `mdfind -name "file.txt"` |
+| `osascript` | AppleScript実行 | `osascript -e 'display notification "Done"'` |
+
+**macOSスクリーンショット**:
+- `cmd+ctrl+shift+4`: クリップボードにスクリーンショット
+- `ctrl+v`: 貼り付け (注: `cmd+v`ではない)
+
+**コマンド例のテンプレート**:
+
+```bash
+# ディレクトリをFinderで開く
+open /path/to/directory
+
+# 結果をクリップボードにコピー
+command | pbcopy
+
+# Homebrewでツールをインストール
+brew install [tool-name]
+
+# 通知を表示（長時間処理の完了時など）
+osascript -e 'display notification "処理が完了しました" with title "Skill"'
+```
+
+### パス指定
+
+**Unixスタイル (`/`) を使用** (Windowsスタイル `\` は避ける):
+
+- ✅ 良い: `scripts/helper.py`, `reference/guide.md`
+- ❌ 避ける: `scripts\helper.py`, `reference\guide.md`
+
+Unixスタイルは全プラットフォームで動作します。
+
+### 選択肢を与えすぎない
+
+複数のアプローチを提示するより、デフォルトを1つ提供してください。
+
+❌ 悪い例 (選択肢が多すぎる):
+```
+pypdf、pdfplumber、PyMuPDF、pdf2imageなど...
+```
+
+✅ 良い例 (デフォルト + 例外):
+```
+pdfplumberでテキスト抽出:
+
+import pdfplumber
+
+OCRが必要なスキャンPDFの場合のみ、pdf2image + pytesseractを使用。
+```
+
 ### テーブル活用
 
 #### ファイルパス早見表
+
+**macOS向けパス例**:
+
+```markdown
+| 項目 | パス |
+|------|------|
+| ユーザー設定 | `~/.config/[app-name]/` |
+| アプリケーションサポート | `~/Library/Application Support/[app-name]/` |
+| キャッシュ | `~/Library/Caches/[app-name]/` |
+| Homebrewセラー | `/opt/homebrew/Cellar/[tool-name]/` |
+```
+
+**プロジェクト固有パス例**:
 
 ```markdown
 | 項目 | パス |
@@ -315,6 +464,12 @@ ignoredConflicts:
 ## 複数ファイル構成の判断基準
 
 Skillが大きくなった場合、複数ファイルに分割することができます。
+
+### SKILL.mdの推奨サイズ
+
+- **500行以内**に抑える (公式推奨)
+- 超える場合は別ファイルに分離 (progressive disclosure)
+- 各skillはメタデータスキャン時に約100トークン、アクティベート時に<5kトークン
 
 ### 判断フロー
 
@@ -369,6 +524,33 @@ SKILL.mdの最後に、reference.mdへのリンクを追加:
 ## 詳細情報
 
 より詳しいGradle統合、マルチモジュール集約、GitHub Actions統合、パフォーマンス最適化については [reference.md](reference.md) を参照してください。
+```
+
+### 参照の深さ制限
+
+**1レベル深さまで**に抑えてください。入れ子参照はClaudeが部分的にしか読めない可能性があります。
+
+✅ 良い構造:
+```
+SKILL.md
+├── reference/finance.md (直接参照)
+├── reference/sales.md (直接参照)
+└── examples.md (直接参照)
+```
+
+❌ 避ける構造:
+```
+SKILL.md → advanced.md → details.md (入れ子参照)
+```
+
+**100行以上のreferenceファイルには目次を付ける**:
+```markdown
+# API Reference
+
+## Contents
+- Authentication and setup
+- Core methods
+- Error handling
 ```
 
 ## 関連Skillの統廃合判断基準
@@ -604,10 +786,21 @@ Skillが認識されない、または期待通りに動作しない場合のチ
 ### 公式ドキュメント
 
 - [Claude Code Skills公式ドキュメント](https://code.claude.com/docs/en/skills)
+- [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+
+### macOS関連リソース
+
+- [Homebrew公式サイト](https://brew.sh)
+- [macOSターミナルコマンドリファレンス](https://ss64.com/osx/)
+- [XDG Base Directory仕様](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 
 ### 既存skillの参照例
 
 プロジェクトスコープの既存skillを参照して、構成やスタイルを学ぶことができます:
+
+**macOS環境設定系skill**:
+- `.claude/skills/homebrew-setup/` - Homebrewツール管理
+- `.claude/skills/macos-defaults/` - macOS設定管理
 
 **シンプルな構成（SKILL.mdのみ）**:
 - `.claude/skills/check-dependencies/`
