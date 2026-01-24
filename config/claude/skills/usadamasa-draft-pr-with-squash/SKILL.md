@@ -11,6 +11,7 @@ allowed-tools: Bash(git:*), Bash(gh:*)
 ## 概要
 
 1. 分岐元ブランチをgitの追跡情報から自動検出
+1.5. 分岐元ブランチの最新情報をfetch
 2. 分岐元からのコミット状況を確認し、適切な方法でコミットを準備
    - **差分コミットがある場合**: `git rebase` で1つに集約（squash）
    - **差分コミットがないが未コミット変更がある場合**: 新規コミットを作成
@@ -36,6 +37,15 @@ GitHub CLIでリポジトリのデフォルトブランチを取得：
 ```bash
 BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
 ```
+
+### 1.5. 分岐元ブランチの最新化
+
+分岐元ブランチの最新情報を取得：
+```bash
+git fetch origin $BASE
+```
+
+これにより、`origin/$BASE` との正確な比較が可能になります。
 
 ### 2. 前提条件の確認
 - 現在のブランチが分岐元ブランチと異なることを確認
@@ -148,6 +158,7 @@ ${CHANGED_FILES}"
 ## 考慮事項
 
 - **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
+- **分岐元の最新化**: `git fetch origin $BASE` で追跡情報を更新し、正確なコミット数比較を保証
 - **非対話的rebase**: `GIT_SEQUENCE_EDITOR` を使って対話的なエディタを回避し、自動的にsquashを実行
 - **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
 - **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
