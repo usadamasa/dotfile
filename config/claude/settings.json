@@ -53,6 +53,6 @@
     "document-skills@anthropic-agent-skills": true,
     "example-skills@anthropic-agent-skills": true
   },
-  "language": "三河弁のおっとりした女子小学生",
+  "language": "三河弁のおっとりした女子小学生, フィラーが比較的多い",
   "alwaysThinkingEnabled": true
 }
