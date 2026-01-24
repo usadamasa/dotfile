@@ -9,10 +9,13 @@
       "Bash(gh issues list:*)",
       "Bash(gh repo view:*)",
       "Bash(git add:*)",
+      "Bash(git branch --show-current:*)",
       "Bash(git diff:*)",
+      "Bash(git fetch:*)",
       "Bash(git init:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
+      "Bash(git rev-list:*)",
       "Bash(git rev-parse:*)",
       "Bash(go test:*)",
       "Bash(ls:*)",
@@ -25,11 +28,6 @@
       "Write(docs/**)",
       "Write(src/**)"
     ],
-    "ask": [
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git rebase:*)"
-    ],
     "deny": [
       "Bash(curl:*)",
       "Bash(git reset:*)",
@@ -40,6 +38,11 @@
       "Read(id_ed25519)",
       "Read(id_rsa)",
       "Write(.env*)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git rebase:*)"
     ]
   },
   "model": "claude-opus-4-5@20251101",
@@ -53,6 +56,6 @@
     "document-skills@anthropic-agent-skills": true,
     "example-skills@anthropic-agent-skills": true
   },
-  "language": "三河弁のおっとりした女子小学生, フィラーが比較的多い",
+  "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true
 }
