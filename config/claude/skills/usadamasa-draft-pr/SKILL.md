@@ -1,10 +1,10 @@
 ---
-name: draft-pr-with-squash
-description: コミットをsquashして1つに集約し、Draft PRを作成するワークフロー。複数のコミットを1つに整理してからPRを作成します。
+name: draft-pr
+description: コミットをfixupして1つに集約し、Draft PRを作成するワークフロー。差分からコミットメッセージを自動生成します。
 allowed-tools: Bash(git:*), Bash(gh:*)
 ---
 
-# draft-pr-with-squash
+# draft-pr
 
 このskillは、現在のブランチの複数のコミットを1つに集約し、Draft PRを作成するワークフローを実行します。
 
@@ -13,9 +13,9 @@ allowed-tools: Bash(git:*), Bash(gh:*)
 1. 分岐元ブランチをgitの追跡情報から自動検出
 1.5. 分岐元ブランチの最新情報をfetch
 2. 分岐元からのコミット状況を確認し、適切な方法でコミットを準備
-   - **差分コミットがある場合**: `git rebase` で1つに集約（squash）
+   - **差分コミットがある場合**: `git rebase` で1つに集約（fixup）
    - **差分コミットがないが未コミット変更がある場合**: 新規コミットを作成
-3. コミットメッセージをユーザーに確認
+3. 差分を分析してコミットメッセージを自動生成
 4. `git push --force-with-lease` でプッシュ
 5. PRテンプレートを自動検出（存在する場合）
 6. PRが存在しなければ `gh pr create --draft` で新規作成（テンプレートがあれば使用）
@@ -55,14 +55,14 @@ git fetch origin $BASE
     ```
 - 分岐元ブランチが存在することを確認
 - 分岐元からのコミット数を確認: `git rev-list --count origin/$BASE..HEAD`
-  - **コミットが1つ以上ある場合** → 通常のsquashフローへ進む（ケースA）
+  - **コミットが1つ以上ある場合** → 通常のfixupフローへ進む（ケースA）
   - **コミットがない場合** → `git status --porcelain` を確認
     - 未コミット変更がある → 新規コミット作成フローへ進む（ケースB）
     - 変更もない → **エラー**: 変更がないためPR作成不可
 
 ### 3. コミット準備
 
-#### ケースA: 差分コミットがある場合（rebase squashフロー）
+#### ケースA: 差分コミットがある場合（rebase fixupフロー）
 
 1. **未コミット変更がある場合は先にコミット**
    ```bash
@@ -70,42 +70,37 @@ git fetch origin $BASE
    git commit -m "WIP"
    ```
 
-2. **非対話的rebaseでsquash**
+2. **非対話的rebaseでfixup**
    ```bash
-   GIT_SEQUENCE_EDITOR="sed -i '' '2,\$s/^pick/squash/'" git rebase -i origin/$BASE
+   GIT_SEQUENCE_EDITOR="sed -i '' '2,\$s/^pick/fixup/'" git rebase -i origin/$BASE
    ```
 
-3. **コミットメッセージの自動クリーンアップ**
-   rebase完了後、一時的コミットメッセージを自動的に削除する:
+3. **差分からコミットメッセージを自動生成**
+   rebase完了後、差分を分析してコミットメッセージを生成する:
    ```bash
-   COMMIT_MSG=$(git log -1 --pretty=%B)
-   CLEANED_MSG=$(echo "$COMMIT_MSG" | \
-     sed '/^[Ww][Ii][Pp]$/d' | \
-     sed 's/^[Ww][Ii][Pp]: //' | \
-     sed '/^fixup! /d' | \
-     sed '/^squash! /d' | \
-     sed '/^[Tt][Mm][Pp]$/d' | \
-     sed '/^[Tt][Ee][Mm][Pp]$/d' | \
-     sed 's/[[:space:]]*$//' | \
-     cat -s)
-
-   # 先頭と末尾の空行を削除（macOS対応）
-   CLEANED_MSG=$(echo "$CLEANED_MSG" | awk 'NF{found=1} found' | tac | awk 'NF{found=1} found' | tac)
-
-   # 空行のみの場合を除いて amend
-   if [ -n "$(echo "$CLEANED_MSG" | tr -d '[:space:]')" ]; then
-     git commit --amend -m "$CLEANED_MSG"
-   fi
+   # 差分を取得
+   git diff origin/$BASE..HEAD
    ```
 
-4. **コミットメッセージの確認**
-   - 修正後のコミットメッセージをユーザーに提示
-   - 追加の修正が必要な場合のみ `git commit --amend` で修正を促す
+   差分の内容を分析し、以下のガイドラインに従ってコミットメッセージを生成:
+   - 適切なプレフィックスを付与 (feat:, fix:, refactor:, docs:, chore:, test: など)
+   - 変更の要点を簡潔に1行で表現 (Conventional Commits 形式)
+   - 必要に応じて本文で詳細を記載
+
+   生成したメッセージでコミットを上書き:
+   ```bash
+   git commit --amend -m "生成したメッセージ"
+   ```
+
+4. **生成したコミットメッセージをユーザーに提示**
+   - 生成されたメッセージを表示して確認
+   - 修正が必要な場合のみ `git commit --amend` で修正を促す
 
 #### ケースB: 差分コミットがない場合（新規コミットフロー）
 - 全変更をステージング: `git add -A`
-- 新規コミットを作成
-  - **ユーザーにコミットメッセージを確認してから** コミットを実行
+- 差分を確認: `git diff --cached`
+- 差分を分析してコミットメッセージを生成（ケースAと同じガイドライン）
+- 生成したメッセージで新規コミットを作成
 
 ### 4. Force Push（安全版）
 - `git push --force-with-lease origin <current-branch>` でプッシュ
@@ -183,18 +178,18 @@ ${CHANGED_FILES}"
 
 - **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
 - **分岐元の最新化**: `git fetch origin $BASE` で追跡情報を更新し、正確なコミット数比較を保証
-- **非対話的rebase**: `GIT_SEQUENCE_EDITOR` を使って対話的なエディタを回避し、自動的にsquashを実行
+- **非対話的rebase**: `GIT_SEQUENCE_EDITOR` を使って対話的なエディタを回避し、自動的にfixupを実行
 - **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
 - **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
 - **既存PR対応**: PRが存在すれば`gh pr edit`でタイトル/内容を更新
 - **差分コミットなしのケース**: 新規ブランチで作業開始直後など、まだコミットがない状態でもPRを作成可能
 - **未コミット変更の扱い**:
-  - 差分コミットがある場合: 先にWIPコミットしてからrebaseでsquash
+  - 差分コミットがある場合: 先にWIPコミットしてからrebaseでfixup
   - 差分コミットがない場合: 変更をそのまま新規コミットとして作成
-- **コミットメッセージの自動クリーンアップ**: rebase後に自動的に以下を削除。問い合わせは行わない
-  - 一時的コミット: WIP, wip, fixup!, squash!, tmp, temp
-  - フォーマット整理: 連続空行の縮小、末尾空白の削除、先頭・末尾の余分な空行削除
-- **フォールバック**: メッセージが空になった場合は元のメッセージを保持
+- **コミットメッセージの自動生成**: rebase後に差分を分析し、Conventional Commits形式でメッセージを生成
+  - 適切なプレフィックス: feat:, fix:, refactor:, docs:, chore:, test: など
+  - 変更内容を簡潔に表現した1行目
+  - 必要に応じて本文で詳細を記載
 - **変更なしエラー**: 差分コミットも未コミット変更もない場合はPR作成の意味がないためエラーとする
 - **rebase失敗時**: コンフリクトが発生した場合は `git rebase --abort` で中止し、ユーザーに手動解決を促す
 - **デフォルトブランチでの実行**: HEADがデフォルトブランチの場合は、ユーザーに新しいブランチ名を確認して作成してから作業を継続
