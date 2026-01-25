@@ -44,7 +44,7 @@ teardown() {
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"feature-local (local)"* ]]
+  [[ "$output" == *"~ feature-local (local)"* ]]
 }
 
 @test "remote-only branch has no label" {
@@ -54,9 +54,9 @@ teardown() {
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"feature-remote"* ]]
-  [[ "$output" != *"feature-remote (local)"* ]]
-  [[ "$output" != *"feature-remote (current)"* ]]
+  [[ "$output" == *"  feature-remote"* ]]
+  [[ "$output" != *"~ feature-remote (local)"* ]]
+  [[ "$output" != *"* feature-remote (current)"* ]]
 }
 
 @test "duplicate branches are removed when local and remote exist" {
@@ -82,7 +82,7 @@ teardown() {
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"feature-current (current)"* ]]
+  [[ "$output" == *"* feature-current (current)"* ]]
 }
 
 # =============================================================================
@@ -96,7 +96,7 @@ teardown() {
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"feature-worktree (worktree)"* ]]
+  [[ "$output" == *"+ feature-worktree (worktree)"* ]]
 }
 
 @test "worktree branch selection sets cd command in BUFFER" {

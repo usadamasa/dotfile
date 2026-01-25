@@ -96,15 +96,15 @@ _peco_gcop_list_branches() {
         chomp;
         my $branch = $_;
         if ($branch eq $current) {
-          print "$branch (current)\n";
+          print "* $branch (current)\n";
         } elsif ($bases{$branch}) {
-          print "$branch (BASE)\n";
+          print "# $branch (BASE)\n";
         } elsif ($worktrees{$branch}) {
-          print "$branch (worktree)\n";
+          print "+ $branch (worktree)\n";
         } elsif ($locals{$branch}) {
-          print "$branch (local)\n";
+          print "~ $branch (local)\n";
         } else {
-          print "$branch\n";
+          print "  $branch\n";
         }
       }
     '
@@ -115,8 +115,8 @@ _peco_gcop_list_branches() {
 _peco_gcop_checkout() {
   local selected_branch="$1"
 
-  # Remove label to get branch name
-  local branch_name=$(echo "$selected_branch" | perl -pe 's/ \((current|local|worktree|BASE)\)$//')
+  # Remove prefix symbol and label to get branch name
+  local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~ ] //; s/ \((current|local|worktree|BASE)\)$//')
 
   # Check if this is a worktree branch
   local worktree_path=$(git worktree list --porcelain 2>/dev/null | \
@@ -155,8 +155,8 @@ function peco-gcop() {
       _peco_gcop_checkout "$selected_branch"
       zle accept-line
     else
-      # Remove status suffixes if present
-      local branch_name=$(echo "$selected_branch" | perl -pe 's/ \((current|local)\)$//')
+      # Remove prefix symbol and status suffixes if present
+      local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~ ] //; s/ \((current|local)\)$//')
 
       # Set the command to the buffer and execute it
       BUFFER="git checkout ${branch_name}"
