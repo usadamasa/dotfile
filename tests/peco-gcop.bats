@@ -37,17 +37,17 @@ teardown() {
 # Branch listing
 # =============================================================================
 
-@test "local branch gets (local) label" {
+@test "local branch gets ~ symbol" {
   create_test_repo
   create_local_branch "feature-local"
 
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"~ feature-local (local)"* ]]
+  [[ "$output" == *"~ feature-local"* ]]
 }
 
-@test "remote-only branch has no label" {
+@test "remote-only branch has no symbol" {
   create_test_repo
   create_remote_only_branch "feature-remote"
 
@@ -55,8 +55,8 @@ teardown() {
 
   [ "$status" -eq 0 ]
   [[ "$output" == *"  feature-remote"* ]]
-  [[ "$output" != *"~ feature-remote (local)"* ]]
-  [[ "$output" != *"* feature-remote (current)"* ]]
+  [[ "$output" != *"~ feature-remote"* ]]
+  [[ "$output" != *"* feature-remote"* ]]
 }
 
 @test "duplicate branches are removed when local and remote exist" {
@@ -74,7 +74,7 @@ teardown() {
   [ "$count" -eq 1 ]
 }
 
-@test "current branch gets (current) label" {
+@test "current branch gets * symbol" {
   create_test_repo
   create_local_branch "feature-current"
   git checkout feature-current >/dev/null 2>&1
@@ -82,21 +82,21 @@ teardown() {
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"* feature-current (current)"* ]]
+  [[ "$output" == *"* feature-current"* ]]
 }
 
 # =============================================================================
 # Worktree support
 # =============================================================================
 
-@test "worktree branch gets (worktree) label" {
+@test "worktree branch gets + symbol" {
   create_test_repo
   create_worktree "feature-worktree" "worktree-dir"
 
   run _peco_gcop_list_branches
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"+ feature-worktree (worktree)"* ]]
+  [[ "$output" == *"+ feature-worktree"* ]]
 }
 
 @test "worktree branch selection sets cd command in BUFFER" {
@@ -151,4 +151,41 @@ teardown() {
   run peco-gcop
 
   [ "$status" -eq 0 ]
+}
+
+# =============================================================================
+# Subworktree support
+# =============================================================================
+
+@test "subworktree current branch gets @ symbol" {
+  create_test_repo
+  create_worktree "feature-subwt" "subwt-dir"
+  cd "$WORKTREE_PATH"  # サブworktreeに移動
+
+  run _peco_gcop_list_branches
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"@ feature-subwt"* ]]
+}
+
+@test "main worktree current branch still gets * symbol" {
+  create_test_repo
+  # メインworktreeに留まる
+
+  run _peco_gcop_list_branches
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"* main"* ]] || [[ "$output" == *"* master"* ]]
+}
+
+@test "subworktree current branch checkout uses cd command" {
+  create_test_repo
+  create_worktree "feature-subwt" "subwt-dir"
+
+  BUFFER=""
+  _peco_gcop_checkout "@ feature-subwt"
+  local status=$?
+
+  [ "$status" -eq 0 ]
+  [[ "$BUFFER" == *"cd"* ]]
 }
