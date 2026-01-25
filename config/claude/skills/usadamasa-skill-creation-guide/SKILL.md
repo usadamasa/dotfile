@@ -553,6 +553,100 @@ SKILL.md → advanced.md → details.md (入れ子参照)
 - Error handling
 ```
 
+## Taskfile (go-task) との連携
+
+複雑なシェル操作を伴うskillでは、go-taskを活用してコマンドをモジュール化できます。
+
+### go-taskとは
+
+go-task (Taskfile) は、Makefileの代替となるモダンなタスクランナーです。YAMLで定義し、依存関係の解決や変数展開をサポートします。
+
+### Taskfileを使うべきケース
+
+| ケース | 推奨度 | 説明 |
+|--------|--------|------|
+| 複数のコマンドを組み合わせる | ✅ 推奨 | シェルスクリプトより保守性が高い |
+| 複雑なパイプ処理 | ✅ 推奨 | エスケープ問題を回避 |
+| 再利用可能な処理 | ✅ 推奨 | タスク単位で呼び出し可能 |
+| 単純な1コマンド | ❌ 不要 | 直接実行で十分 |
+
+### Taskfileの配置
+
+```
+~/.claude/skills/[skill-name]/
+├── SKILL.md
+└── Taskfile.yml    ← スキルと同じディレクトリに配置
+```
+
+### 重要な仕様: USER_WORKING_DIR
+
+**問題**: `task -t /path/to/Taskfile.yml` で実行すると、go-task はデフォルトで **Taskfile があるディレクトリ** でコマンドを実行します。
+
+つまり、worktree や別ディレクトリから呼び出すと、git や gh コマンドが意図しないディレクトリで実行されます。
+
+**解決策**: 各タスクに `dir: '{{.USER_WORKING_DIR}}'` を追加します。
+
+`USER_WORKING_DIR` は go-task の特殊変数で、`task` コマンドが呼び出された元のディレクトリを保持しています。
+
+### Taskfileテンプレート
+
+```yaml
+version: '3'
+
+tasks:
+  example-task:
+    desc: タスクの説明
+    dir: '{{.USER_WORKING_DIR}}'    # 必須: 呼び出し元ディレクトリで実行
+    cmds:
+      - git status
+    silent: true
+
+  task-with-args:
+    desc: 引数を受け取るタスク
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      ARG_NAME: '{{.CLI_ARGS}}'
+    cmds:
+      - echo "{{.ARG_NAME}}"
+
+  task-with-env:
+    desc: 環境変数を使うタスク
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - gh pr create --title "{{.TITLE}}" --body "{{.BODY}}"
+```
+
+### SKILL.mdからの呼び出し
+
+```bash
+# 基本的な呼び出し
+task -t ~/.claude/skills/[skill-name]/Taskfile.yml [task-name]
+
+# 引数付き
+task -t ~/.claude/skills/[skill-name]/Taskfile.yml [task-name] -- arg1
+
+# 環境変数付き
+task -t ~/.claude/skills/[skill-name]/Taskfile.yml [task-name] VAR1="value1" VAR2="value2"
+```
+
+### allowed-toolsへの追加
+
+Taskfileを使用する場合、frontmatterの`allowed-tools`に追加が必要です:
+
+```yaml
+---
+name: my-skill
+description: ...
+allowed-tools: Bash(task -t ~/.claude/skills/my-skill/Taskfile.yml:*)
+---
+```
+
+### 注意事項
+
+- **常に `dir: '{{.USER_WORKING_DIR}}'` を指定**: git worktree 環境でも正常動作させるため必須
+- **silent: true の活用**: コマンド出力のみを取得したい場合に使用
+- **CLI_ARGS の使用**: 引数を受け取る場合は `-- ` の後に指定
+
 ## 関連Skillの統廃合判断基準
 
 新しいskillを作成する前に、既存skillに統合すべきか検討します。
