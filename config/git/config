@@ -33,3 +33,9 @@
   prune = true
 [init]
   defaultBranch = main
+[wt]
+	copyignored = true
+	copyuntracked = true
+	copymodified = true
+	hook = direnv allow
+	basedir = ../worktrees/{gitroot}

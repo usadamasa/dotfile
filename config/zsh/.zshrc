@@ -89,5 +89,8 @@ source ${ZDOTDIR}/history_settings.sh
 source ${ZDOTDIR}/funcs/peco-select-history.sh
 source ${ZDOTDIR}/funcs/peco-src.sh
 
+# https://github.com/k1LoW/git-wt
+eval "$(git wt --init zsh)"
+
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
