@@ -23,8 +23,8 @@ bindkey '^]' peco-src
 # peco-gcop: checkout git branch with peco
 # =============================================================================
 
-# Core function: List branches with labels
-# Outputs branch list to stdout with (current), (local), (worktree), (BASE) labels
+# Core function: List branches with prefix symbols
+# Outputs branch list to stdout with prefix symbols: @ * + # ~
 _peco_gcop_list_branches() {
   # Check if inside a git repository
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -55,6 +55,12 @@ _peco_gcop_list_branches() {
   fi
   local current_wt_path=$(git rev-parse --show-toplevel)
 
+  # Check if we are in a subworktree
+  local is_subworktree="false"
+  if [[ "$main_wt_path" != "$current_wt_path" ]]; then
+    is_subworktree="true"
+  fi
+
   # Get worktree branches using awk (bash compatible)
   git worktree list --porcelain 2>/dev/null | \
     awk -v main_wt="$main_wt_path" -v current_wt="$current_wt_path" '
@@ -79,6 +85,7 @@ _peco_gcop_list_branches() {
     perl -nle 'print if !$c{$_}++' | \
     perl -e '
       my $current = "'"$current_branch"'";
+      my $is_subworktree = "'"$is_subworktree"'";
       open(my $fh, "<", "'"$tmp_file"'") or die;
       my %locals = map { chomp; $_ => 1 } <$fh>;
       close($fh);
@@ -95,14 +102,16 @@ _peco_gcop_list_branches() {
       while (<>) {
         chomp;
         my $branch = $_;
-        if ($branch eq $current) {
-          print "* $branch (current)\n";
+        if ($branch eq $current && $is_subworktree eq "true") {
+          print "@ $branch\n";
+        } elsif ($branch eq $current) {
+          print "* $branch\n";
         } elsif ($bases{$branch}) {
-          print "# $branch (BASE)\n";
+          print "# $branch\n";
         } elsif ($worktrees{$branch}) {
-          print "+ $branch (worktree)\n";
+          print "+ $branch\n";
         } elsif ($locals{$branch}) {
-          print "~ $branch (local)\n";
+          print "~ $branch\n";
         } else {
           print "  $branch\n";
         }
@@ -111,12 +120,12 @@ _peco_gcop_list_branches() {
 }
 
 # Core function: Checkout branch or navigate to worktree
-# $1: branch name (may include label)
+# $1: branch name (may include prefix symbol)
 _peco_gcop_checkout() {
   local selected_branch="$1"
 
-  # Remove prefix symbol and label to get branch name
-  local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~ ] //; s/ \((current|local|worktree|BASE)\)$//')
+  # Remove prefix symbol to get branch name
+  local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
 
   # Check if this is a worktree branch
   local worktree_path=$(git worktree list --porcelain 2>/dev/null | \
@@ -150,13 +159,13 @@ function peco-gcop() {
 
   # Check if a branch was selected
   if [ -n "$selected_branch" ]; then
-    if [[ $selected_branch == *"(BASE)"* || $selected_branch == *"(worktree)"* ]]; then
+    if [[ $selected_branch == "#"* || $selected_branch == "+"* || $selected_branch == "@"* ]]; then
       # Worktree branch - use _peco_gcop_checkout to set BUFFER
       _peco_gcop_checkout "$selected_branch"
       zle accept-line
     else
-      # Remove prefix symbol and status suffixes if present
-      local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~ ] //; s/ \((current|local)\)$//')
+      # Remove prefix symbol if present
+      local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
 
       # Set the command to the buffer and execute it
       BUFFER="git checkout ${branch_name}"
