@@ -40,12 +40,12 @@ BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
 
 ### 1.5. 分岐元ブランチの最新化
 
-分岐元ブランチの最新情報を取得：
+ブランチを切り替えずにローカルの分岐元ブランチを更新：
 ```bash
-git fetch origin $BASE
+git fetch origin $BASE:$BASE
 ```
 
-これにより、`origin/$BASE` との正確な比較が可能になります。
+これにより、ローカルの分岐元ブランチが `origin/$BASE` に追従し、正確な比較が可能になります。
 
 ### 2. 前提条件の確認
 - 現在のブランチが分岐元ブランチと異なることを確認
@@ -177,7 +177,7 @@ ${CHANGED_FILES}"
 ## 考慮事項
 
 - **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
-- **分岐元の最新化**: `git fetch origin $BASE` で追跡情報を更新し、正確なコミット数比較を保証
+- **ローカル分岐元の同期**: `git fetch origin $BASE:$BASE` によりブランチを切り替えずにローカルの分岐元ブランチを origin に追従させる（fast-forward の場合のみ成功）
 - **非対話的rebase**: `GIT_SEQUENCE_EDITOR` を使って対話的なエディタを回避し、自動的にfixupを実行
 - **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
 - **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
