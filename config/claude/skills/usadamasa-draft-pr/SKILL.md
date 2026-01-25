@@ -202,3 +202,8 @@ ${CHANGED_FILES}"
 - **gh pr create の非対話モード**: 非対話モードでは `--title` と `--body` の両方が必須
 - **デフォルトPR body構造**: テンプレートがない場合でも「Summary」と「Changes」セクションを含む最低限の構造を自動生成
 - **Summary生成**: コミットメッセージに本文があればそれを使用。なければ差分（`git diff`）を読み取って変更内容の要約を生成
+- **Worktree対応**: git worktree 環境でも正常に動作。Taskfile の各タスクは `USER_WORKING_DIR`（コマンド実行元ディレクトリ）で実行されるため、worktree 内でも正しいリポジトリコンテキストで動作する
+- **Taskfile経由のBODY制限**: Taskfile の `create-pr` / `update-pr` タスク経由で BODY を渡す場合、以下の制限がある:
+  - バッククォート（`` ` ``）はシェルのコマンド置換として解釈されるため、`\`` でエスケープが必要
+  - `{{...}}` は go-task のテンプレート変数として展開される
+  - これらの問題を回避するには、`gh pr create` / `gh pr edit` を直接使用する

@@ -3,12 +3,14 @@ version: '3'
 tasks:
   get-base:
     desc: デフォルトブランチ名を取得
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - gh repo view --json defaultBranchRef -q .defaultBranchRef.name
     silent: true
 
   rebase-fixup:
     desc: 非対話的rebaseでfixup実行
+    dir: '{{.USER_WORKING_DIR}}'
     vars:
       BASE_BRANCH: '{{.CLI_ARGS}}'
     cmds:
@@ -16,22 +18,26 @@ tasks:
 
   get-commit-title:
     desc: 最新コミットのタイトル抽出
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - git log -1 --pretty=%s
     silent: true
 
   get-pr-template:
     desc: PRテンプレート取得 (JSON)
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - gh repo view --json pullRequestTemplates -q '.pullRequestTemplates'
     silent: true
 
   create-pr:
     desc: Draft PRを作成
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - gh pr create --draft --base "{{.BASE}}" --title "{{.TITLE}}" --body "{{.BODY}}"
 
   update-pr:
     desc: 既存PRを更新
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - gh pr edit --title "{{.TITLE}}" --body "{{.BODY}}"
