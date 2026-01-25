@@ -42,10 +42,10 @@ BASE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-base)
 
 ブランチを切り替えずにローカルの分岐元ブランチを更新：
 ```bash
-git fetch origin $BASE:$BASE
+git fetch origin $BASE
 ```
 
-これにより、ローカルの分岐元ブランチが `origin/$BASE` に追従し、正確な比較が可能になります。
+これにより、リモート追跡ブランチ `origin/$BASE` が最新化され、正確な比較が可能になります。
 
 ### 2. 前提条件の確認
 - 現在のブランチが分岐元ブランチと異なることを確認
@@ -180,7 +180,7 @@ ${CHANGED_FILES}"
 ## 考慮事項
 
 - **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
-- **ローカル分岐元の同期**: `git fetch origin $BASE:$BASE` によりブランチを切り替えずにローカルの分岐元ブランチを origin に追従させる（fast-forward の場合のみ成功）
+- **リモート追跡ブランチの同期**: `git fetch origin $BASE` によりリモート追跡ブランチ `origin/$BASE` を更新（worktree環境でも動作）
 - **非対話的rebase**: Taskfile の `rebase-fixup` タスクを使用し、`GIT_SEQUENCE_EDITOR` で対話的なエディタを回避して自動的にfixupを実行
 - **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
 - **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
