@@ -1,7 +1,7 @@
 ---
 name: draft-pr
 description: コミットをfixupして1つに集約し、Draft PRを作成するワークフロー。差分からコミットメッセージを自動生成します。
-allowed-tools: Bash(git:*), Bash(gh:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(jq:*), Bash(echo:*), Bash(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml:*)
 ---
 
 # draft-pr
@@ -35,7 +35,7 @@ allowed-tools: Bash(git:*), Bash(gh:*)
 
 GitHub CLIでリポジトリのデフォルトブランチを取得：
 ```bash
-BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
+BASE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-base)
 ```
 
 ### 1.5. 分岐元ブランチの最新化
@@ -72,7 +72,7 @@ git fetch origin $BASE:$BASE
 
 2. **非対話的rebaseでfixup**
    ```bash
-   GIT_SEQUENCE_EDITOR="sed -i '' '2,\$s/^pick/fixup/'" git rebase -i origin/$BASE
+   task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml rebase-fixup -- $BASE
    ```
 
 3. **差分からコミットメッセージを自動生成**
@@ -112,7 +112,7 @@ GitHub CLIでリポジトリのPRテンプレートを自動検出：
 
 ```bash
 # テンプレート情報を取得（ファイル名と内容が含まれる）
-TEMPLATES_JSON=$(gh repo view --json pullRequestTemplates -q '.pullRequestTemplates')
+TEMPLATES_JSON=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-pr-template)
 TEMPLATE_COUNT=$(echo "$TEMPLATES_JSON" | jq 'length')
 ```
 
@@ -146,16 +146,16 @@ fi
    - コミットメッセージをタイトルに使用
    - テンプレートが見つかった場合：
      ```bash
-     TITLE=$(git log -1 --pretty=%s)
-     BODY=$(gh repo view --json pullRequestTemplates -q '.pullRequestTemplates[0].body')
-     gh pr create --draft --base $BASE --title "$TITLE" --body "$BODY"
+     TITLE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-commit-title)
+     BODY=$(echo "$TEMPLATES_JSON" | jq -r '.[0].body')
+     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml create-pr BASE="$BASE" TITLE="$TITLE" BODY="$BODY"
      ```
    - テンプレートが見つからない場合（デフォルト構造を使用）：
      1. まず差分を確認: `git diff origin/$BASE..HEAD`
      2. 差分の内容を読み取り、変更の要約（Summary）を生成
      3. 以下の構造でPR bodyを作成：
      ```bash
-     TITLE=$(git log -1 --pretty=%s)
+     TITLE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-commit-title)
      CHANGED_FILES=$(git diff --name-only origin/$BASE..HEAD | sed 's/^/- /')
 
      # デフォルトのPR body構造
@@ -165,20 +165,23 @@ fi
 ## Changes
 ${CHANGED_FILES}"
 
-     gh pr create --draft --base $BASE --title "$TITLE" --body "$BODY"
+     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml create-pr BASE="$BASE" TITLE="$TITLE" BODY="$BODY"
      ```
      ※ 非対話モードでは `--title` と `--body` の両方が必須
      ※ Summaryはコミットメッセージの本文があればそれを使用、なければ差分を読んで生成
 
 3. **PRが存在する場合: 更新**
-   - `gh pr edit --title "..." --body "..."` でタイトルと内容を更新
+   - タスクを使用してタイトルと内容を更新:
+     ```bash
+     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml update-pr TITLE="$TITLE" BODY="$BODY"
+     ```
    - force pushは既に完了しているのでコミットは反映済み
 
 ## 考慮事項
 
 - **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
 - **ローカル分岐元の同期**: `git fetch origin $BASE:$BASE` によりブランチを切り替えずにローカルの分岐元ブランチを origin に追従させる（fast-forward の場合のみ成功）
-- **非対話的rebase**: `GIT_SEQUENCE_EDITOR` を使って対話的なエディタを回避し、自動的にfixupを実行
+- **非対話的rebase**: Taskfile の `rebase-fixup` タスクを使用し、`GIT_SEQUENCE_EDITOR` で対話的なエディタを回避して自動的にfixupを実行
 - **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
 - **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
 - **既存PR対応**: PRが存在すれば`gh pr edit`でタイトル/内容を更新
