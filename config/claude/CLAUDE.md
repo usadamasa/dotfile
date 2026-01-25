@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+> **Note:** This directory (`config/claude/`) is symlinked to `~/.claude` via dotfiles setup.
+> All configurations here apply globally to all projects.
+> Source: `~/src/github.com/usadamasa/dotfile/config/claude/`
+
 ## Conversation Guidelines
 
 ### 言語設定
@@ -34,6 +38,14 @@
 
 ## Skills 実装
 
-https://code.claude.com/docs/en/skills を参照し､適切な形式で記述してください｡
+<https://code.claude.com/docs/en/skills> を参照し､適切な形式で記述してください｡
 作成後､Skillsとして利用可能であることを `/skills` で検証してください｡
-また､特に指示がなければskillsはリポジトリレベルに配置してください｡
+
+### スキルの配置場所
+
+| スコープ | 配置場所 | 説明 |
+| --------- | --------- | ------ |
+| グローバル | `config/claude/skills/` (= `~/.claude/skills/`) | 全プロジェクトで利用可能 |
+| プロジェクト | プロジェクトの `.claude/skills/` | そのプロジェクトのみで利用可能 |
+
+特に指示がなければグローバルスコープ(`config/claude/skills/`)に配置してください｡

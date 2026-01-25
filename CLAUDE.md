@@ -7,7 +7,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a personal dotfiles repository for macOS development environment setup. The structure follows XDG Base Directory standards:
 
 - `config/` - Contains all configuration files organized by tool
-  - `git/` - Git configuration and global gitignore  
+  - `claude/` - Claude Code configuration (symlinked to `~/.claude`)
+    - `CLAUDE.md` - Global Claude Code instructions
+    - `settings.json` - Permissions, plugins, model settings
+    - `skills/` - Global skills (available in all projects)
+    - `commands/` - Custom commands
+  - `git/` - Git configuration and global gitignore
   - `npm/` - npm configuration with custom registry and cache settings
   - `vim/` - Vim configuration with XDG compliance and plugin management
   - `zsh/` - Zsh configuration with oh-my-zsh integration
@@ -112,3 +117,32 @@ When working with long commands in this repository:
 - Sort options and packages alphabetically when syntactically appropriate
 - Maintain consistent indentation for readability
 - Follow the established pattern in existing commands (e.g., `brew install` formatting)
+
+## Claude Code Configuration
+
+This repository manages Claude Code configuration at the global user level.
+
+### Symlink Structure
+The `config/claude/` directory is symlinked to `~/.claude` during `task setup`.
+This means all configurations in this directory apply globally to all projects.
+
+### Global Skills
+Skills in `config/claude/skills/` are available across all projects:
+- `usadamasa-draft-pr` - Draft PR creation workflow with fixup commits
+- `usadamasa-skill-creation-guide` - Guide for creating Claude Code skills
+- `content-research-writer` - Content writing assistant with research
+- `cdp-confluence-guide` - CADDi Data Platform Confluence guide
+
+### Adding New Global Skills
+```sh
+# Create skill directory and SKILL.md
+mkdir -p config/claude/skills/<skill-name>
+touch config/claude/skills/<skill-name>/SKILL.md
+
+# Verify skill is recognized
+# Run /skills in Claude Code
+```
+
+### Note on Skill Scope
+- **Global skills** → Place in `config/claude/skills/` (applies to all projects)
+- **Project-specific skills** → Place in `.claude/skills/` within the project repository
