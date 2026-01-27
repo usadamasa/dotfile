@@ -115,7 +115,8 @@
     "plugin-dev@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
-    "circleback@claude-plugins-official": true
+    "circleback@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true
