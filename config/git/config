@@ -28,7 +28,21 @@
   process = git-lfs filter-process
   required = true
 [alias]
-  mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull origin HEAD && gh poi
+  mc = "!f() { \
+    default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'); \
+    current_branch=$(git rev-parse --abbrev-ref HEAD); \
+    if [ \"$current_branch\" = \"$default_branch\" ]; then \
+      git pull origin HEAD && gh poi; \
+    else \
+      default_wt_path=$(git worktree list | grep \"\\[$default_branch\\]\" | awk '{print $1}'); \
+      original_dir=$(pwd); \
+      if [ -n \"$default_wt_path\" ] && [ -d \"$default_wt_path\" ]; then \
+        cd \"$default_wt_path\" && git pull origin HEAD && cd \"$original_dir\" && gh poi; \
+      else \
+        git fetch origin \"$default_branch:$default_branch\" && gh poi; \
+      fi \
+    fi \
+  }; f"
 [fetch]
   prune = true
 [init]

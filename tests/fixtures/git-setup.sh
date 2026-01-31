@@ -26,6 +26,9 @@ create_test_repo() {
   # リモートにプッシュ
   git push origin main >/dev/null 2>&1 || git push origin master >/dev/null 2>&1
 
+  # refs/remotes/origin/HEAD を設定(デフォルトブランチの判定に必要)
+  git remote set-head origin --auto >/dev/null 2>&1
+
   export TEST_REPO TEST_REMOTE
 }
 
@@ -100,4 +103,68 @@ cleanup_test_repo() {
     rm -rf "$TEST_REMOTE"
   fi
   unset TEST_REPO TEST_REMOTE WORKTREE_PATH
+}
+
+# リモートに新しいコミットを追加
+add_remote_commit() {
+  local original_dir=$(pwd)
+  local tmp_clone=$(mktemp -d)
+  git clone "$TEST_REMOTE" "$tmp_clone" >/dev/null 2>&1
+  cd "$tmp_clone" || return 1
+  git config user.email "test@example.com"
+  git config user.name "Test User"
+  echo "new content $(date +%s)" >> README.md
+  git add README.md
+  git commit -m "Add new commit" >/dev/null 2>&1
+  git push origin main >/dev/null 2>&1 || git push origin master >/dev/null 2>&1
+  cd "$original_dir" || return 1
+  rm -rf "$tmp_clone"
+
+  # 元のリポジトリでfetch
+  cd "$TEST_REPO" && git fetch origin >/dev/null 2>&1
+  cd "$original_dir" || return 1
+}
+
+# デフォルトブランチ名を取得
+get_default_branch() {
+  git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'
+}
+
+# デフォルトブランチのworktreeパスを取得
+get_default_branch_worktree_path() {
+  local default_branch
+  default_branch=$(get_default_branch)
+  # git worktree list の出力から、デフォルトブランチを持つworktreeのパスを取得
+  # 形式: /path/to/repo  abc1234 [branch-name]
+  git worktree list | grep "\\[$default_branch\\]" | awk '{print $1}'
+}
+
+# git mc コマンドのラッパー(テスト用)
+# worktree環境ではデフォルトブランチが別worktreeでチェックアウト中の場合、
+# そのworktreeにcdしてpullし、元のディレクトリに戻る。
+git_mc() {
+  local default_branch
+  default_branch=$(get_default_branch)
+  local current_branch
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  if [ "$current_branch" = "$default_branch" ]; then
+    # デフォルトブランチにいる場合はそのままpull
+    git pull origin HEAD && gh poi
+  else
+    # デフォルトブランチのworktreeを探す
+    local default_wt_path
+    default_wt_path=$(get_default_branch_worktree_path)
+    local original_dir
+    original_dir=$(pwd)
+
+    if [ -n "$default_wt_path" ] && [ -d "$default_wt_path" ]; then
+      # worktreeが見つかった場合はそこにcdしてpull
+      cd "$default_wt_path" && git pull origin HEAD && cd "$original_dir" && gh poi
+    else
+      # worktreeが見つからない場合(mainがどこにもチェックアウトされてない)
+      # git fetch origin main:main でローカルmainを更新
+      git fetch origin "$default_branch:$default_branch" && gh poi
+    fi
+  fi
 }
