@@ -34,7 +34,7 @@
 
 ## 技術調査とツール
 
-- 技術要素やソフトウェアエンジニアリングについて調査するときはorm-discovery-mcp-goを積極的に利用するようにしてください｡
+- 技術要素やソフトウェアエンジニアリングについて調査するときは subagent: orm-discovery-mcp-go:oreilly-researcher を積極的に利用するようにしてください｡
 
 ## Skills 実装
 
