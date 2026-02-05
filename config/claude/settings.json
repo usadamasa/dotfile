@@ -68,6 +68,8 @@
       "Write(CLAUDE.md)",
       "Write(docs/**)",
       "Write(src/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
       "mcp__orm-discovery-mcp-go__*",
       "mcp__plugin_atlassian_atlassian__*",
       "mcp__plugin_context7_context7__*"
@@ -102,7 +104,6 @@
       "mcp__plugin_atlassian_atlassian__createConfluencePage"
     ]
   },
-  "model": "claude-opus-4-5@20251101",
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
@@ -118,5 +119,18 @@
     "orm-discovery-mcp-go@orm-discovery-mcp-go": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": [
+    ],
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowUnixSockets": [
+        "/var/run/docker.sock"
+      ],
+      "allowLocalBinding": true
+    }
+  }
 }
