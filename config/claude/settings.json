@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Fetch(domain:*.databricks.com)",
+      "WebFetch(domain:*.databricks.com)",
       "Bash(./gradlew:*)",
       "Bash(aqua install:*)",
       "Bash(buf generate:*)",
@@ -102,7 +104,7 @@
       "mcp__plugin_atlassian_atlassian__createConfluencePage"
     ]
   },
-  "model": "claude-opus-4-5@20251101",
+  "model": "claude-opus-4-6",
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
@@ -115,7 +117,13 @@
     "claude-code-setup@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "jdtls-lsp@claude-plugins-official": true,
-    "orm-discovery-mcp-go@orm-discovery-mcp-go": true
+    "orm-discovery-mcp-go@orm-discovery-mcp-go": true,
+    "packer-builders@hashicorp": true,
+    "packer-hcp@hashicorp": true,
+    "terraform-code-generation@hashicorp": true,
+    "terraform-module-generation@hashicorp": true,
+    "terraform-provider-development@hashicorp": true,
+    "codeguard-security@project-codeguard": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true
