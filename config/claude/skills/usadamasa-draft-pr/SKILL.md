@@ -1,25 +1,21 @@
 ---
 name: draft-pr
-description: コミットをfixupして1つに集約し、Draft PRを作成するワークフロー。差分からコミットメッセージを自動生成します。
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(jq:*), Bash(echo:*), Bash(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml:*)
+description: コミットをfixupして1つに集約し、Draft PRを作成するワークフロー。差分からコミットメッセージを自動生成します。「PRを作って」「Draft PRを作成」「コミットをまとめてPR」「push してPR」のように依頼されたときに使用する。
 ---
 
 # draft-pr
 
-このskillは、現在のブランチの複数のコミットを1つに集約し、Draft PRを作成するワークフローを実行します。
+現在のブランチのコミットを1つに集約し、GitHub MCP ツールで Draft PR を作成・更新する。
 
-## 概要
+## ワークフロー概要
 
-1. 分岐元ブランチをgitの追跡情報から自動検出
-1.5. 分岐元ブランチの最新情報をfetch
-2. 分岐元からのコミット状況を確認し、適切な方法でコミットを準備
-   - **差分コミットがある場合**: `git rebase` で1つに集約（fixup）
-   - **差分コミットがないが未コミット変更がある場合**: 新規コミットを作成
-3. 差分を分析してコミットメッセージを自動生成
-4. `git push --force-with-lease` でプッシュ
-5. PRテンプレートを自動検出（存在する場合）
-6. PRが存在しなければ `gh pr create --draft` で新規作成（テンプレートがあれば使用）
-7. PRが存在すれば `gh pr edit` でタイトル/内容を更新
+1. リポジトリ情報取得 (owner/repo)
+2. 親ブランチの検出 (tracking → merge-base距離 → デフォルト)
+3. ベースブランチの決定 (SQUASH_BASE / PR_BASE)
+4. コミット状況を確認し準備
+5. 差分からコミットメッセージを自動生成
+6. force push
+7. GitHub MCP で Draft PR を作成 or 更新
 
 ## Context
 
@@ -27,183 +23,207 @@ allowed-tools: Bash(git:*), Bash(gh:*), Bash(jq:*), Bash(echo:*), Bash(task -t ~
 - Git status: !`git status --short`
 - Recent commits: !`git log --oneline -5`
 
-## Your Task
+## 手順
 
-以下の手順を実行してください：
+### 1. リポジトリ情報の取得
 
-### 1. 分岐元ブランチの自動検出
+owner と repo を取得（MCP ツールで必須）:
 
-GitHub CLIでリポジトリのデフォルトブランチを取得：
 ```bash
-BASE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-base)
+git remote get-url origin
 ```
 
-### 1.5. 分岐元ブランチの最新化
+出力例から owner/repo をパース:
+- `git@github.com:OWNER/REPO.git` → OWNER, REPO
+- `https://github.com/OWNER/REPO.git` → OWNER, REPO
 
-ブランチを切り替えずにローカルの分岐元ブランチを更新：
+`.git` サフィックスがある場合は除去。
+
+以降、取得した OWNER と REPO を各 MCP ツール呼び出しに使用する。
+
+### 2. 親ブランチの検出
+
+以下の3段階フォールバックで親ブランチ `$PARENT` を検出する。
+
+#### 優先度1: tracking config
+
 ```bash
-git fetch origin $BASE
+CURRENT=$(git branch --show-current)
+PARENT=$(git config --get branch.$CURRENT.merge 2>/dev/null | sed 's|refs/heads/||')
 ```
 
-これにより、リモート追跡ブランチ `origin/$BASE` が最新化され、正確な比較が可能になります。
+`git checkout -b child --track parent` で作成された場合に有効。
 
-### 2. 前提条件の確認
-- 現在のブランチが分岐元ブランチと異なることを確認
-  - **同じ場合**: ユーザーに新しいブランチ名を確認し、新規ブランチを作成
-    ```bash
-    git checkout -b <new-branch-name>
-    ```
-- 分岐元ブランチが存在することを確認
-- 分岐元からのコミット数を確認: `git rev-list --count origin/$BASE..HEAD`
-  - **コミットが1つ以上ある場合** → 通常のfixupフローへ進む（ケースA）
-  - **コミットがない場合** → `git status --porcelain` を確認
-    - 未コミット変更がある → 新規コミット作成フローへ進む（ケースB）
-    - 変更もない → **エラー**: 変更がないためPR作成不可
+#### 優先度2: merge-base distance 比較
 
-### 3. コミット準備
+tracking が未設定の場合、全リモートブランチとの距離を比較する。
 
-#### ケースA: 差分コミットがある場合（rebase fixupフロー）
+```bash
+# 全リモートブランチを取得（現在のブランチとHEADを除外）
+# 各ブランチについて merge-base との距離を計算
+# git rev-list --count $(git merge-base HEAD origin/<candidate>)..HEAD
+# 最小距離のブランチを親とする
+```
 
-1. **未コミット変更がある場合は先にコミット**
+例: main(距離5) vs feature/parent(距離2) → feature/parent を選択。
+
+#### 優先度3: デフォルトブランチにフォールバック
+
+```bash
+git remote show origin | grep 'HEAD branch' | sed 's/.*: //'
+```
+
+検出後、AskUserQuestion でユーザーに `$PARENT` が正しいか確認を取る。
+
+### 3. ベースブランチの決定
+
+検出した親ブランチについて以下の2つの変数を決定する:
+
+- `$SQUASH_BASE`: コミット集約の基準点（merge-base のコミットハッシュ）
+- `$PR_BASE`: PRのベースブランチ名
+
+```bash
+# リモートの最新を取得
+git fetch origin $PARENT
+```
+
+```bash
+# 親ブランチがリモートに存在するか確認
+git ls-remote --heads origin "$PARENT" | grep -q "$PARENT"
+```
+
+- **存在する** → `$PR_BASE = $PARENT`
+- **存在しない** → `$PR_BASE = デフォルトブランチ`（フォールバック、ユーザーに通知）
+
+`$SQUASH_BASE` はリモート存在に関わらず常に merge-base を使用:
+
+```bash
+SQUASH_BASE=$(git merge-base HEAD "origin/$PARENT")
+```
+
+### 4. 前提条件の確認
+
+- 現在のブランチが `$PR_BASE` と異なることを確認
+  - **同じ場合**: AskUserQuestion で新しいブランチ名を確認し `git checkout -b <name>` で作成
+- コミット数を確認: `git rev-list --count $SQUASH_BASE..HEAD`
+  - **1以上** → ケースA（rebase fixup）
+  - **0** → `git status --porcelain` を確認
+    - 変更あり → ケースB（新規コミット）
+    - 変更なし → エラー: 変更がないためPR作成不可
+
+### 5. コミット準備
+
+#### ケースA: 差分コミットあり（rebase fixup）
+
+1. 未コミット変更があれば先にコミット:
    ```bash
-   git add -A
-   git commit -m "WIP"
+   git add -A && git commit -m "WIP"
    ```
 
-2. **非対話的rebaseでfixup**
+2. 非対話的 rebase で fixup:
    ```bash
-   task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml rebase-fixup -- $BASE
+   GIT_SEQUENCE_EDITOR="sed -i '' '2,\$s/^pick/fixup/'" git rebase -i "$SQUASH_BASE"
    ```
+   - コンフリクト時: `git rebase --abort` で中止し、ユーザーに手動解決を促す
 
-3. **差分からコミットメッセージを自動生成**
-   rebase完了後、差分を分析してコミットメッセージを生成する:
+3. 差分を分析してコミットメッセージを自動生成:
    ```bash
-   # 差分を取得
-   git diff origin/$BASE..HEAD
+   git diff $SQUASH_BASE..HEAD
    ```
+   Conventional Commits 形式で生成（feat:, fix:, refactor:, docs:, chore:, test: 等）。
 
-   差分の内容を分析し、以下のガイドラインに従ってコミットメッセージを生成:
-   - 適切なプレフィックスを付与 (feat:, fix:, refactor:, docs:, chore:, test: など)
-   - 変更の要点を簡潔に1行で表現 (Conventional Commits 形式)
-   - 必要に応じて本文で詳細を記載
-
-   生成したメッセージでコミットを上書き:
+4. 生成メッセージでコミットを上書き:
    ```bash
    git commit --amend -m "生成したメッセージ"
    ```
 
-4. **生成したコミットメッセージをユーザーに提示**
-   - 生成されたメッセージを表示して確認
-   - 修正が必要な場合のみ `git commit --amend` で修正を促す
+5. 生成したメッセージをユーザーに提示し確認を得る。
 
-#### ケースB: 差分コミットがない場合（新規コミットフロー）
-- 全変更をステージング: `git add -A`
-- 差分を確認: `git diff --cached`
-- 差分を分析してコミットメッセージを生成（ケースAと同じガイドライン）
-- 生成したメッセージで新規コミットを作成
+#### ケースB: 差分コミットなし（新規コミット）
 
-### 4. Force Push（安全版）
-- `git push --force-with-lease origin <current-branch>` でプッシュ
-- push に失敗した場合はエラーメッセージを表示
+1. `git add -A`
+2. `git diff --cached` で差分確認
+3. 差分から Conventional Commits 形式でメッセージ生成
+4. `git commit -m "生成したメッセージ"`
 
-### 5. PRテンプレートの検出
-
-GitHub CLIでリポジトリのPRテンプレートを自動検出：
+### 6. Force Push
 
 ```bash
-# テンプレート情報を取得（ファイル名と内容が含まれる）
-TEMPLATES_JSON=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-pr-template)
-TEMPLATE_COUNT=$(echo "$TEMPLATES_JSON" | jq 'length')
+git push --force-with-lease origin <current-branch>
 ```
 
-**テンプレートが1つの場合：**
-- そのテンプレートの内容を使用
+失敗時はエラーメッセージを表示。
 
-**複数テンプレートがある場合：**
-- テンプレート一覧を表示してユーザーに選択を促す
+### 7. 既存PRの確認
+
+`mcp__plugin_github_github__list_pull_requests` を使用:
+
+```
+owner: OWNER
+repo: REPO
+head: "OWNER:<current-branch>"
+state: "open"
+```
+
+結果が空なら新規作成、PRが見つかれば更新。
+
+### 8. PRテンプレートの検出
 
 ```bash
-if [[ "$TEMPLATE_COUNT" -eq 1 ]]; then
-  TEMPLATE_BODY=$(echo "$TEMPLATES_JSON" | jq -r '.[0].body')
-elif [[ "$TEMPLATE_COUNT" -gt 1 ]]; then
-  echo "複数のPRテンプレートが見つかりました："
-  echo "$TEMPLATES_JSON" | jq -r 'to_entries[] | "\(.key + 1). \(.value.filename)"'
-  # ユーザーに選択を促す（AskUserQuestionツールで実装）
-fi
+gh repo view --json pullRequestTemplates -q '.pullRequestTemplates'
 ```
 
-**テンプレートがない場合：**
-- テンプレートなしで従来通り作成
+- 1つ → その内容を BODY に使用
+- 複数 → AskUserQuestion でユーザーに選択を促す
+- なし → デフォルト構造を生成
 
-### 6. PRの作成または更新
+### 9. PR作成または更新
 
-1. **既存PRの確認**
-   ```bash
-   gh pr view --json number 2>/dev/null
-   ```
+#### 新規作成
 
-2. **PRが存在しない場合: 新規作成**
-   - コミットメッセージをタイトルに使用
-   - テンプレートが見つかった場合：
-     ```bash
-     TITLE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-commit-title)
-     BODY=$(echo "$TEMPLATES_JSON" | jq -r '.[0].body')
-     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml create-pr BASE="$BASE" TITLE="$TITLE" BODY="$BODY"
-     ```
-   - テンプレートが見つからない場合（デフォルト構造を使用）：
-     1. まず差分を確認: `git diff origin/$BASE..HEAD`
-     2. 差分の内容を読み取り、変更の要約（Summary）を生成
-     3. 以下の構造でPR bodyを作成：
-     ```bash
-     TITLE=$(task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml get-commit-title)
-     CHANGED_FILES=$(git diff --name-only origin/$BASE..HEAD | sed 's/^/- /')
+`mcp__plugin_github_github__create_pull_request` を使用:
 
-     # デフォルトのPR body構造
-     BODY="## Summary
-<差分から読み取った変更内容の要約を記載>
+```
+owner: OWNER
+repo: REPO
+title: コミットメッセージの1行目
+head: <current-branch>
+base: $PR_BASE
+draft: true
+body: テンプレート or デフォルト構造
+```
+
+**デフォルト body 構造**（テンプレートなしの場合）:
+
+```markdown
+## Summary
+<差分から読み取った変更内容の要約>
 
 ## Changes
-${CHANGED_FILES}"
+- file1.ts
+- file2.ts
+```
 
-     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml create-pr BASE="$BASE" TITLE="$TITLE" BODY="$BODY"
-     ```
-     ※ 非対話モードでは `--title` と `--body` の両方が必須
-     ※ Summaryはコミットメッセージの本文があればそれを使用、なければ差分を読んで生成
+#### 既存PRの更新
 
-3. **PRが存在する場合: 更新**
-   - タスクを使用してタイトルと内容を更新:
-     ```bash
-     task -t ~/.claude/skills/usadamasa-draft-pr/Taskfile.yml update-pr TITLE="$TITLE" BODY="$BODY"
-     ```
-   - force pushは既に完了しているのでコミットは反映済み
+`mcp__plugin_github_github__update_pull_request` を使用:
 
-## 考慮事項
+```
+owner: OWNER
+repo: REPO
+pullNumber: 既存PRの番号
+title: コミットメッセージの1行目
+body: 更新した内容
+```
 
-- **分岐元自動検出**: `gh repo view` でリポジトリのデフォルトブランチを取得
-- **リモート追跡ブランチの同期**: `git fetch origin $BASE` によりリモート追跡ブランチ `origin/$BASE` を更新（worktree環境でも動作）
-- **非対話的rebase**: Taskfile の `rebase-fixup` タスクを使用し、`GIT_SEQUENCE_EDITOR` で対話的なエディタを回避して自動的にfixupを実行
-- **--force-with-lease**: 他のユーザーの変更を検出する安全な force push
-- **PRのベースブランチ**: 検出した分岐元を `--base` オプションで指定
-- **既存PR対応**: PRが存在すれば`gh pr edit`でタイトル/内容を更新
-- **差分コミットなしのケース**: 新規ブランチで作業開始直後など、まだコミットがない状態でもPRを作成可能
-- **未コミット変更の扱い**:
-  - 差分コミットがある場合: 先にWIPコミットしてからrebaseでfixup
-  - 差分コミットがない場合: 変更をそのまま新規コミットとして作成
-- **コミットメッセージの自動生成**: rebase後に差分を分析し、Conventional Commits形式でメッセージを生成
-  - 適切なプレフィックス: feat:, fix:, refactor:, docs:, chore:, test: など
-  - 変更内容を簡潔に表現した1行目
-  - 必要に応じて本文で詳細を記載
-- **変更なしエラー**: 差分コミットも未コミット変更もない場合はPR作成の意味がないためエラーとする
-- **rebase失敗時**: コンフリクトが発生した場合は `git rebase --abort` で中止し、ユーザーに手動解決を促す
-- **デフォルトブランチでの実行**: HEADがデフォルトブランチの場合は、ユーザーに新しいブランチ名を確認して作成してから作業を継続
-- **PRテンプレートの扱い**: `--template`オプションは対話モードになるため使用せず、テンプレート内容を読み込んで`--body`で指定
-- **複数テンプレート対応**: 複数テンプレートがある場合はユーザーに選択を促す
-- **テンプレートがない場合**: テンプレートが存在しないリポジトリでは従来通りの動作を維持（後方互換性）
-- **gh pr create の非対話モード**: 非対話モードでは `--title` と `--body` の両方が必須
-- **デフォルトPR body構造**: テンプレートがない場合でも「Summary」と「Changes」セクションを含む最低限の構造を自動生成
-- **Summary生成**: コミットメッセージに本文があればそれを使用。なければ差分（`git diff`）を読み取って変更内容の要約を生成
-- **Worktree対応**: git worktree 環境でも正常に動作。Taskfile の各タスクは `USER_WORKING_DIR`（コマンド実行元ディレクトリ）で実行されるため、worktree 内でも正しいリポジトリコンテキストで動作する
-- **Taskfile経由のBODY制限**: Taskfile の `create-pr` / `update-pr` タスク経由で BODY を渡す場合、以下の制限がある:
-  - バッククォート（`` ` ``）はシェルのコマンド置換として解釈されるため、`\`` でエスケープが必要
-  - `{{...}}` は go-task のテンプレート変数として展開される
-  - これらの問題を回避するには、`gh pr create` / `gh pr edit` を直接使用する
+force push 済みなのでコミットは反映済み。
+
+## 注意事項
+
+- `--force-with-lease` で安全な force push
+- rebase コンフリクト時は `git rebase --abort` してユーザーに通知
+- MCP ツールの owner/repo は `git remote get-url origin` から必ず取得
+- PR body にバッククォートや特殊文字を含めても MCP は構造化パラメータなので問題なし
+- 親ブランチ検出は3段階フォールバック: tracking config → merge-base距離比較 → デフォルトブランチ
+- `$SQUASH_BASE`（コミット集約基準、merge-base ハッシュ）と `$PR_BASE`（PR先ブランチ名）は異なる場合がある
+- 親ブランチがリモートに未pushの場合、PR base はデフォルトブランチにフォールバックする（ユーザーに通知）
