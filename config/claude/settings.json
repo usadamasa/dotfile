@@ -61,6 +61,7 @@
       "mcp__orm-discovery-mcp-go__*",
       "mcp__plugin_atlassian_atlassian__*",
       "mcp__plugin_context7_context7__*",
+      "Read(~/.claude/**)",
       "Read(.claude/skills/**)",
       "Read(.env.sample)",
       "Read(classes/**)",
@@ -72,6 +73,7 @@
       "WebFetch(domain:camel.apache.org)",
       "WebFetch(domain:cli.github.com)",
       "WebFetch(domain:cloud.google.com)",
+      "Fetch(domain:code.claude.com)",
       "WebFetch(domain:code.claude.com)",
       "WebFetch(domain:developer.hashicorp.com)",
       "WebFetch(domain:developer.mozilla.org)",
@@ -97,6 +99,8 @@
       "WebFetch(domain:www.envoyproxy.io)",
       "WebFetch(domain:www.npmjs.com)",
       "WebSearch",
+      "Write(~/.claude/**)",
+      "Edit(~/.claude/**)",
       "Write(.claude/skills/**)",
       "Write(.env.sample)",
       "Write(.tmp/**)",
@@ -112,12 +116,18 @@
       "Bash(sudo:*)",
       "Bash(wget:*)",
       "Bash(gh auth:*)",
-      "Read(.aws/**)",
+      "Read(~/.aws/**)",
       "Read(.env.development)",
       "Read(.env.local)",
       "Read(.env.production)",
       "Read(.env)",
-      "Read(.ssh/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.kube/**)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.zsh_history)",
+      "Read(~/.bash_history)",
+      "Read(~/.netrc)",
       "Read(id_ed25519)",
       "Read(id_rsa)",
       "Write(.env.development)",
@@ -169,6 +179,19 @@
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/guard-home-dir.sh"
+          }
+        ]
+      }
+    ]
+  },
   "sandbox": {
     "enabled": false,
     "autoAllowBashIfSandboxed": true,
