@@ -63,6 +63,37 @@ go run ./cmd/analyze-webfetch --days 30
 - ワイルドカード(`*.example.com`)は必要な場合のみ使用すること
 - permissionsとsandboxは独立した防御層: permissionsはClaude Codeのツール実行権限、sandboxはOSレベルのネットワーク分離
 
+## パーミッション評価順序と ask 配列の注意点
+
+Claude Codeのパーミッション評価は **deny → ask → allow** の順序で行われる｡`ask`は`allow`より優先されるため、`ask`配列の設定によってはドメイン別の`allow`が無効化される｡
+
+### ベア(修飾子なし)エントリの禁止
+
+`ask`配列にベアの`WebFetch`(ドメイン修飾子なし)を入れてはいけない｡
+
+**誤った設定:**
+```json
+"ask": ["WebFetch"],
+"allow": ["WebFetch(domain:github.com)", "WebFetch(domain:docs.anthropic.com)"]
+```
+
+この場合、ベアの`WebFetch`がすべてのWebFetch呼び出しにマッチし、`allow`のドメイン別許可が全て無視される｡結果、毎回確認ダイアログが表示される｡
+
+**正しい設定:**
+```json
+"allow": ["WebFetch(domain:github.com)", "WebFetch(domain:docs.anthropic.com)"]
+```
+
+`ask`からベアの`WebFetch`を削除すれば、`allow`に登録されたドメインは確認なしで許可され、未登録ドメインはデフォルト動作(確認を求める)となる｡
+
+### このスキル実行時の検証
+
+ドメイン管理の更新時に、以下を必ず検証すること:
+
+1. `ask`配列にベアの`WebFetch`または`Fetch`が含まれていないか確認する
+2. 含まれている場合はユーザーに警告し、削除を提案する
+3. `ask`にドメイン指定の`WebFetch(domain:...)`がある場合は意図的な設定なので問題ない
+
 ## 安全性カテゴリ
 
 | カテゴリ | 説明 | 例 |
