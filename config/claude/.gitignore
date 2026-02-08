@@ -12,6 +12,9 @@
 /todos
 stats-cache.json
 /paste-cache
+/teams
+/session-env
+/scripts
 
 # skills内のusadamasa-プレフィックスがないフォルダを無視
 /skills/*/

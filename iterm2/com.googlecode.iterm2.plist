@@ -1345,6 +1345,8 @@
 	<false/>
 	<key>SeparateStatusBarsPerPane</key>
 	<true/>
+	<key>ShowSecureKeyboardEntryIndicator</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>StatusBarPosition</key>

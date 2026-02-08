@@ -1,8 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Fetch(domain:*.databricks.com)",
-      "WebFetch(domain:*.databricks.com)",
       "Bash(./gradlew:*)",
       "Bash(aqua install:*)",
       "Bash(buf generate:*)",
@@ -58,21 +56,53 @@
       "Bash(task check:*)",
       "Bash(task install:*)",
       "Bash(task lint:*)",
+      "Fetch(domain:*.databricks.com)",
+      "mcp__obsidian__*",
+      "mcp__orm-discovery-mcp-go__*",
+      "mcp__plugin_atlassian_atlassian__*",
+      "mcp__plugin_context7_context7__*",
       "Read(.claude/skills/**)",
       "Read(.env.sample)",
-      "Read(CLAUDE.md)",
       "Read(classes/**)",
+      "Read(CLAUDE.md)",
       "Skill(commit-commands:commit-push-pr)",
+      "WebFetch(domain:*.databricks.com)",
+      "WebFetch(domain:*.readthedocs.io)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:camel.apache.org)",
+      "WebFetch(domain:cli.github.com)",
+      "WebFetch(domain:cloud.google.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:developer.hashicorp.com)",
+      "WebFetch(domain:developer.mozilla.org)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.cloud.google.com)",
+      "WebFetch(domain:docs.github.com)",
+      "WebFetch(domain:docs.gradle.org)",
+      "WebFetch(domain:docs.quarkiverse.io)",
+      "WebFetch(domain:docs.redhat.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:go.dev)",
+      "WebFetch(domain:learn.microsoft.com)",
+      "WebFetch(domain:modelcontextprotocol.io)",
+      "WebFetch(domain:npmjs.com)",
+      "WebFetch(domain:pkg.go.dev)",
+      "WebFetch(domain:platform.claude.com)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:quarkus.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:registry.terraform.io)",
+      "WebFetch(domain:spec.modelcontextprotocol.io)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:www.envoyproxy.io)",
+      "WebFetch(domain:www.npmjs.com)",
       "WebSearch",
       "Write(.claude/skills/**)",
       "Write(.env.sample)",
       "Write(.tmp/**)",
       "Write(CLAUDE.md)",
       "Write(docs/**)",
-      "Write(src/**)",
-      "mcp__orm-discovery-mcp-go__*",
-      "mcp__plugin_atlassian_atlassian__*",
-      "mcp__plugin_context7_context7__*"
+      "Write(src/**)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -82,17 +112,17 @@
       "Bash(sudo:*)",
       "Bash(wget:*)",
       "Read(.aws/**)",
-      "Read(.env)",
       "Read(.env.development)",
       "Read(.env.local)",
       "Read(.env.production)",
+      "Read(.env)",
       "Read(.ssh/**)",
       "Read(id_ed25519)",
       "Read(id_rsa)",
-      "Write(.env)",
       "Write(.env.development)",
       "Write(.env.local)",
-      "Write(.env.production)"
+      "Write(.env.production)",
+      "Write(.env)"
     ],
     "ask": [
       "Bash(git commit:*)",
@@ -100,9 +130,15 @@
       "Bash(git rebase:*)",
       "Bash(git reset:*)",
       "Bash(rm -rf:*)",
-      "WebFetch",
-      "mcp__plugin_atlassian_atlassian__createConfluencePage"
+      "mcp__plugin_atlassian_atlassian__createConfluencePage",
+      "WebFetch"
     ]
+  },
+  "mcpServers": {
+    "obsidian": {
+      "type": "sse",
+      "url": "http://localhost:3001/mcp"
+    }
   },
   "model": "claude-opus-4-6",
   "enabledPlugins": {
@@ -123,7 +159,18 @@
     "terraform-code-generation@hashicorp": true,
     "terraform-module-generation@hashicorp": true,
     "terraform-provider-development@hashicorp": true,
-    "codeguard-security@project-codeguard": true
+    "codeguard-security@project-codeguard": true,
+    "frontend-design@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "agent-sdk-dev@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true
