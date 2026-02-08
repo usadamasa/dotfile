@@ -111,6 +111,7 @@
       "Bash(ssh:*)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
+      "Bash(gh auth:*)",
       "Read(.aws/**)",
       "Read(.env.development)",
       "Read(.env.local)",
@@ -169,10 +170,15 @@
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
   "alwaysThinkingEnabled": true,
   "sandbox": {
-    "enabled": true,
+    "enabled": false,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
-    "excludedCommands": ["docker", "gh", "git", "terraform"],
+    "excludedCommands": [
+      "docker",
+      "gh",
+      "git",
+      "terraform"
+    ],
     "network": {
       "allowedDomains": [
         "*.github.com",
