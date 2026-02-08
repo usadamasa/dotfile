@@ -885,6 +885,8 @@
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
 			<true/>
+			<key>Draw Powerline Glyphs</key>
+			<false/>
 			<key>Faint Text Alpha (Dark)</key>
 			<real>0.5</real>
 			<key>Faint Text Alpha (Light)</key>
