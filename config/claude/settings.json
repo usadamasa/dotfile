@@ -134,12 +134,6 @@
       "WebFetch"
     ]
   },
-  "mcpServers": {
-    "obsidian": {
-      "type": "sse",
-      "url": "http://localhost:3001/mcp"
-    }
-  },
   "model": "claude-opus-4-6",
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
