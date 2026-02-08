@@ -146,3 +146,102 @@ func TestLoadAllowlist(t *testing.T) {
 		}
 	})
 }
+
+func TestLoadSandboxDomains(t *testing.T) {
+	t.Run("loads sandbox domains from settings", func(t *testing.T) {
+		settingsJSON := `{
+  "sandbox": {
+    "network": {
+      "allowedDomains": ["*.github.com", "go.dev", "registry.terraform.io"]
+    }
+  }
+}`
+		path := writeTestFile(t, t.TempDir(), "settings.json", settingsJSON)
+
+		domains, err := LoadSandboxDomains(path)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(domains) != 3 {
+			t.Fatalf("expected 3 domains, got %d", len(domains))
+		}
+		if domains[0] != "*.github.com" {
+			t.Errorf("expected first domain *.github.com, got %s", domains[0])
+		}
+		if domains[1] != "go.dev" {
+			t.Errorf("expected second domain go.dev, got %s", domains[1])
+		}
+		if domains[2] != "registry.terraform.io" {
+			t.Errorf("expected third domain registry.terraform.io, got %s", domains[2])
+		}
+	})
+
+	t.Run("handles missing sandbox key gracefully", func(t *testing.T) {
+		settingsJSON := `{
+  "permissions": {
+    "allow": ["WebFetch(domain:github.com)"]
+  }
+}`
+		path := writeTestFile(t, t.TempDir(), "settings.json", settingsJSON)
+
+		domains, err := LoadSandboxDomains(path)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(domains) != 0 {
+			t.Fatalf("expected 0 domains, got %d", len(domains))
+		}
+	})
+
+	t.Run("handles empty allowedDomains array", func(t *testing.T) {
+		settingsJSON := `{
+  "sandbox": {
+    "network": {
+      "allowedDomains": []
+    }
+  }
+}`
+		path := writeTestFile(t, t.TempDir(), "settings.json", settingsJSON)
+
+		domains, err := LoadSandboxDomains(path)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(domains) != 0 {
+			t.Fatalf("expected 0 domains, got %d", len(domains))
+		}
+	})
+
+	t.Run("loads both permissions and sandbox domains", func(t *testing.T) {
+		settingsJSON := `{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(git status)"
+    ]
+  },
+  "sandbox": {
+    "network": {
+      "allowedDomains": ["*.github.com", "go.dev"]
+    }
+  }
+}`
+		path := writeTestFile(t, t.TempDir(), "settings.json", settingsJSON)
+
+		allowlist, err := LoadAllowlist(path)
+		if err != nil {
+			t.Fatalf("unexpected error loading allowlist: %v", err)
+		}
+		if len(allowlist) != 1 {
+			t.Errorf("expected 1 allowlist entry, got %d", len(allowlist))
+		}
+
+		domains, err := LoadSandboxDomains(path)
+		if err != nil {
+			t.Fatalf("unexpected error loading sandbox: %v", err)
+		}
+		if len(domains) != 2 {
+			t.Errorf("expected 2 sandbox domains, got %d", len(domains))
+		}
+	})
+}

@@ -167,5 +167,33 @@
     "learning-output-style@claude-plugins-official": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": ["docker"],
+    "network": {
+      "allowedDomains": [
+        "*.github.com",
+        "*.githubusercontent.com",
+        "*.golang.org",
+        "*.google.com",
+        "*.googleapis.com",
+        "*.npmjs.com",
+        "*.npmjs.org",
+        "files.pythonhosted.org",
+        "go.dev",
+        "pkg.go.dev",
+        "proxy.golang.org",
+        "pypi.org",
+        "registry.npmjs.org",
+        "registry.terraform.io",
+        "registry.yarnpkg.com",
+        "releases.hashicorp.com",
+        "sum.golang.org"
+      ],
+      "allowLocalBinding": true
+    }
+  }
 }

@@ -12,10 +12,11 @@ import (
 
 // Report is the top-level output structure.
 type Report struct {
-	Metadata        ReportMetadata   `json:"metadata"`
+	Metadata         ReportMetadata  `json:"metadata"`
 	CurrentAllowlist []string        `json:"current_allowlist"`
-	Recommendations Recommendations  `json:"recommendations"`
-	AllDomains      []DomainSummary  `json:"all_domains"`
+	CurrentSandbox   []string        `json:"current_sandbox,omitempty"`
+	Recommendations  Recommendations `json:"recommendations"`
+	AllDomains       []DomainSummary `json:"all_domains"`
 }
 
 // ReportMetadata holds summary statistics about the analysis.
@@ -24,13 +25,15 @@ type ReportMetadata struct {
 	DaysAnalyzed  int    `json:"days_analyzed"`
 	FilesScanned  int    `json:"files_scanned"`
 	WebFetchCalls int    `json:"webfetch_calls"`
+	FetchCalls    int    `json:"fetch_calls"`
 }
 
 // Recommendations contains categorized domain suggestions.
 type Recommendations struct {
-	Add    []DomainRecommendation `json:"add"`
-	Review []DomainRecommendation `json:"review"`
-	Unused []UnusedDomain         `json:"unused"`
+	Add          []DomainRecommendation `json:"add"`
+	Review       []DomainRecommendation `json:"review"`
+	Unused       []UnusedDomain         `json:"unused"`
+	AddToSandbox []DomainRecommendation `json:"add_to_sandbox,omitempty"`
 }
 
 // DomainRecommendation represents a domain suggested for addition or review.
@@ -58,11 +61,19 @@ type DomainSummary struct {
 }
 
 // GenerateReport creates a Report from scan results and the current allowlist.
-func GenerateReport(scanResults []ScanResult, allowlist []AllowlistEntry, days int, filesScanned int) Report {
-	// Count domains.
+func GenerateReport(scanResults []ScanResult, allowlist []AllowlistEntry, sandboxDomains []string, days int, filesScanned int) Report {
+	// Count domains and tool calls.
 	domainCounts := make(map[string]int)
+	webFetchCount := 0
+	fetchCount := 0
 	for _, r := range scanResults {
 		domainCounts[r.Domain]++
+		switch r.Tool {
+		case "Fetch":
+			fetchCount++
+		default:
+			webFetchCount++
+		}
 	}
 
 	// Build allowlist lookup.
@@ -73,6 +84,12 @@ func GenerateReport(scanResults []ScanResult, allowlist []AllowlistEntry, days i
 		allowlistDomains = append(allowlistDomains, e.Domain)
 	}
 	sort.Strings(allowlistDomains)
+
+	// Build sandbox lookup.
+	sandboxSet := make(map[string]bool)
+	for _, d := range sandboxDomains {
+		sandboxSet[d] = true
+	}
 
 	// Classify all domains.
 	var allDomains []DomainSummary
@@ -119,17 +136,33 @@ func GenerateReport(scanResults []ScanResult, allowlist []AllowlistEntry, days i
 		}
 	}
 
+	// Find permissions domains not in sandbox.
+	var addToSandbox []DomainRecommendation
+	if sandboxDomains != nil {
+		for _, domain := range allowlistDomains {
+			if !domainMatchesAllowlist(domain, sandboxSet) {
+				cat := CategorizeDomain(domain)
+				addToSandbox = append(addToSandbox, DomainRecommendation{
+					Domain:   domain,
+					Category: cat.Category,
+					Reason:   "permissions にあるが sandbox に未登録",
+				})
+			}
+		}
+	}
+
 	// Sort outputs for deterministic results.
 	sort.Slice(allDomains, func(i, j int) bool { return allDomains[i].Count > allDomains[j].Count })
 	sort.Slice(addRecs, func(i, j int) bool { return addRecs[i].Count > addRecs[j].Count })
 	sort.Slice(reviewRecs, func(i, j int) bool { return reviewRecs[i].Count > reviewRecs[j].Count })
 
-	return Report{
+	report := Report{
 		Metadata: ReportMetadata{
 			AnalysisDate:  time.Now().Format("2006-01-02"),
 			DaysAnalyzed:  days,
 			FilesScanned:  filesScanned,
-			WebFetchCalls: len(scanResults),
+			WebFetchCalls: webFetchCount,
+			FetchCalls:    fetchCount,
 		},
 		CurrentAllowlist: allowlistDomains,
 		Recommendations: Recommendations{
@@ -139,6 +172,13 @@ func GenerateReport(scanResults []ScanResult, allowlist []AllowlistEntry, days i
 		},
 		AllDomains: allDomains,
 	}
+
+	if sandboxDomains != nil {
+		report.CurrentSandbox = sandboxDomains
+		report.Recommendations.AddToSandbox = addToSandbox
+	}
+
+	return report
 }
 
 // domainMatchesAllowlist checks if a domain is covered by any entry in the allowlist,
@@ -224,6 +264,13 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Load sandbox domains.
+	sandboxDomains, err := LoadSandboxDomains(*settingsPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "sandbox ドメインの読み込みに失敗: %v\n", err)
+		os.Exit(1)
+	}
+
 	// Scan JSONL files.
 	scanResults, err := ScanJSONLFiles(projectsDir, *days)
 	if err != nil {
@@ -234,7 +281,7 @@ func main() {
 	filesScanned := countUniqueFiles(scanResults)
 
 	// Generate and output report.
-	report := GenerateReport(scanResults, allowlist, *days, filesScanned)
+	report := GenerateReport(scanResults, allowlist, sandboxDomains, *days, filesScanned)
 
 	encoder := json.NewEncoder(os.Stdout)
 	encoder.SetIndent("", "  ")
