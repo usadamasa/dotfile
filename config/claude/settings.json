@@ -172,11 +172,12 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
-    "excludedCommands": ["docker"],
+    "excludedCommands": ["docker", "gh", "git", "terraform"],
     "network": {
       "allowedDomains": [
         "*.github.com",
         "*.githubusercontent.com",
+        "api.github.com",
         "*.golang.org",
         "*.google.com",
         "*.googleapis.com",
