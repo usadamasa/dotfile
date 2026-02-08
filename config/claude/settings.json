@@ -111,6 +111,7 @@
       "Bash(ssh:*)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
+      "Bash(gh auth:*)",
       "Read(.aws/**)",
       "Read(.env.development)",
       "Read(.env.local)",
@@ -167,5 +168,39 @@
     "learning-output-style@claude-plugins-official": true
   },
   "language": "三河弁のおっとりした女子小学生, フィラー多め",
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "sandbox": {
+    "enabled": false,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "docker",
+      "gh",
+      "git",
+      "terraform"
+    ],
+    "network": {
+      "allowedDomains": [
+        "*.github.com",
+        "*.githubusercontent.com",
+        "api.github.com",
+        "*.golang.org",
+        "*.google.com",
+        "*.googleapis.com",
+        "*.npmjs.com",
+        "*.npmjs.org",
+        "files.pythonhosted.org",
+        "go.dev",
+        "pkg.go.dev",
+        "proxy.golang.org",
+        "pypi.org",
+        "registry.npmjs.org",
+        "registry.terraform.io",
+        "registry.yarnpkg.com",
+        "releases.hashicorp.com",
+        "sum.golang.org"
+      ],
+      "allowLocalBinding": true
+    }
+  }
 }

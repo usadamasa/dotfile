@@ -13,6 +13,10 @@ func makeWebFetchLine(url string) string {
 	return `{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"WebFetch","input":{"url":"` + url + `","prompt":"test"}}]}}`
 }
 
+func makeFetchLine(url string) string {
+	return `{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Fetch","input":{"url":"` + url + `","prompt":"test"}}]}}`
+}
+
 func makeOtherToolLine(name string) string {
 	return `{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"` + name + `","input":{"file_path":"/tmp/test"}}]}}`
 }
@@ -156,6 +160,67 @@ func TestScanJSONLFiles(t *testing.T) {
 		}
 		if len(results) != 0 {
 			t.Fatalf("expected 0 results, got %d", len(results))
+		}
+	})
+
+	t.Run("extracts URL from Fetch tool_use", func(t *testing.T) {
+		dir := t.TempDir()
+		jsonlContent := makeFetchLine("https://api.example.com/v1") + "\n"
+		writeTestFile(t, dir, "session.jsonl", jsonlContent)
+
+		results, err := ScanJSONLFiles(dir, 30)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(results) != 1 {
+			t.Fatalf("expected 1 result, got %d", len(results))
+		}
+		if results[0].URL != "https://api.example.com/v1" {
+			t.Errorf("expected URL https://api.example.com/v1, got %s", results[0].URL)
+		}
+		if results[0].Domain != "api.example.com" {
+			t.Errorf("expected domain api.example.com, got %s", results[0].Domain)
+		}
+		if results[0].Tool != "Fetch" {
+			t.Errorf("expected tool Fetch, got %s", results[0].Tool)
+		}
+	})
+
+	t.Run("extracts both WebFetch and Fetch from mixed content", func(t *testing.T) {
+		dir := t.TempDir()
+		jsonlContent := makeWebFetchLine("https://docs.example.com/api") + "\n" +
+			makeFetchLine("https://api.example.com/v1") + "\n"
+		writeTestFile(t, dir, "session.jsonl", jsonlContent)
+
+		results, err := ScanJSONLFiles(dir, 30)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(results) != 2 {
+			t.Fatalf("expected 2 results, got %d", len(results))
+		}
+		if results[0].Tool != "WebFetch" {
+			t.Errorf("expected first tool WebFetch, got %s", results[0].Tool)
+		}
+		if results[1].Tool != "Fetch" {
+			t.Errorf("expected second tool Fetch, got %s", results[1].Tool)
+		}
+	})
+
+	t.Run("records tool name in ScanResult", func(t *testing.T) {
+		dir := t.TempDir()
+		jsonlContent := makeWebFetchLine("https://github.com/foo") + "\n"
+		writeTestFile(t, dir, "session.jsonl", jsonlContent)
+
+		results, err := ScanJSONLFiles(dir, 30)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(results) != 1 {
+			t.Fatalf("expected 1 result, got %d", len(results))
+		}
+		if results[0].Tool != "WebFetch" {
+			t.Errorf("expected tool WebFetch, got %s", results[0].Tool)
 		}
 	})
 }

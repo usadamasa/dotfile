@@ -9,10 +9,11 @@ import (
 	"time"
 )
 
-// ScanResult represents a single WebFetch invocation found in a JSONL file.
+// ScanResult represents a single WebFetch/Fetch invocation found in a JSONL file.
 type ScanResult struct {
 	URL       string
 	Domain    string
+	Tool      string // "WebFetch" or "Fetch"
 	Timestamp time.Time
 	FilePath  string
 }
@@ -108,7 +109,10 @@ func scanSingleFile(path string) ([]ScanResult, error) {
 		}
 
 		for _, block := range entry.Message.Content {
-			if block.Type != "tool_use" || block.Name != "WebFetch" {
+			if block.Type != "tool_use" {
+				continue
+			}
+			if block.Name != "WebFetch" && block.Name != "Fetch" {
 				continue
 			}
 
@@ -128,6 +132,7 @@ func scanSingleFile(path string) ([]ScanResult, error) {
 			results = append(results, ScanResult{
 				URL:      input.URL,
 				Domain:   domain,
+				Tool:     block.Name,
 				FilePath: path,
 			})
 		}

@@ -18,6 +18,11 @@ type settingsJSON struct {
 	Permissions struct {
 		Allow []string `json:"allow"`
 	} `json:"permissions"`
+	Sandbox struct {
+		Network struct {
+			AllowedDomains []string `json:"allowedDomains"`
+		} `json:"network"`
+	} `json:"sandbox"`
 }
 
 // LoadAllowlist reads settings.json and extracts WebFetch/Fetch domain permissions.
@@ -40,6 +45,22 @@ func LoadAllowlist(settingsPath string) ([]AllowlistEntry, error) {
 		}
 	}
 	return entries, nil
+}
+
+// LoadSandboxDomains reads settings.json and extracts sandbox.network.allowedDomains.
+// キーが存在しない場合は空スライスを返す(エラーにしない)。
+func LoadSandboxDomains(settingsPath string) ([]string, error) {
+	data, err := os.ReadFile(settingsPath)
+	if err != nil {
+		return nil, fmt.Errorf("reading settings file: %w", err)
+	}
+
+	var settings settingsJSON
+	if err := json.Unmarshal(data, &settings); err != nil {
+		return nil, fmt.Errorf("parsing settings JSON: %w", err)
+	}
+
+	return settings.Sandbox.Network.AllowedDomains, nil
 }
 
 // parseDomainPermission parses a permission string like "WebFetch(domain:example.com)"

@@ -1,22 +1,22 @@
 ---
 name: webfetch-domain-manager
 description: >-
-  settings.jsonのWebFetchドメイン許可リストを管理するスキル。
-  セッションJSONLから過去30日間のWebFetch使用状況を集計し、
+  settings.jsonのWebFetch/Fetchドメイン許可リストとsandboxネットワーク設定を管理するスキル。
+  セッションJSONLから過去30日間のWebFetch/Fetch使用状況を集計し、
   安全性評価に基づいてドメインの追加/削除を提案する。
   (1) 許可ドメインの棚卸し (2) 新規ドメインの追加提案
-  (3) 未使用ドメインの削除提案 に使用する。
+  (3) 未使用ドメインの削除提案 (4) sandboxドメインの同期管理 に使用する。
 ---
 
 # WebFetch Domain Manager
 
-settings.jsonの`permissions.allow`に登録されているWebFetchドメインの許可リストを管理するワークフロー。
+settings.jsonの`permissions.allow`に登録されているWebFetch/Fetchドメインの許可リストと、`sandbox.network.allowedDomains`のネットワーク制限を管理するワークフロー。
 
 ## ワークフロー
 
 ### 1. 分析の実行
 
-以下のコマンドを実行してWebFetch使用状況を集計する:
+以下のコマンドを実行してWebFetch/Fetch使用状況を集計する:
 
 ```bash
 go run ./cmd/analyze-webfetch --days 30
@@ -30,26 +30,38 @@ go run ./cmd/analyze-webfetch --days 30
 
 出力はJSON形式で以下のセクションを含む:
 
-- **metadata**: 分析の概要(期間、ファイル数、呼び出し回数)
+- **metadata**: 分析の概要(期間、ファイル数、WebFetch/Fetch呼び出し回数)
+- **current_allowlist**: 現在のpermissions許可ドメイン一覧
+- **current_sandbox**: 現在のsandbox.network.allowedDomains一覧
 - **recommendations.add**: 追加推奨ドメイン(safeカテゴリで未登録のもの)
 - **recommendations.review**: 要確認ドメイン(medium/reviewカテゴリ)
 - **recommendations.unused**: 未使用ドメイン(許可リストにあるが使用されていない)
+- **recommendations.add_to_sandbox**: sandbox追加推奨(permissionsにあるがsandboxに未登録)
 - **all_domains**: 全ドメインの使用統計
 
 ### 3. settings.jsonの更新
 
 ユーザーの承認を得た上で、以下の手順でsettings.jsonを更新する:
 
+#### permissions.allowの更新
+
 1. 承認されたドメインのみ`permissions.allow`に追加
-2. `WebFetch(domain:ドメイン名)` 形式で記述
+2. `WebFetch(domain:ドメイン名)` または `Fetch(domain:ドメイン名)` 形式で記述
 3. 許可エントリはアルファベット順にソート
 4. 不要と判断されたドメインは削除
+
+#### sandbox.network.allowedDomainsの更新
+
+1. `add_to_sandbox`の推奨に基づき`sandbox.network.allowedDomains`に追加
+2. ドメインはアルファベット順にソート
+3. ワイルドカード(`*.example.com`)でサブドメインをまとめて許可可能
 
 ### 注意事項
 
 - 必ずユーザーの承認を得てから変更を適用すること
 - reviewカテゴリのドメインは特に慎重に確認すること
 - ワイルドカード(`*.example.com`)は必要な場合のみ使用すること
+- permissionsとsandboxは独立した防御層: permissionsはClaude Codeのツール実行権限、sandboxはOSレベルのネットワーク分離
 
 ## 安全性カテゴリ
 
