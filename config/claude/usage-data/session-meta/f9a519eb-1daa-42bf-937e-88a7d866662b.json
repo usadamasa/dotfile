@@ -1,0 +1,48 @@
+{
+  "session_id": "f9a519eb-1daa-42bf-937e-88a7d866662b",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-10T02:53:36.842Z",
+  "duration_minutes": 73,
+  "user_message_count": 4,
+  "assistant_message_count": 26,
+  "tool_counts": {
+    "Read": 3,
+    "Task": 1,
+    "Edit": 1
+  },
+  "languages": {
+    "Markdown": 3,
+    "Python": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1540202,
+  "output_tokens": 16768,
+  "first_prompt": "Cloud RunにデプロイしたsdlがCloud SQLへの接続エラーになっている｡ エラーログ https://console.cloud.google.com/logs/query;cursorTimestamp=2026-02-10T02:52:20.396938Z;duration=PT15M;query=resource.type%3D%22cloud_run_revision%22%…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    231.498,
+    3496.412
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 27,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    11,
+    12,
+    12,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-10T02:55:11.116Z",
+    "2026-02-10T03:02:34.342Z",
+    "2026-02-10T03:06:39.604Z",
+    "2026-02-10T04:06:15.707Z"
+  ]
+}

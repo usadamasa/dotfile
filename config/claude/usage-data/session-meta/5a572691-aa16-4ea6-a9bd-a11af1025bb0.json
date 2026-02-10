@@ -1,0 +1,49 @@
+{
+  "session_id": "5a572691-aa16-4ea6-a9bd-a11af1025bb0",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T05:30:00.732Z",
+  "duration_minutes": 7,
+  "user_message_count": 3,
+  "assistant_message_count": 24,
+  "tool_counts": {
+    "Read": 5,
+    "Task": 2,
+    "WebFetch": 1,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Python": 2,
+    "JSON": 1,
+    "Markdown": 3
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1410398,
+  "output_tokens": 4041,
+  "first_prompt": "research/reverse_etl_architecture/a2_streaming_job.py の Delta Staging書き込みのステップで次のエラーがでました｡  UnsupportedOperationException: Public DBFS root is disabled. Access is denied on path: /tmp/checkpoints/reve…",
+  "user_interruptions": 1,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 99,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    14,
+    14,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T05:32:39.984Z",
+    "2026-02-09T05:32:41.845Z",
+    "2026-02-09T05:32:42.474Z"
+  ]
+}

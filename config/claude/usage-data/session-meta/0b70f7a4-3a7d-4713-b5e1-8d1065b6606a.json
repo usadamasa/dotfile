@@ -1,0 +1,42 @@
+{
+  "session_id": "0b70f7a4-3a7d-4713-b5e1-8d1065b6606a",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/drawer-nucleus-client",
+  "start_time": "2026-02-05T03:42:04.968Z",
+  "duration_minutes": 62,
+  "user_message_count": 3,
+  "assistant_message_count": 107,
+  "tool_counts": {
+    "Bash": 43,
+    "Read": 2
+  },
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 11025569,
+  "output_tokens": 188,
+  "first_prompt": "GCRにpushされた､ https://console.cloud.google.com/artifacts/docker/zoolake-dev/asia-northeast1/images/nucleus-client/sha256:a680fd9c2942a4a4b749b84fcbcbd3b3689c63aaabcaef2ee7ee775a6ef176c6 https://console…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    322.462,
+    1522.922
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    12,
+    13,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T03:42:04.968Z",
+    "2026-02-05T04:12:55.259Z",
+    "2026-02-05T04:41:28.953Z"
+  ]
+}

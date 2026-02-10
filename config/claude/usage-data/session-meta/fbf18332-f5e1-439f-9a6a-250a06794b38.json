@@ -1,0 +1,52 @@
+{
+  "session_id": "fbf18332-f5e1-439f-9a6a-250a06794b38",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/worktrees/caddi-monitoring/modify-claude-settings",
+  "start_time": "2026-02-02T00:58:22.396Z",
+  "duration_minutes": 8,
+  "user_message_count": 5,
+  "assistant_message_count": 26,
+  "tool_counts": {
+    "AskUserQuestion": 3,
+    "Task": 1,
+    "Write": 1,
+    "Glob": 2,
+    "Read": 5,
+    "Edit": 2,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 7,
+    "JSON": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1705017,
+  "output_tokens": 26,
+  "first_prompt": "[Request interrupted by user]",
+  "summary": "あー､えっとね｡Datadog Terraform スキル化計画ってことで､えーっと､まとめるとね｡\n\n**Datadog Terraform スキル化 - API KEY管理とpermission設定**",
+  "user_interruptions": 1,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 260,
+  "lines_removed": 54,
+  "files_modified": 1,
+  "message_hours": [
+    9,
+    9,
+    9,
+    9,
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-02-02T00:58:22.396Z",
+    "2026-02-02T00:58:22.396Z",
+    "2026-02-02T00:58:23.702Z",
+    "2026-02-02T00:59:15.636Z",
+    "2026-02-02T00:59:15.636Z"
+  ]
+}

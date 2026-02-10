@@ -1,0 +1,43 @@
+{
+  "session_id": "5d1028f3-69d8-4f12-8548-08a24e37b18e",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/worktrees/drawer-nucleus-client/add-localmesh",
+  "start_time": "2026-02-05T00:25:00.208Z",
+  "duration_minutes": 0,
+  "user_message_count": 3,
+  "assistant_message_count": 2,
+  "tool_counts": {
+    "Bash": 2
+  },
+  "languages": {},
+  "git_commits": 1,
+  "git_pushes": 0,
+  "input_tokens": 67576,
+  "output_tokens": 2,
+  "first_prompt": "<command-message>commit-commands:commit-push-pr</command-message> <command-name>/commit-commands:commit-push-pr</command-name> <command-args>ドラフトで</command-args>",
+  "summary": "ん、えーっと、ですね。\n\n「localmesh設定ファイル、まあ、作っちゃったんだけど」",
+  "user_interruptions": 1,
+  "user_response_times": [
+    3.286
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    9,
+    9,
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T00:25:00.208Z",
+    "2026-02-05T00:25:00.208Z",
+    "2026-02-05T00:25:12.464Z"
+  ]
+}

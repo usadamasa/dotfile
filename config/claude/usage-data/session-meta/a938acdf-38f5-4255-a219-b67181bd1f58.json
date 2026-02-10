@@ -1,0 +1,60 @@
+{
+  "session_id": "a938acdf-38f5-4255-a219-b67181bd1f58",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T07:39:47.251Z",
+  "duration_minutes": 6,
+  "user_message_count": 4,
+  "assistant_message_count": 56,
+  "tool_counts": {
+    "Read": 9,
+    "Edit": 2,
+    "Bash": 15,
+    "Glob": 1,
+    "EnterPlanMode": 1,
+    "Task": 1,
+    "AskUserQuestion": 1,
+    "Write": 2,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Python": 3,
+    "YAML": 7,
+    "Markdown": 3
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 3038271,
+  "output_tokens": 8796,
+  "first_prompt": "Implement the following plan:  # CI失敗の修正プラン  ## Context  `feat/a2-delta-staging-to-cloudsql`ブランチのCIで2つのジョブが失敗している｡  1. **notebook-lint**: `ruff format --check`で`a2_04_followup_job.py`がフォーマット違反 2. **st…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    6.084,
+    6.084,
+    4.018
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 1,
+    "Other": 1,
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 226,
+  "lines_removed": 2,
+  "files_modified": 3,
+  "message_hours": [
+    16,
+    16,
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T07:39:47.236Z",
+    "2026-02-09T07:41:31.433Z",
+    "2026-02-09T07:41:31.433Z",
+    "2026-02-09T07:42:38.156Z"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "underlying_goal": "Add a databricks_grants resource to grant CREATE MANAGED STORAGE permission on an External Location in Terraform, then create a PR for the change",
+  "goal_categories": {
+    "code_changes": 1,
+    "git_operations": 1
+  },
+  "outcome": "fully_achieved",
+  "user_satisfaction_counts": {
+    "likely_satisfied": 1
+  },
+  "claude_helpfulness": "very_helpful",
+  "session_type": "single_task",
+  "friction_counts": {},
+  "friction_detail": "",
+  "primary_success": "correct_code_edits",
+  "brief_summary": "User asked to implement a plan to add Unity Catalog GRANT permissions to an External Location via Terraform and create a PR, which was completed successfully.",
+  "session_id": "569ae376-e60d-45a8-a962-777d89d9ab31"
+}

@@ -1,0 +1,63 @@
+{
+  "session_id": "e6bb5f29-43c9-485b-8963-6ff1b4007707",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T09:39:17.034Z",
+  "duration_minutes": 15,
+  "user_message_count": 6,
+  "assistant_message_count": 61,
+  "tool_counts": {
+    "WebSearch": 2,
+    "Bash": 13,
+    "Glob": 1,
+    "Read": 3,
+    "AskUserQuestion": 3,
+    "Task": 2,
+    "Write": 2,
+    "ExitPlanMode": 2
+  },
+  "languages": {
+    "JSON": 3,
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 3504573,
+  "output_tokens": 10397,
+  "first_prompt": "githubのmcpサーバの認証が通らないのはなぜ?  Error: Incompatible auth server: does not support dynamic client registration",
+  "user_interruptions": 1,
+  "user_response_times": [
+    124.405,
+    124.286,
+    138.279,
+    138.279,
+    138.279
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 1,
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": true,
+  "uses_web_fetch": false,
+  "lines_added": 88,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    18,
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T09:40:10.486Z",
+    "2026-02-08T09:42:49.122Z",
+    "2026-02-08T09:53:49.672Z",
+    "2026-02-08T09:54:03.665Z",
+    "2026-02-08T09:54:03.665Z",
+    "2026-02-08T09:54:03.665Z"
+  ]
+}

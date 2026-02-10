@@ -1,0 +1,44 @@
+{
+  "session_id": "3c30f9db-04ff-45ef-a870-d559eff257ea",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T06:36:04.677Z",
+  "duration_minutes": 22,
+  "user_message_count": 1,
+  "assistant_message_count": 51,
+  "tool_counts": {
+    "Read": 3,
+    "Task": 3,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 2,
+    "Edit": 14
+  },
+  "languages": {
+    "Python": 1,
+    "Markdown": 17
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 4374965,
+  "output_tokens": 21028,
+  "first_prompt": "research/reverse_etl_architecture/a2_streaming_job.py のTODOを進めたいです｡ 1,2を実施してください｡  2については - cloud runのsubscriberは appフォルダに格納してください｡ - DBはCloudSQLでいいです｡ - スキーマはcloud runの実行モジュール中でマイグレーションして - cloud run…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 595,
+  "lines_removed": 80,
+  "files_modified": 1,
+  "message_hours": [
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T06:39:40.390Z"
+  ]
+}

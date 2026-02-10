@@ -1,0 +1,48 @@
+{
+  "session_id": "ba9e9d2e-b388-49f2-b2dd-250b671800f6",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/fix-terraform",
+  "start_time": "2026-02-09T08:08:58.428Z",
+  "duration_minutes": 13,
+  "user_message_count": 3,
+  "assistant_message_count": 38,
+  "tool_counts": {
+    "Bash": 7,
+    "Task": 2,
+    "Read": 4,
+    "Glob": 3,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "YAML": 1,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2723673,
+  "output_tokens": 15411,
+  "first_prompt": "https://github.com/caddi-sandbox/caddi-data-fabric-databricks-trial/actions/runs/21817037446/job/62940855669 terraform のapplyで失敗してるみたい｡ https://github.com/caddi-sandbox/caddi-data-fabric-databricks-tr…",
+  "user_interruptions": 1,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 107,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    17,
+    17,
+    17
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T08:09:50.941Z",
+    "2026-02-09T08:09:53.596Z",
+    "2026-02-09T08:09:55.350Z"
+  ]
+}

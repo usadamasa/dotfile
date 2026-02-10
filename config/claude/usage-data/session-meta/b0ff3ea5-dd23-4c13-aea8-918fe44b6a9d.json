@@ -1,0 +1,52 @@
+{
+  "session_id": "b0ff3ea5-dd23-4c13-aea8-918fe44b6a9d",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/localmesh-configs",
+  "start_time": "2026-02-08T08:58:37.025Z",
+  "duration_minutes": 11,
+  "user_message_count": 4,
+  "assistant_message_count": 18,
+  "tool_counts": {
+    "Task": 3,
+    "AskUserQuestion": 1,
+    "WebFetch": 1,
+    "Bash": 2,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 936905,
+  "output_tokens": 4165,
+  "first_prompt": "<command-message>skill-creator</command-message> <command-name>/skill-creator</command-name> <command-args>CADDi社内のサービス向けのlocalmesh設定ファイルを作成するskillを作りたい｡ json schemaでの検証もして欲しい</command-args>",
+  "user_interruptions": 1,
+  "user_response_times": [
+    25.344,
+    46.417
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 95,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    17,
+    17,
+    18,
+    18
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T08:59:49.216Z",
+    "2026-02-08T08:59:49.216Z",
+    "2026-02-08T09:07:31.880Z",
+    "2026-02-08T09:07:52.953Z"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "session_id": "f50805b6-85d0-4cea-a9d2-a436b8b01293",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-06T02:36:29.757Z",
+  "duration_minutes": 10,
+  "user_message_count": 4,
+  "assistant_message_count": 75,
+  "tool_counts": {
+    "Glob": 1,
+    "Read": 10,
+    "Write": 1,
+    "Edit": 11,
+    "Bash": 6
+  },
+  "languages": {
+    "Markdown": 22
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 4780530,
+  "output_tokens": 17843,
+  "first_prompt": "Implement the following plan:  # Databricks マルチテナント環境設計ドキュメント作成計画  ## 概要  1000以上のテナントを持つマルチテナント環境でのテナント分離方式を検討し、databricks_quickstart/docs/に設計ドキュメントを作成する。  ## 背景・要件  - **データ取込元**: 1つのGCPプロジェクトのAlloyDB…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    105.889,
+    39.218,
+    39.218
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 605,
+  "lines_removed": 101,
+  "files_modified": 2,
+  "message_hours": [
+    11,
+    11,
+    11,
+    11
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T02:36:29.757Z",
+    "2026-02-06T02:40:24.103Z",
+    "2026-02-06T02:45:50.459Z",
+    "2026-02-06T02:45:50.459Z"
+  ]
+}

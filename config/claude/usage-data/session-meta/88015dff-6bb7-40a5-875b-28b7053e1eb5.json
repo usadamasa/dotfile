@@ -1,0 +1,50 @@
+{
+  "session_id": "88015dff-6bb7-40a5-875b-28b7053e1eb5",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T14:12:50.975Z",
+  "duration_minutes": 7,
+  "user_message_count": 3,
+  "assistant_message_count": 57,
+  "tool_counts": {
+    "Bash": 22,
+    "Read": 7,
+    "Edit": 2,
+    "Write": 1,
+    "Grep": 1,
+    "Glob": 3
+  },
+  "languages": {
+    "YAML": 10
+  },
+  "git_commits": 2,
+  "git_pushes": 2,
+  "input_tokens": 3575518,
+  "output_tokens": 6253,
+  "first_prompt": "Implement the following plan:  # postgres関連のTerraform・CI/CDを削除  ## Context  `terraform/environments/sandbox/postgres/`のterraform applyがタイムアウトで失敗する問題の対処。Cloud SQL Auth Proxyが`--private-ip`でVPC内のプライベートI…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    4.256,
+    4.256
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 126,
+  "lines_removed": 25,
+  "files_modified": 2,
+  "message_hours": [
+    23,
+    23,
+    23
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T14:12:50.939Z",
+    "2026-02-09T14:19:29.179Z",
+    "2026-02-09T14:19:29.179Z"
+  ]
+}

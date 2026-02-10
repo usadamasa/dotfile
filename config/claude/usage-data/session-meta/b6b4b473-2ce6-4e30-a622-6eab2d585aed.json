@@ -1,0 +1,57 @@
+{
+  "session_id": "b6b4b473-2ce6-4e30-a622-6eab2d585aed",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/go-template",
+  "start_time": "2026-02-08T12:05:52.528Z",
+  "duration_minutes": 9,
+  "user_message_count": 5,
+  "assistant_message_count": 74,
+  "tool_counts": {
+    "Read": 8,
+    "Edit": 16,
+    "Grep": 1,
+    "Bash": 21,
+    "WebFetch": 1
+  },
+  "languages": {
+    "Go": 9,
+    "YAML": 6,
+    "Markdown": 5
+  },
+  "git_commits": 2,
+  "git_pushes": 2,
+  "input_tokens": 3903216,
+  "output_tokens": 10173,
+  "first_prompt": "Implement the following plan:  # テンプレートplaceholderを実際の値に置換してビルド可能にする  ## Context  go-template リポジトリはプロジェクトテンプレートとして作られており､`OWNER`/`REPO`/`BINARY_NAME`/`PROJECT_NAME`/`[YEAR]` といったplaceholderが各所に残っている｡…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    28.937,
+    8.073,
+    8.073,
+    159.999
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 23,
+  "lines_removed": 29,
+  "files_modified": 10,
+  "message_hours": [
+    21,
+    21,
+    21,
+    21,
+    21
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T12:05:52.509Z",
+    "2026-02-08T12:08:13.973Z",
+    "2026-02-08T12:09:40.923Z",
+    "2026-02-08T12:09:40.923Z",
+    "2026-02-08T12:13:05.985Z"
+  ]
+}

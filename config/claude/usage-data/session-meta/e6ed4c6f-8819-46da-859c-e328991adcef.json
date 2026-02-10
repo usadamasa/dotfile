@@ -1,0 +1,45 @@
+{
+  "session_id": "e6ed4c6f-8819-46da-859c-e328991adcef",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T10:39:20.194Z",
+  "duration_minutes": 13,
+  "user_message_count": 1,
+  "assistant_message_count": 44,
+  "tool_counts": {
+    "Task": 1,
+    "Read": 9,
+    "AskUserQuestion": 2,
+    "Write": 2,
+    "ExitPlanMode": 2,
+    "Glob": 1,
+    "Edit": 1
+  },
+  "languages": {
+    "Go": 8,
+    "Markdown": 4
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 3349130,
+  "output_tokens": 11656,
+  "first_prompt": "k8sのclusterの指定をサポートしたい｡ 未指定の場合は､contextを引き継いでほしい｡",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 317,
+  "lines_removed": 1,
+  "files_modified": 1,
+  "message_hours": [
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T10:43:21.948Z"
+  ]
+}

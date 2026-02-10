@@ -1,0 +1,65 @@
+{
+  "session_id": "9d5abc31-ca65-431b-b469-194ad79cef95",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-10T04:19:07.902Z",
+  "duration_minutes": 20,
+  "user_message_count": 6,
+  "assistant_message_count": 57,
+  "tool_counts": {
+    "Task": 2,
+    "Read": 11,
+    "Grep": 2,
+    "Glob": 4,
+    "Write": 3,
+    "ExitPlanMode": 3,
+    "AskUserQuestion": 1,
+    "Skill": 1,
+    "WebFetch": 1
+  },
+  "languages": {
+    "Python": 4,
+    "Markdown": 5,
+    "YAML": 3,
+    "Shell": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 3757145,
+  "output_tokens": 12928,
+  "first_prompt": "databricks環境で a2_04_followup_job.py が失敗しました｡  from google.cloud import pubsub_v1 が  ImportError: cannot import name 'pubsub_v1' from 'google.cloud' (unknown location)  となります｡ databricksのnotebook環境の制約に…",
+  "user_interruptions": 2,
+  "user_response_times": [
+    87.619,
+    277.343,
+    282.531,
+    283.056,
+    330.859
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "User Rejected": 3
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 326,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-10T04:20:05.314Z",
+    "2026-02-10T04:28:27.425Z",
+    "2026-02-10T04:35:05.974Z",
+    "2026-02-10T04:35:11.162Z",
+    "2026-02-10T04:35:11.687Z",
+    "2026-02-10T04:35:59.490Z"
+  ]
+}

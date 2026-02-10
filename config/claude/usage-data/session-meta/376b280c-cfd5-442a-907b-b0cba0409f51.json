@@ -1,0 +1,46 @@
+{
+  "session_id": "376b280c-cfd5-442a-907b-b0cba0409f51",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/worktrees/caddi-monitoring/modify-claude-settings",
+  "start_time": "2026-02-03T09:00:20.129Z",
+  "duration_minutes": 3,
+  "user_message_count": 3,
+  "assistant_message_count": 15,
+  "tool_counts": {
+    "Task": 1,
+    "Write": 2,
+    "AskUserQuestion": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 602985,
+  "output_tokens": 45,
+  "first_prompt": "terraform planについて､メモリーおよびskillを更新し､ `-lock=false` で実行することを明記してください",
+  "user_interruptions": 1,
+  "user_response_times": [
+    47.223,
+    63.491
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 130,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    18,
+    18,
+    18
+  ],
+  "user_message_timestamps": [
+    "2026-02-03T09:00:20.129Z",
+    "2026-02-03T09:02:28.496Z",
+    "2026-02-03T09:02:44.764Z"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "session_id": "9e5e44f7-53e0-4888-9749-ccb0f4b6c922",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/dotfile",
+  "start_time": "2026-02-08T07:36:55.269Z",
+  "duration_minutes": 5,
+  "user_message_count": 2,
+  "assistant_message_count": 15,
+  "tool_counts": {
+    "Task": 3,
+    "Read": 3,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 4
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 780071,
+  "output_tokens": 3049,
+  "first_prompt": "<command-message>skill-creator</command-message> <command-name>/skill-creator</command-name> <command-args>commandの init-sub-dir をclaude codeのskillのプラクティスに従ってskill化してください</command-args>",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 50,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T07:37:37.306Z",
+    "2026-02-08T07:37:37.306Z"
+  ]
+}

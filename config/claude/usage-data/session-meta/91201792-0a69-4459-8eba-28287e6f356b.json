@@ -1,0 +1,48 @@
+{
+  "session_id": "91201792-0a69-4459-8eba-28287e6f356b",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-06T01:56:08.092Z",
+  "duration_minutes": 4,
+  "user_message_count": 2,
+  "assistant_message_count": 29,
+  "tool_counts": {
+    "Read": 4,
+    "Edit": 1,
+    "mcp__plugin_atlassian_atlassian__getAccessibleAtlassianResources": 1,
+    "mcp__plugin_atlassian_atlassian__getConfluencePage": 1,
+    "Write": 2,
+    "AskUserQuestion": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 7
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1449316,
+  "output_tokens": 4007,
+  "first_prompt": "Implement the following plan:  # Plan: CLAUDE.mdにConfluence用Mermaid指示を追記  ## 概要  Confluenceで図を作成する際は「Mermaid Diagrams for Confluence」プラグインを使用するよう、CLAUDE.mdに追記する。  ## 変更内容  ### 対象ファイル  - `/Users/masaru…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    73.336
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": true,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 94,
+  "lines_removed": 1,
+  "files_modified": 2,
+  "message_hours": [
+    10,
+    10
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T01:56:08.092Z",
+    "2026-02-06T01:57:48.766Z"
+  ]
+}

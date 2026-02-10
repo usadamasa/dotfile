@@ -1,0 +1,45 @@
+{
+  "session_id": "cdbd2b92-e4da-48ab-beca-f45b5c1077f5",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/drawer-drawing-template-sandbox",
+  "start_time": "2026-02-06T00:41:47.629Z",
+  "duration_minutes": 2,
+  "user_message_count": 2,
+  "assistant_message_count": 23,
+  "tool_counts": {
+    "Glob": 2,
+    "Bash": 3,
+    "Write": 2,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1000128,
+  "output_tokens": 2493,
+  "first_prompt": "dependabotの通知がうるさいので､自動rebaseを無効にして",
+  "user_interruptions": 1,
+  "user_response_times": [
+    68.999
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 89,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    9,
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T00:41:47.629Z",
+    "2026-02-06T00:44:05.191Z"
+  ]
+}

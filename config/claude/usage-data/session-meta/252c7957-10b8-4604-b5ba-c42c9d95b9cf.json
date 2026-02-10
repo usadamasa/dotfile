@@ -1,0 +1,52 @@
+{
+  "session_id": "252c7957-10b8-4604-b5ba-c42c9d95b9cf",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/add-skill-notebook",
+  "start_time": "2026-02-09T04:10:48.209Z",
+  "duration_minutes": 7,
+  "user_message_count": 2,
+  "assistant_message_count": 91,
+  "tool_counts": {
+    "TaskGet": 3,
+    "TaskUpdate": 6,
+    "WebSearch": 1,
+    "WebFetch": 5,
+    "Edit": 13,
+    "Write": 4,
+    "Read": 6,
+    "Glob": 1,
+    "Bash": 13,
+    "SendMessage": 2
+  },
+  "languages": {
+    "YAML": 17
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 4462760,
+  "output_tokens": 10137,
+  "first_prompt": "<teammate-message teammate_id=\"team-lead\"> あなたのタスクは Task #2, #3, #4 です。TaskGet で各タスクの詳細を確認してから開始してください。 Task #3 と #4 は #2 にブロックされているので、#2 を先にやってから #3, #4 に取りかかってください。  ## 作業ディレクトリ  `/Users/masaru_uchi…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    4.409
+  ],
+  "tool_errors": 8,
+  "tool_error_categories": {
+    "Other": 4,
+    "Command Failed": 4
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": true,
+  "uses_web_fetch": true,
+  "lines_added": 138,
+  "lines_removed": 12,
+  "files_modified": 6,
+  "message_hours": [
+    13,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T04:10:48.432Z",
+    "2026-02-09T04:18:00.139Z"
+  ]
+}

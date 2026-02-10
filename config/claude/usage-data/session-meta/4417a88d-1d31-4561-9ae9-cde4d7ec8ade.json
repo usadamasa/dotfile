@@ -1,0 +1,48 @@
+{
+  "session_id": "4417a88d-1d31-4561-9ae9-cde4d7ec8ade",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/create-poc-webapp",
+  "start_time": "2026-02-07T05:58:24.960Z",
+  "duration_minutes": 13,
+  "user_message_count": 3,
+  "assistant_message_count": 33,
+  "tool_counts": {
+    "Read": 5,
+    "Bash": 5,
+    "Write": 5,
+    "TaskUpdate": 2,
+    "Edit": 2,
+    "SendMessage": 2,
+    "TaskList": 1
+  },
+  "languages": {
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1270511,
+  "output_tokens": 4661,
+  "first_prompt": "<teammate-message teammate_id=\"team-lead\"> あなたはTeam 2: terraformチームです。タスク#2を担当します。  作業ディレクトリ: /Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/create-poc-…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    663.161
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 142,
+  "lines_removed": 0,
+  "files_modified": 7,
+  "message_hours": [
+    14,
+    14,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-07T05:58:24.960Z",
+    "2026-02-07T05:59:52.821Z",
+    "2026-02-07T06:11:04.628Z"
+  ]
+}

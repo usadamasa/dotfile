@@ -1,0 +1,53 @@
+{
+  "session_id": "983b37df-eca6-4aec-a609-aec7916f6287",
+  "project_path": "/Users/masaru_uchida/obsidian/caddi",
+  "start_time": "2026-02-08T05:34:11.271Z",
+  "duration_minutes": 19,
+  "user_message_count": 5,
+  "assistant_message_count": 19,
+  "tool_counts": {
+    "Task": 4,
+    "WebSearch": 1,
+    "mcp__plugin_context7_context7__resolve-library-id": 1,
+    "mcp__plugin_orm-discovery-mcp-go_orm__search_content": 1,
+    "mcp__plugin_context7_context7__query-docs": 1,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1427404,
+  "output_tokens": 6637,
+  "first_prompt": "[Request interrupted by user]",
+  "user_interruptions": 1,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": true,
+  "uses_web_search": true,
+  "uses_web_fetch": false,
+  "lines_added": 143,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    14,
+    14,
+    14,
+    14,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T05:38:51.251Z",
+    "2026-02-08T05:38:51.251Z",
+    "2026-02-08T05:38:52.804Z",
+    "2026-02-08T05:39:17.541Z",
+    "2026-02-08T05:39:17.541Z"
+  ]
+}

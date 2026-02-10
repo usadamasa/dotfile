@@ -1,0 +1,51 @@
+{
+  "session_id": "869176bf-c502-4246-a814-3e2ee54d3389",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/zoolake-infra",
+  "start_time": "2026-02-04T04:52:34.229Z",
+  "duration_minutes": 49,
+  "user_message_count": 5,
+  "assistant_message_count": 15,
+  "tool_counts": {
+    "Task": 3,
+    "Write": 1,
+    "AskUserQuestion": 1
+  },
+  "languages": {
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 616056,
+  "output_tokens": 45,
+  "first_prompt": "zoolake-devでだけ､nucleus-clientのcloud runのメトリクスがdatadogで見れないんだけどなんで?",
+  "summary": "zoolake-devのDatadogメトリクス設定がないんじゃね～",
+  "user_interruptions": 1,
+  "user_response_times": [
+    2597.546
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 76,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    13,
+    13,
+    13,
+    13,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-04T04:52:34.229Z",
+    "2026-02-04T04:52:34.225Z",
+    "2026-02-04T04:52:34.229Z",
+    "2026-02-04T04:52:39.891Z",
+    "2026-02-04T05:41:06.886Z"
+  ]
+}

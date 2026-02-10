@@ -1,0 +1,44 @@
+{
+  "session_id": "3d3a80cc-c161-470c-8bed-d9997201567c",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T13:58:14.206Z",
+  "duration_minutes": 12,
+  "user_message_count": 1,
+  "assistant_message_count": 27,
+  "tool_counts": {
+    "Task": 1,
+    "Read": 7,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Go": 5,
+    "Shell": 1,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2051875,
+  "output_tokens": 18011,
+  "first_prompt": "gcloudに関する改善をお願いします｡ 現在､動作にローカルにgcloudコマンドが入っている必要があります｡ これは､pythonへの推移的依存があり､不安定になる要因です｡  goのSDKに置きかえてください｡",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 223,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    22
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T13:59:48.465Z"
+  ]
+}

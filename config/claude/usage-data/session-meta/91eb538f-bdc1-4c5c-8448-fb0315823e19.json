@@ -1,0 +1,57 @@
+{
+  "session_id": "91eb538f-bdc1-4c5c-8448-fb0315823e19",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/orm-discovery-mcp-go",
+  "start_time": "2026-02-08T07:46:10.936Z",
+  "duration_minutes": 10,
+  "user_message_count": 5,
+  "assistant_message_count": 34,
+  "tool_counts": {
+    "Task": 4,
+    "Read": 2,
+    "AskUserQuestion": 1,
+    "WebFetch": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "JSON": 1,
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1639969,
+  "output_tokens": 6837,
+  "first_prompt": "claude codeのagent memoryに対応してほしい｡",
+  "user_interruptions": 2,
+  "user_response_times": [
+    13.747,
+    64.565,
+    85.123
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Other": 1,
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 74,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    16,
+    16,
+    16,
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T07:46:51.283Z",
+    "2026-02-08T07:46:58.316Z",
+    "2026-02-08T07:47:11.754Z",
+    "2026-02-08T07:52:39.566Z",
+    "2026-02-08T07:53:00.124Z"
+  ]
+}

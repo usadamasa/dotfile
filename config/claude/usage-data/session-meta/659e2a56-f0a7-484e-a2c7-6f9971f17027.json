@@ -1,0 +1,60 @@
+{
+  "session_id": "659e2a56-f0a7-484e-a2c7-6f9971f17027",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T13:58:22.980Z",
+  "duration_minutes": 14,
+  "user_message_count": 6,
+  "assistant_message_count": 32,
+  "tool_counts": {
+    "Read": 4,
+    "Edit": 3,
+    "Bash": 6,
+    "Task": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "YAML": 3,
+    "Markdown": 2
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 1813609,
+  "output_tokens": 11359,
+  "first_prompt": "Implement the following plan:  # Fix: Cloud SQL Auth Proxy接続タイムアウトの修正  ## Context  `terraform/environments/sandbox/postgres/`のterraform applyがタイムアウトで失敗する。ローカル環境・GitHub Actionsの両方で発生し、一度もapplyに成功した形跡がな…",
+  "user_interruptions": 1,
+  "user_response_times": [
+    14.68,
+    14.68,
+    379.112,
+    380.843,
+    383.446
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 103,
+  "lines_removed": 3,
+  "files_modified": 4,
+  "message_hours": [
+    22,
+    22,
+    22,
+    23,
+    23,
+    23
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T13:58:22.960Z",
+    "2026-02-09T13:59:36.772Z",
+    "2026-02-09T13:59:36.772Z",
+    "2026-02-09T14:06:45.257Z",
+    "2026-02-09T14:06:46.988Z",
+    "2026-02-09T14:06:49.591Z"
+  ]
+}

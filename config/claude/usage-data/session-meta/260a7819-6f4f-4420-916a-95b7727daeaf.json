@@ -1,0 +1,62 @@
+{
+  "session_id": "260a7819-6f4f-4420-916a-95b7727daeaf",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T10:52:22.109Z",
+  "duration_minutes": 28,
+  "user_message_count": 4,
+  "assistant_message_count": 164,
+  "tool_counts": {
+    "Read": 25,
+    "Glob": 7,
+    "TaskCreate": 6,
+    "TaskUpdate": 10,
+    "Edit": 27,
+    "Grep": 5,
+    "Bash": 11,
+    "Task": 3,
+    "AskUserQuestion": 1,
+    "ExitPlanMode": 2
+  },
+  "languages": {
+    "Go": 43,
+    "JSON": 3,
+    "YAML": 3,
+    "Shell": 1,
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 16790076,
+  "output_tokens": 29414,
+  "first_prompt": "Implement the following plan:  # Kubernetes cluster指定サポート  ## Context  kubectl-localmeshは現在、kubeconfigの`current-context`を常に使用しており、特定のクラスタを指定する手段がない。複数のクラスタに同時接続して、異なるクラスタのサービスを1つのメッシュにまとめたいケースに対応する。…",
+  "user_interruptions": 1,
+  "user_response_times": [
+    313.423,
+    65.546,
+    84.191
+  ],
+  "tool_errors": 4,
+  "tool_error_categories": {
+    "Command Failed": 2,
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 519,
+  "lines_removed": 196,
+  "files_modified": 13,
+  "message_hours": [
+    19,
+    20,
+    20,
+    20
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T10:52:22.075Z",
+    "2026-02-08T11:07:37.820Z",
+    "2026-02-08T11:16:25.737Z",
+    "2026-02-08T11:16:44.382Z"
+  ]
+}

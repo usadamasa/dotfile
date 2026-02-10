@@ -1,0 +1,43 @@
+{
+  "session_id": "569ae376-e60d-45a8-a962-777d89d9ab31",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T06:21:24.497Z",
+  "duration_minutes": 4,
+  "user_message_count": 3,
+  "assistant_message_count": 15,
+  "tool_counts": {
+    "Read": 2,
+    "Edit": 1,
+    "Bash": 6
+  },
+  "languages": {},
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 636486,
+  "output_tokens": 2379,
+  "first_prompt": "Implement the following plan:  # External Location への GRANT 追加  ## Context  前回の PR (#41) で Storage Credential と External Location を Terraform で作成した。 しかし、ノートブックで `CREATE CATALOG ... MANAGED LOCATION 'g…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    164.446,
+    164.446
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 11,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T06:21:24.472Z",
+    "2026-02-09T06:24:50.789Z",
+    "2026-02-09T06:24:50.789Z"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "session_id": "c543a080-5480-4ada-82cc-64bdecd5a1a4",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/create-poc-webapp",
+  "start_time": "2026-02-07T07:16:42.479Z",
+  "duration_minutes": 15,
+  "user_message_count": 4,
+  "assistant_message_count": 37,
+  "tool_counts": {
+    "Read": 6,
+    "Glob": 4,
+    "Write": 2,
+    "Bash": 11,
+    "Edit": 2
+  },
+  "languages": {
+    "YAML": 3,
+    "JSON": 1,
+    "TypeScript": 3
+  },
+  "git_commits": 2,
+  "git_pushes": 1,
+  "input_tokens": 1721370,
+  "output_tokens": 4820,
+  "first_prompt": "Implement the following plan:  # App Engine Flexible デプロイ停止の修正  ## Context  `gcloud app deploy` が「Waiting for operation」で無限に待ち続ける問題。 カスタムVPC (`caddi-df-sandbox-vpc`) を使用しており、以下の2つの原因が考えられる。  ## 原因分析…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    82.813,
+    82.813,
+    584.15
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Command Failed": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 51,
+  "lines_removed": 1,
+  "files_modified": 4,
+  "message_hours": [
+    16,
+    16,
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-07T07:16:42.479Z",
+    "2026-02-07T07:20:32.783Z",
+    "2026-02-07T07:20:32.783Z",
+    "2026-02-07T07:32:02.915Z"
+  ]
+}

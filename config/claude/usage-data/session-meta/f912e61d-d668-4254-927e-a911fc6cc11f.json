@@ -1,0 +1,45 @@
+{
+  "session_id": "f912e61d-d668-4254-927e-a911fc6cc11f",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T15:08:32.750Z",
+  "duration_minutes": 8,
+  "user_message_count": 1,
+  "assistant_message_count": 113,
+  "tool_counts": {
+    "TaskCreate": 6,
+    "TaskUpdate": 12,
+    "Read": 14,
+    "Bash": 11,
+    "Write": 3,
+    "Grep": 1,
+    "Edit": 19,
+    "Glob": 1
+  },
+  "languages": {
+    "Go": 19,
+    "Markdown": 13,
+    "Shell": 4
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 11258698,
+  "output_tokens": 19335,
+  "first_prompt": "Implement the following plan:  # Plan: Go SDK SSH Tunnel を experimental フラグで切り替え可能にする  ## Context  `gcloud` CLI → Go SDK (IAP TCP Tunnel + SSH) への置き換えを実装したが、 OS Login ユーザー名解決やSSH認証など実環境での問題が複数あり、まだ安定し…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 654,
+  "lines_removed": 57,
+  "files_modified": 10,
+  "message_hours": [
+    0
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T15:08:32.671Z"
+  ]
+}

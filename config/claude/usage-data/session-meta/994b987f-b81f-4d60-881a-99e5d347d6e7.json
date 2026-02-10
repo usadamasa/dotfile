@@ -1,0 +1,48 @@
+{
+  "session_id": "994b987f-b81f-4d60-881a-99e5d347d6e7",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/force-pull-on-merge",
+  "start_time": "2026-02-09T03:56:34.446Z",
+  "duration_minutes": 15,
+  "user_message_count": 3,
+  "assistant_message_count": 45,
+  "tool_counts": {
+    "Task": 3,
+    "Read": 11,
+    "Glob": 5,
+    "AskUserQuestion": 3,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "YAML": 2,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2710562,
+  "output_tokens": 18993,
+  "first_prompt": "Databricks上のworkspaceについて､このリポジトリがmergeされたタイミングで常にmainが最新化されてほしい｡",
+  "user_interruptions": 1,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 115,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    12,
+    12,
+    12
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T03:57:24.768Z",
+    "2026-02-09T03:57:26.509Z",
+    "2026-02-09T03:58:24.837Z"
+  ]
+}

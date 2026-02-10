@@ -1,0 +1,79 @@
+{
+  "session_id": "3f5942cb-eb5c-4b37-bab2-1ea7563ec7b9",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T06:58:11.679Z",
+  "duration_minutes": 38,
+  "user_message_count": 11,
+  "assistant_message_count": 262,
+  "tool_counts": {
+    "Read": 19,
+    "Bash": 92,
+    "AskUserQuestion": 2,
+    "TaskCreate": 8,
+    "TaskUpdate": 16,
+    "Edit": 30,
+    "Write": 5
+  },
+  "languages": {
+    "JSON": 3,
+    "Python": 22,
+    "YAML": 12
+  },
+  "git_commits": 5,
+  "git_pushes": 4,
+  "input_tokens": 25670338,
+  "output_tokens": 48188,
+  "first_prompt": "Implement the following plan:  # A-2 Delta中間層パターン: TODO 1, 2 実装計画  ## Context  Reverse ETL A-2パターン(Delta中間層)のPoCにおいて､Delta Staging以降のデータフローが未実装｡ 現在は `Source Table → CDF → Structured Streaming → Delta…",
+  "user_interruptions": 2,
+  "user_response_times": [
+    65.783,
+    71.218,
+    20.601,
+    22.877,
+    22.877,
+    5.787,
+    9.207,
+    10.922,
+    116.454,
+    245.376
+  ],
+  "tool_errors": 10,
+  "tool_error_categories": {
+    "Other": 3,
+    "User Rejected": 1,
+    "Command Failed": 6
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 571,
+  "lines_removed": 46,
+  "files_modified": 16,
+  "message_hours": [
+    15,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T06:58:11.653Z",
+    "2026-02-09T07:03:40.724Z",
+    "2026-02-09T07:03:46.159Z",
+    "2026-02-09T07:11:18.230Z",
+    "2026-02-09T07:17:34.486Z",
+    "2026-02-09T07:17:34.486Z",
+    "2026-02-09T07:18:14.701Z",
+    "2026-02-09T07:18:18.121Z",
+    "2026-02-09T07:19:13.431Z",
+    "2026-02-09T07:22:22.133Z",
+    "2026-02-09T07:28:42.306Z"
+  ]
+}

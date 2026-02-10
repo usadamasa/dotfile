@@ -1,0 +1,52 @@
+{
+  "session_id": "b20983d1-2064-423e-8d7f-19de487f1e74",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/grant-postgres-iam",
+  "start_time": "2026-02-09T09:46:14.102Z",
+  "duration_minutes": 18,
+  "user_message_count": 3,
+  "assistant_message_count": 60,
+  "tool_counts": {
+    "Task": 2,
+    "Read": 14,
+    "Glob": 4,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 2,
+    "Edit": 8
+  },
+  "languages": {
+    "YAML": 6,
+    "Markdown": 10
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 4329973,
+  "output_tokens": 30708,
+  "first_prompt": "cloud sql studioで､開発者がiamでログインできるようにしたい｡",
+  "user_interruptions": 1,
+  "user_response_times": [
+    7.255,
+    11.925
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 526,
+  "lines_removed": 37,
+  "files_modified": 1,
+  "message_hours": [
+    18,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T09:46:55.731Z",
+    "2026-02-09T10:01:23.201Z",
+    "2026-02-09T10:01:27.871Z"
+  ]
+}

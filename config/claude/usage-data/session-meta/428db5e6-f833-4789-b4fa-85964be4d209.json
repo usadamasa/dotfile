@@ -1,0 +1,50 @@
+{
+  "session_id": "428db5e6-f833-4789-b4fa-85964be4d209",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-06T01:39:28.860Z",
+  "duration_minutes": 17,
+  "user_message_count": 2,
+  "assistant_message_count": 46,
+  "tool_counts": {
+    "Read": 4,
+    "Edit": 1,
+    "Write": 2,
+    "ExitPlanMode": 2,
+    "WebSearch": 1,
+    "AskUserQuestion": 2,
+    "mcp__plugin_atlassian_atlassian__getAccessibleAtlassianResources": 1,
+    "mcp__plugin_atlassian_atlassian__searchConfluenceUsingCql": 1,
+    "mcp__plugin_atlassian_atlassian__getConfluencePage": 2
+  },
+  "languages": {
+    "Markdown": 7
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2553510,
+  "output_tokens": 4685,
+  "first_prompt": "Implement the following plan:  # Plan: CLAUDE.mdにConfluence記事の親ページ情報を追記  ## 概要  Confluenceの記事を作成する際の親ページを明記するセクションをCLAUDE.mdに追加する｡  ## 変更内容  ### 対象ファイル  - `/Users/masaru_uchida/src/github.com/caddi-sa…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    30.588
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": true,
+  "uses_web_search": true,
+  "uses_web_fetch": false,
+  "lines_added": 74,
+  "lines_removed": 0,
+  "files_modified": 2,
+  "message_hours": [
+    10,
+    10
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T01:39:28.860Z",
+    "2026-02-06T01:40:26.256Z"
+  ]
+}

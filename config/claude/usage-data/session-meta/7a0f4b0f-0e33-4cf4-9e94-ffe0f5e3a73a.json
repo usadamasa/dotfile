@@ -1,0 +1,45 @@
+{
+  "session_id": "7a0f4b0f-0e33-4cf4-9e94-ffe0f5e3a73a",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/dotfile",
+  "start_time": "2026-02-08T07:00:28.140Z",
+  "duration_minutes": 15,
+  "user_message_count": 1,
+  "assistant_message_count": 38,
+  "tool_counts": {
+    "Read": 2,
+    "Task": 2,
+    "WebFetch": 2,
+    "Write": 2,
+    "Edit": 4,
+    "AskUserQuestion": 1,
+    "ExitPlanMode": 2
+  },
+  "languages": {
+    "JSON": 1,
+    "Markdown": 7
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2528621,
+  "output_tokens": 19850,
+  "first_prompt": "claude codeのsettingsを調整して､ - ユーザのホームディレクトリ全体の走査をdeny - claude code関連ファイルのread/writeはallow  にしたい",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 253,
+  "lines_removed": 2,
+  "files_modified": 1,
+  "message_hours": [
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T07:01:22.279Z"
+  ]
+}

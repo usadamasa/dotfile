@@ -1,0 +1,58 @@
+{
+  "session_id": "c5b22876-a9d9-492f-a61f-b2dc62736657",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/dotfile",
+  "start_time": "2026-02-08T05:49:33.857Z",
+  "duration_minutes": 15,
+  "user_message_count": 4,
+  "assistant_message_count": 83,
+  "tool_counts": {
+    "Bash": 16,
+    "Write": 12,
+    "Read": 5,
+    "AskUserQuestion": 1,
+    "Edit": 4,
+    "Task": 1,
+    "ExitPlanMode": 2
+  },
+  "languages": {
+    "Go": 12,
+    "Markdown": 5,
+    "JSON": 2,
+    "YAML": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 8162914,
+  "output_tokens": 25870,
+  "first_prompt": "Implement the following plan:  # WebFetch Domain Manager スキル作成プラン  ## Context  settings.json の `permissions.allow` に WebFetch ドメインが21個登録されているが､手動管理では追加漏れや不要ドメインの蓄積が発生しやすい｡セッションJSONLから実際の使用状況を集計し､安全性評価…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    36.374,
+    36.374,
+    83.016
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 1,
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 1450,
+  "lines_removed": 206,
+  "files_modified": 12,
+  "message_hours": [
+    14,
+    14,
+    14,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T05:49:33.828Z",
+    "2026-02-08T05:56:44.379Z",
+    "2026-02-08T05:56:44.379Z",
+    "2026-02-08T05:59:47.585Z"
+  ]
+}

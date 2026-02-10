@@ -1,0 +1,48 @@
+{
+  "session_id": "9eda40d2-10c8-446f-91c5-d88bd50cf0fb",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/go-template",
+  "start_time": "2026-02-08T13:06:50.692Z",
+  "duration_minutes": 3,
+  "user_message_count": 3,
+  "assistant_message_count": 31,
+  "tool_counts": {
+    "Read": 3,
+    "Edit": 4,
+    "Bash": 11,
+    "Glob": 3
+  },
+  "languages": {
+    "Go": 7
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 1438176,
+  "output_tokens": 4341,
+  "first_prompt": "Implement the following plan:  # バージョン表示フォーマットを orm-discovery-mcp-go に合わせる  ## Context  バージョン表示のフォーマットを `orm-discovery-mcp-go` と統一したい｡  現在: `go-template version v0.0.2 (2024-01-01T00:00:00Z, abc1234)`…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    29.629,
+    29.629
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 9,
+  "lines_removed": 9,
+  "files_modified": 3,
+  "message_hours": [
+    22,
+    22,
+    22
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T13:06:50.626Z",
+    "2026-02-08T13:08:38.178Z",
+    "2026-02-08T13:08:38.178Z"
+  ]
+}

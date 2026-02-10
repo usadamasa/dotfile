@@ -1,0 +1,56 @@
+{
+  "session_id": "bd477ae9-8a35-4edb-89f7-719a5b15e0ad",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/force-pull-on-merge",
+  "start_time": "2026-02-09T04:11:58.124Z",
+  "duration_minutes": 6,
+  "user_message_count": 5,
+  "assistant_message_count": 42,
+  "tool_counts": {
+    "Read": 4,
+    "Bash": 14,
+    "Write": 3,
+    "Glob": 1,
+    "Edit": 1
+  },
+  "languages": {
+    "YAML": 8
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 2090760,
+  "output_tokens": 7710,
+  "first_prompt": "Implement the following plan:  # Databricks Repo Force-Pull 同期ワークフロー  ## Context  Databricks上の各ワークスペースには `databricks_repo` (Terraformリソース) でGitHub連携のGitフォルダが作られているが、mainブランチへのmerge時に自動で最新化される仕組みがない。 ユ…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    27.712,
+    9.297,
+    39.971,
+    39.971
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Other": 1,
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 238,
+  "lines_removed": 1,
+  "files_modified": 2,
+  "message_hours": [
+    13,
+    13,
+    13,
+    13,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T04:11:58.107Z",
+    "2026-02-09T04:13:48.744Z",
+    "2026-02-09T04:15:16.539Z",
+    "2026-02-09T04:16:32.000Z",
+    "2026-02-09T04:16:32.000Z"
+  ]
+}

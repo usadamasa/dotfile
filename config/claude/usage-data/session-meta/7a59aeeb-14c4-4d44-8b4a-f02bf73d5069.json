@@ -1,0 +1,78 @@
+{
+  "session_id": "7a59aeeb-14c4-4d44-8b4a-f02bf73d5069",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/dotfile",
+  "start_time": "2026-02-08T06:39:05.098Z",
+  "duration_minutes": 13,
+  "user_message_count": 11,
+  "assistant_message_count": 120,
+  "tool_counts": {
+    "Read": 11,
+    "Glob": 1,
+    "Bash": 21,
+    "TaskCreate": 8,
+    "TaskUpdate": 14,
+    "Edit": 15,
+    "WebSearch": 1
+  },
+  "languages": {
+    "JSON": 6,
+    "Go": 18,
+    "Markdown": 2
+  },
+  "git_commits": 3,
+  "git_pushes": 3,
+  "input_tokens": 9218594,
+  "output_tokens": 24456,
+  "first_prompt": "Implement the following plan:  # Sandbox有効化 & webfetch-domain-manager拡張プラン  ## Context  2つのタスクを実施する:  1. **Sandbox有効化**: `settings.json` に `sandbox` 設定を追加し､OSレベルのファイルシステム/ネットワーク分離を有効化する 2. **webfetch-…",
+  "user_interruptions": 2,
+  "user_response_times": [
+    18.621,
+    26.804,
+    59.969,
+    59.969,
+    2.851,
+    20.459,
+    29.928,
+    24.21,
+    19.824,
+    19.824
+  ],
+  "tool_errors": 7,
+  "tool_error_categories": {
+    "User Rejected": 1,
+    "Command Failed": 6
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": true,
+  "uses_web_fetch": false,
+  "lines_added": 386,
+  "lines_removed": 30,
+  "files_modified": 8,
+  "message_hours": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T06:39:05.077Z",
+    "2026-02-08T06:41:00.611Z",
+    "2026-02-08T06:41:08.794Z",
+    "2026-02-08T06:46:43.944Z",
+    "2026-02-08T06:46:43.944Z",
+    "2026-02-08T06:48:15.590Z",
+    "2026-02-08T06:48:33.198Z",
+    "2026-02-08T06:49:23.268Z",
+    "2026-02-08T06:50:33.413Z",
+    "2026-02-08T06:51:02.055Z",
+    "2026-02-08T06:51:02.055Z"
+  ]
+}

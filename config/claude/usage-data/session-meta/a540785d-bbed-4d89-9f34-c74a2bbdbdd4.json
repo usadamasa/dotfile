@@ -1,0 +1,40 @@
+{
+  "session_id": "a540785d-bbed-4d89-9f34-c74a2bbdbdd4",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-06T01:38:11.390Z",
+  "duration_minutes": 1,
+  "user_message_count": 1,
+  "assistant_message_count": 9,
+  "tool_counts": {
+    "Read": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 398961,
+  "output_tokens": 1181,
+  "first_prompt": "confluenceの記事は､ https://caddijp.atlassian.net/wiki/spaces/CDP/pages/2901835977/Data+Fabric+Databricks+Discovery の下にぶら下げるようにCLAUDE.mdに追記して",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 28,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    10
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T01:38:11.390Z"
+  ]
+}

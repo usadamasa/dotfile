@@ -21,6 +21,19 @@
 
 ## Development Philosophy
 
+### Plan First
+
+Read PLAN.md and implement every step sequentially. After each step, mark it complete with [x] in the plan file. Run all relevant CI checks (ruff, tflint, go vet) after completing all steps. If any check fails, fix it before proceeding. When all steps are done, commit and create a PR.
+
+### Infrastructure changes
+
+Before proposing any infrastructure changes, confirm:
+
+- 1) What is the deployment target (GCE/GKE/Cloud Run)?
+- 2) Are there org policies that restrict public IPs, external access, or specific GCP services?
+- 3) What auth method is used (service account, IAM, workload identity)?
+- 4) List any known constraints from previous failed attempts.
+
 ### Test-Driven Development (TDD)
 
 - 原則としてテスト駆動開発(TDD)で進める

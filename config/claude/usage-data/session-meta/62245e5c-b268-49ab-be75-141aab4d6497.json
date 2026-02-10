@@ -1,0 +1,59 @@
+{
+  "session_id": "62245e5c-b268-49ab-be75-141aab4d6497",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/fix/sdl-local",
+  "start_time": "2026-02-10T02:37:13.060Z",
+  "duration_minutes": 11,
+  "user_message_count": 5,
+  "assistant_message_count": 77,
+  "tool_counts": {
+    "Read": 9,
+    "Glob": 2,
+    "TaskCreate": 5,
+    "TaskUpdate": 8,
+    "Write": 6,
+    "Bash": 17,
+    "Edit": 2
+  },
+  "languages": {
+    "Python": 12,
+    "Markdown": 2,
+    "YAML": 1
+  },
+  "git_commits": 2,
+  "git_pushes": 2,
+  "input_tokens": 5044273,
+  "output_tokens": 10538,
+  "first_prompt": "Implement the following plan:  # SDL (Streaming Data Loader) Cloud Run 修正プラン  ## Context  SDLをCloud Runにデプロイしたが、migrationを含め動作していない。 調査の結果、**Gunicorn起動時にDB初期化・マイグレーションが実行されない**という致命的なバグを発見した。  ### 根本原…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    79.01,
+    79.01,
+    190.356,
+    12.319
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 388,
+  "lines_removed": 2,
+  "files_modified": 6,
+  "message_hours": [
+    11,
+    11,
+    11,
+    11,
+    11
+  ],
+  "user_message_timestamps": [
+    "2026-02-10T02:37:13.032Z",
+    "2026-02-10T02:42:00.105Z",
+    "2026-02-10T02:42:00.105Z",
+    "2026-02-10T02:47:08.467Z",
+    "2026-02-10T02:47:47.223Z"
+  ]
+}

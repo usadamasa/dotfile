@@ -1,0 +1,48 @@
+{
+  "session_id": "659b3796-ccfc-4c22-8df0-6bd470512e67",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-09T00:35:22.359Z",
+  "duration_minutes": 26,
+  "user_message_count": 2,
+  "assistant_message_count": 28,
+  "tool_counts": {
+    "Task": 3,
+    "Read": 1,
+    "Skill": 1,
+    "WebFetch": 4,
+    "Write": 3,
+    "AskUserQuestion": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 4
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1898404,
+  "output_tokens": 12864,
+  "first_prompt": "reverse_etl_architecture の構成について､A: Structured Streamingや B: GCS差分出力でのファイル形式はどのようになるか調査してほしい｡",
+  "user_interruptions": 0,
+  "user_response_times": [
+    155.931
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 446,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    9,
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T00:37:01.369Z",
+    "2026-02-09T00:41:54.013Z"
+  ]
+}

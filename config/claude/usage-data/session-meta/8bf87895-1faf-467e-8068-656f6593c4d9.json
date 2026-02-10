@@ -1,0 +1,55 @@
+{
+  "session_id": "8bf87895-1faf-467e-8068-656f6593c4d9",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-05T06:29:43.692Z",
+  "duration_minutes": 5,
+  "user_message_count": 5,
+  "assistant_message_count": 48,
+  "tool_counts": {
+    "Read": 14,
+    "Glob": 7,
+    "Edit": 1,
+    "AskUserQuestion": 1,
+    "Grep": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Markdown": 7,
+    "YAML": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 2439408,
+  "output_tokens": 88,
+  "first_prompt": "envrcも更新して",
+  "summary": "Terraform リポジトリのCLAUDE.mdと環境変数ファイル更新ね",
+  "user_interruptions": 1,
+  "user_response_times": [
+    45.239,
+    10.512
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 102,
+  "lines_removed": 23,
+  "files_modified": 2,
+  "message_hours": [
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T06:29:43.692Z",
+    "2026-02-05T06:29:43.692Z",
+    "2026-02-05T06:32:46.985Z",
+    "2026-02-05T06:32:51.151Z",
+    "2026-02-05T06:33:01.368Z"
+  ]
+}

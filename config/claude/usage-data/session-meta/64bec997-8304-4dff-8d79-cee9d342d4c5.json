@@ -1,0 +1,54 @@
+{
+  "session_id": "64bec997-8304-4dff-8d79-cee9d342d4c5",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/orm-discovery-mcp-go",
+  "start_time": "2026-02-08T07:56:26.812Z",
+  "duration_minutes": 3,
+  "user_message_count": 5,
+  "assistant_message_count": 31,
+  "tool_counts": {
+    "Read": 4,
+    "Edit": 4,
+    "Bash": 8,
+    "AskUserQuestion": 1
+  },
+  "languages": {
+    "Markdown": 4,
+    "JSON": 4
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 1476602,
+  "output_tokens": 4279,
+  "first_prompt": "Implement the following plan:  # Plan: oreilly-researcher エージェントに agent memory (user スコープ) を追加  ## Context  Claude Code の agent memory 機能を `oreilly-researcher` エージェントに導入する。 O'Reilly での調査で得た知見(良書の発見、効果…",
+  "user_interruptions": 1,
+  "user_response_times": [
+    13.226,
+    13.226,
+    12.948
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 25,
+  "lines_removed": 4,
+  "files_modified": 3,
+  "message_hours": [
+    16,
+    16,
+    16,
+    16,
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T07:56:26.787Z",
+    "2026-02-08T07:57:31.888Z",
+    "2026-02-08T07:57:31.888Z",
+    "2026-02-08T07:57:37.729Z",
+    "2026-02-08T07:57:50.467Z"
+  ]
+}

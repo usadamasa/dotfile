@@ -1,0 +1,47 @@
+{
+  "session_id": "e8595c46-a0fc-4c1b-9941-678cf0312a40",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/add-skill-notebook",
+  "start_time": "2026-02-09T03:59:12.589Z",
+  "duration_minutes": 10,
+  "user_message_count": 2,
+  "assistant_message_count": 25,
+  "tool_counts": {
+    "Task": 2,
+    "AskUserQuestion": 2,
+    "Read": 9,
+    "Glob": 2,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "YAML": 6,
+    "Python": 3,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1450048,
+  "output_tokens": 6233,
+  "first_prompt": "<command-message>skill-creator</command-message> <command-name>/skill-creator</command-name> <command-args>現在利用可能なskillにdatabricksのnotebookのプラクティスについてのものはある? もしなければ､プロジェクトスコープで実装してほしい｡ また､notebook向けのl…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 162,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    13,
+    13
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T04:00:26.291Z",
+    "2026-02-09T04:00:26.291Z"
+  ]
+}

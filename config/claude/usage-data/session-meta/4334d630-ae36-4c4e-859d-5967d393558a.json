@@ -1,0 +1,47 @@
+{
+  "session_id": "4334d630-ae36-4c4e-859d-5967d393558a",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/worktrees/drawer-nucleus-client/chore/summary-arch",
+  "start_time": "2026-02-03T03:01:47.879Z",
+  "duration_minutes": 61,
+  "user_message_count": 3,
+  "assistant_message_count": 48,
+  "tool_counts": {
+    "Read": 4,
+    "Grep": 5,
+    "Bash": 4,
+    "Edit": 4
+  },
+  "languages": {
+    "Markdown": 7
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 4633412,
+  "output_tokens": 122,
+  "first_prompt": "cloud tasks でリトライエラーが繰り返されたらどうなる?",
+  "summary": "えーっと、ね〜、Cloud Tasksのリトライとモニタリングについて、あ、アーキテクチャドキュメントも更新したんですよ。",
+  "user_interruptions": 0,
+  "user_response_times": [
+    246.515,
+    3112.673
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 115,
+  "lines_removed": 15,
+  "files_modified": 1,
+  "message_hours": [
+    12,
+    12,
+    12
+  ],
+  "user_message_timestamps": [
+    "2026-02-03T03:01:47.879Z",
+    "2026-02-03T03:06:59.225Z",
+    "2026-02-03T03:59:56.712Z"
+  ]
+}

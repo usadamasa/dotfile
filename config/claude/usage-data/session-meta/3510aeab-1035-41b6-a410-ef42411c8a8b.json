@@ -1,0 +1,55 @@
+{
+  "session_id": "3510aeab-1035-41b6-a410-ef42411c8a8b",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T11:19:57.294Z",
+  "duration_minutes": 22,
+  "user_message_count": 3,
+  "assistant_message_count": 106,
+  "tool_counts": {
+    "Read": 18,
+    "Glob": 1,
+    "TaskCreate": 2,
+    "TaskUpdate": 4,
+    "Edit": 25,
+    "Grep": 1,
+    "Bash": 15,
+    "Write": 2
+  },
+  "languages": {
+    "Go": 38,
+    "Shell": 2,
+    "YAML": 4
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 10034252,
+  "output_tokens": 15819,
+  "first_prompt": "Implement the following plan:  # 複数クラスタのスナップショットテスト追加  ## Context  Kubernetes cluster指定サポート（Step 1-6）は実装済み。マッピング出力(`--output-mapping`)にclusterフィールドが反映されていないため、`KubernetesServiceBuilder`と`PortForwardMa…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    16.204,
+    16.204
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Edit Failed": 1,
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 96,
+  "lines_removed": 9,
+  "files_modified": 9,
+  "message_hours": [
+    20,
+    20,
+    20
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T11:19:57.154Z",
+    "2026-02-08T11:41:09.753Z",
+    "2026-02-08T11:41:09.753Z"
+  ]
+}

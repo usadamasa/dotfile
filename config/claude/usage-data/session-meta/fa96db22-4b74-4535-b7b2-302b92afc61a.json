@@ -1,0 +1,37 @@
+{
+  "session_id": "fa96db22-4b74-4535-b7b2-302b92afc61a",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-05T05:47:09.144Z",
+  "duration_minutes": 1,
+  "user_message_count": 2,
+  "assistant_message_count": 6,
+  "tool_counts": {
+    "Bash": 5
+  },
+  "languages": {},
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 219534,
+  "output_tokens": 76,
+  "first_prompt": "<command-message>commit-commands:commit-push-pr</command-message> <command-name>/commit-commands:commit-push-pr</command-name> <command-args>ドラフトで</command-args>",
+  "summary": "あ～んとね～、Terraformロックファイルとドラフトプッシュかな～ん",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    14,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T05:47:09.144Z",
+    "2026-02-05T05:47:09.144Z"
+  ]
+}

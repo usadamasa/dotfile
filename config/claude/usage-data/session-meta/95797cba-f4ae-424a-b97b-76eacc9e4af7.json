@@ -1,0 +1,64 @@
+{
+  "session_id": "95797cba-f4ae-424a-b97b-76eacc9e4af7",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddijp/worktrees/caddi-monitoring/modify-claude-settings",
+  "start_time": "2026-02-02T01:07:59.906Z",
+  "duration_minutes": 13,
+  "user_message_count": 6,
+  "assistant_message_count": 86,
+  "tool_counts": {
+    "Read": 8,
+    "Glob": 2,
+    "TaskCreate": 6,
+    "TaskUpdate": 13,
+    "Edit": 7,
+    "Write": 5,
+    "Bash": 6,
+    "Grep": 1
+  },
+  "languages": {
+    "Markdown": 10,
+    "JSON": 6
+  },
+  "git_commits": 2,
+  "git_pushes": 1,
+  "input_tokens": 5556194,
+  "output_tokens": 314,
+  "first_prompt": "Implement the following plan:  # Datadog Terraform リポジトリ向けスキル作成計画  ## 概要  caddi-monitoringリポジトリでのDatadog監視をTerraformで管理するためのスキルを作成する｡  ## 現状分析  ### 既存スキル  現在、以下の3つのスキルが`.claude/skills/`に存在:  1. **code…",
+  "summary": "Datadog Terraform スキル作成とセキュリティ設定",
+  "user_interruptions": 1,
+  "user_response_times": [
+    31.261,
+    50.369,
+    210.44,
+    133.143,
+    133.143
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 1,
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 528,
+  "lines_removed": 7,
+  "files_modified": 9,
+  "message_hours": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "user_message_timestamps": [
+    "2026-02-02T01:07:59.906Z",
+    "2026-02-02T01:09:38.557Z",
+    "2026-02-02T01:09:57.665Z",
+    "2026-02-02T01:16:42.526Z",
+    "2026-02-02T01:19:59.185Z",
+    "2026-02-02T01:19:59.185Z"
+  ]
+}

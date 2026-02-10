@@ -1,0 +1,52 @@
+{
+  "session_id": "297fb770-476c-4191-84af-60487443081d",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/go-template",
+  "start_time": "2026-02-08T12:02:13.635Z",
+  "duration_minutes": 4,
+  "user_message_count": 3,
+  "assistant_message_count": 25,
+  "tool_counts": {
+    "Task": 1,
+    "Read": 7,
+    "Grep": 1,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1
+  },
+  "languages": {
+    "Go": 2,
+    "YAML": 2,
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1130466,
+  "output_tokens": 3682,
+  "first_prompt": "パッケージ名がplaceholderの OWNER/REPO になってるのを､ちゃんとビルドできるようにしたい｡",
+  "user_interruptions": 1,
+  "user_response_times": [
+    34.235,
+    62.87
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 58,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    21,
+    21,
+    21
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T12:02:44.890Z",
+    "2026-02-08T12:04:30.916Z",
+    "2026-02-08T12:04:59.551Z"
+  ]
+}

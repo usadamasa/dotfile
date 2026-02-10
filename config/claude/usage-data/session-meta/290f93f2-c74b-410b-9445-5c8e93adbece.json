@@ -1,0 +1,59 @@
+{
+  "session_id": "290f93f2-c74b-410b-9445-5c8e93adbece",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/create-poc-webapp",
+  "start_time": "2026-02-07T05:58:24.962Z",
+  "duration_minutes": 13,
+  "user_message_count": 4,
+  "assistant_message_count": 43,
+  "tool_counts": {
+    "Bash": 8,
+    "Write": 15,
+    "TaskUpdate": 2,
+    "Read": 1,
+    "Edit": 1,
+    "SendMessage": 2,
+    "TaskList": 1
+  },
+  "languages": {
+    "JSON": 3,
+    "TypeScript": 8,
+    "CSS": 1,
+    "YAML": 1,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 1939471,
+  "output_tokens": 6020,
+  "first_prompt": "<teammate-message teammate_id=\"team-lead\"> あなたはTeam 1: frontendチームです。タスク#1を担当します。  作業ディレクトリ: /Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/create-poc-w…",
+  "user_interruptions": 1,
+  "user_response_times": [
+    365.814,
+    365.832,
+    175.422
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 1,
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 251,
+  "lines_removed": 1,
+  "files_modified": 15,
+  "message_hours": [
+    14,
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-07T05:58:24.962Z",
+    "2026-02-07T06:05:27.854Z",
+    "2026-02-07T06:05:27.872Z",
+    "2026-02-07T06:11:04.205Z"
+  ]
+}

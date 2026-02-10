@@ -1,0 +1,42 @@
+{
+  "session_id": "4465f71c-7307-4156-808f-2cb0b9a2e242",
+  "project_path": "/Users/masaru_uchida/obsidian/caddi",
+  "start_time": "2026-02-08T05:31:07.924Z",
+  "duration_minutes": 2,
+  "user_message_count": 1,
+  "assistant_message_count": 21,
+  "tool_counts": {
+    "Bash": 8,
+    "Write": 2,
+    "Skill": 1,
+    "Read": 1
+  },
+  "languages": {
+    "Shell": 1,
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 875099,
+  "output_tokens": 3039,
+  "first_prompt": "Implement the following plan:  # Plan: archive-daily-notes スキル作成  ## Context  `01_Daily/`の日報ファイル(YYYY-MM-DD.md)は2025-12まではYYYY-MMサブフォルダに整理済みだが､2026-01以降のファイルが直下に散在している｡月末に手動で整理するスキルを作成し､プロジェクトスコープ(`.c…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Other": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 61,
+  "lines_removed": 0,
+  "files_modified": 2,
+  "message_hours": [
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T05:31:07.907Z"
+  ]
+}

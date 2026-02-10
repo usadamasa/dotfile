@@ -1,0 +1,73 @@
+{
+  "session_id": "c0de483d-7cb5-482c-b1a2-d5d12258b6c4",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/grant-postgres-iam",
+  "start_time": "2026-02-09T10:03:53.586Z",
+  "duration_minutes": 21,
+  "user_message_count": 10,
+  "assistant_message_count": 109,
+  "tool_counts": {
+    "Read": 14,
+    "Glob": 3,
+    "TaskCreate": 3,
+    "TaskUpdate": 4,
+    "Edit": 18,
+    "Bash": 18,
+    "Write": 5
+  },
+  "languages": {
+    "YAML": 22
+  },
+  "git_commits": 2,
+  "git_pushes": 2,
+  "input_tokens": 7954520,
+  "output_tokens": 25125,
+  "first_prompt": "Implement the following plan:  # Cloud SQL Studio IAMログイン + PostgreSQL権限付与  ## Context  Cloud SQLインスタンス`reverse-etl-poc`(PostgreSQL 15, Private IP)は既に存在し､IAM認証(`cloudsql.iam_authentication = on`)も有効｡し…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    166.056,
+    136.716,
+    132.37,
+    36.194,
+    73.668,
+    73.668,
+    113.867,
+    18.264,
+    18.264
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Other": 1,
+    "Command Failed": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 424,
+  "lines_removed": 42,
+  "files_modified": 13,
+  "message_hours": [
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T10:03:53.562Z",
+    "2026-02-09T10:09:22.337Z",
+    "2026-02-09T10:12:50.187Z",
+    "2026-02-09T10:15:15.522Z",
+    "2026-02-09T10:16:22.628Z",
+    "2026-02-09T10:18:15.708Z",
+    "2026-02-09T10:18:15.708Z",
+    "2026-02-09T10:22:06.988Z",
+    "2026-02-09T10:24:31.055Z",
+    "2026-02-09T10:24:31.055Z"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "session_id": "b06f3278-37c9-49bf-bafe-e205a1451cc7",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/kubectl-local-mesh",
+  "start_time": "2026-02-08T11:46:02.469Z",
+  "duration_minutes": 15,
+  "user_message_count": 7,
+  "assistant_message_count": 84,
+  "tool_counts": {
+    "Task": 1,
+    "Read": 7,
+    "Bash": 20,
+    "AskUserQuestion": 1,
+    "Write": 1,
+    "ExitPlanMode": 1,
+    "TaskCreate": 3,
+    "TaskUpdate": 7,
+    "Edit": 4
+  },
+  "languages": {
+    "YAML": 6,
+    "Markdown": 1,
+    "Go": 4
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 4867921,
+  "output_tokens": 11431,
+  "first_prompt": "ローカル環境にinstallするtaskを定義して",
+  "user_interruptions": 0,
+  "user_response_times": [
+    4.698,
+    37.262,
+    37.262
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Other": 1,
+    "User Rejected": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 74,
+  "lines_removed": 1,
+  "files_modified": 5,
+  "message_hours": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    21,
+    21
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T11:46:09.630Z",
+    "2026-02-08T11:46:09.626Z",
+    "2026-02-08T11:46:09.626Z",
+    "2026-02-08T11:46:27.075Z",
+    "2026-02-08T11:55:26.299Z",
+    "2026-02-08T12:00:22.149Z",
+    "2026-02-08T12:00:22.149Z"
+  ]
+}

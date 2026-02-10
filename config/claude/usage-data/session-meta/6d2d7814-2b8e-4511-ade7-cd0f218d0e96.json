@@ -1,0 +1,54 @@
+{
+  "session_id": "6d2d7814-2b8e-4511-ade7-cd0f218d0e96",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial/terraform/environments/sandbox/databricks/workspaces",
+  "start_time": "2026-02-05T05:41:33.295Z",
+  "duration_minutes": 5,
+  "user_message_count": 4,
+  "assistant_message_count": 49,
+  "tool_counts": {
+    "Glob": 1,
+    "Bash": 6,
+    "Read": 5,
+    "Write": 3,
+    "ExitPlanMode": 2,
+    "Edit": 1
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 3175859,
+  "output_tokens": 152,
+  "first_prompt": "direnvのセットアップをして",
+  "summary": "direnvと.envファイルの整備っ、かな｡あ、あのね｡",
+  "user_interruptions": 1,
+  "user_response_times": [
+    17.204,
+    32.986,
+    60.212
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "User Rejected": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 141,
+  "lines_removed": 23,
+  "files_modified": 3,
+  "message_hours": [
+    14,
+    14,
+    14,
+    14
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T05:41:53.074Z",
+    "2026-02-05T05:43:23.176Z",
+    "2026-02-05T05:44:18.288Z",
+    "2026-02-05T05:46:43.867Z"
+  ]
+}

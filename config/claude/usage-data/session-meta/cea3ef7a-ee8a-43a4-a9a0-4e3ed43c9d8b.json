@@ -1,0 +1,79 @@
+{
+  "session_id": "cea3ef7a-ee8a-43a4-a9a0-4e3ed43c9d8b",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-06T10:18:35.595Z",
+  "duration_minutes": 18,
+  "user_message_count": 13,
+  "assistant_message_count": 101,
+  "tool_counts": {
+    "Read": 11,
+    "Write": 3,
+    "Bash": 39,
+    "Edit": 4,
+    "Glob": 1
+  },
+  "languages": {
+    "YAML": 14,
+    "Markdown": 3
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 6056926,
+  "output_tokens": 12663,
+  "first_prompt": "Implement the following plan:  # pre-commit で aqua 管理の tflint/trivy が見つからない問題の修正  ## 問題  pre-commit の `terraform_tflint` フック実行時に `tflint: command not found` が発生する。 `terraform_trivy` も同様の問題が起きうる。  ## 原…",
+  "user_interruptions": 3,
+  "user_response_times": [
+    6.987,
+    6.721,
+    185.285,
+    17.858,
+    54.93,
+    54.93,
+    21.945,
+    28.6,
+    43.034,
+    43.034
+  ],
+  "tool_errors": 6,
+  "tool_error_categories": {
+    "Command Failed": 5,
+    "Other": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 162,
+  "lines_removed": 5,
+  "files_modified": 3,
+  "message_hours": [
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-02-06T10:18:35.595Z",
+    "2026-02-06T10:24:26.934Z",
+    "2026-02-06T10:24:33.166Z",
+    "2026-02-06T10:24:40.973Z",
+    "2026-02-06T10:24:46.082Z",
+    "2026-02-06T10:28:41.403Z",
+    "2026-02-06T10:30:05.030Z",
+    "2026-02-06T10:31:22.955Z",
+    "2026-02-06T10:31:22.955Z",
+    "2026-02-06T10:32:11.957Z",
+    "2026-02-06T10:32:18.612Z",
+    "2026-02-06T10:35:40.756Z",
+    "2026-02-06T10:35:40.756Z"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "session_id": "3bca6d7c-1295-4a08-acd0-6b83d9534f41",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/worktrees/caddi-data-fabric-databricks-trial/move-webapp-dir",
+  "start_time": "2026-02-09T01:15:48.813Z",
+  "duration_minutes": 34,
+  "user_message_count": 5,
+  "assistant_message_count": 57,
+  "tool_counts": {
+    "Read": 7,
+    "Glob": 2,
+    "Bash": 16,
+    "Edit": 3,
+    "Write": 7,
+    "Task": 1
+  },
+  "languages": {
+    "YAML": 17
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 3327046,
+  "output_tokens": 9520,
+  "first_prompt": "Implement the following plan:  # webapp → app/frontend ディレクトリ移動計画  ## Context  `webapp/` ディレクトリを `app/frontend/` に移動し､ディレクトリ構造を整理する｡ CI workflow ファイルと Taskfile の参照パスもあわせて更新する｡  ## 変更一覧  ### 1. ディレクトリ移…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    179.227,
+    179.227,
+    1054.953,
+    245.305
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Other": 2,
+    "Command Failed": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 417,
+  "lines_removed": 4,
+  "files_modified": 6,
+  "message_hours": [
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "user_message_timestamps": [
+    "2026-02-09T01:15:48.790Z",
+    "2026-02-09T01:21:02.732Z",
+    "2026-02-09T01:21:02.732Z",
+    "2026-02-09T01:43:15.985Z",
+    "2026-02-09T01:47:39.348Z"
+  ]
+}

@@ -28,7 +28,7 @@
   process = git-lfs filter-process
   required = true
 [alias]
-  mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull origin HEAD && gh poi
+  mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
 [fetch]
   prune = true
 [init]

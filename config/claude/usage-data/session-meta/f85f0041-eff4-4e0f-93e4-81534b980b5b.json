@@ -1,0 +1,49 @@
+{
+  "session_id": "f85f0041-eff4-4e0f-93e4-81534b980b5b",
+  "project_path": "/Users/masaru_uchida/src/github.com/caddi-sandbox/caddi-data-fabric-databricks-trial",
+  "start_time": "2026-02-05T06:34:35.244Z",
+  "duration_minutes": 7,
+  "user_message_count": 3,
+  "assistant_message_count": 20,
+  "tool_counts": {
+    "Read": 3,
+    "Edit": 2,
+    "Write": 1,
+    "Bash": 7
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 784754,
+  "output_tokens": 95,
+  "first_prompt": "Implement the following plan:  # Plan: .envrc と .env.sample の更新 + CLAUDE.md への追記  ## 概要  環境変数ファイル(.envrc, .env.sample)を改善し、CLAUDE.mdにこれらの説明を追加する。  ## 変更内容  ### 1. `.envrc` の更新  現在の内容に以下を追加・改善:  ```bas…",
+  "summary": ".envrc/.env.sample更新じゃん～",
+  "user_interruptions": 0,
+  "user_response_times": [
+    7.473,
+    7.473
+  ],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Command Failed": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 28,
+  "lines_removed": 2,
+  "files_modified": 3,
+  "message_hours": [
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-05T06:34:35.244Z",
+    "2026-02-05T06:36:17.097Z",
+    "2026-02-05T06:36:17.097Z"
+  ]
+}

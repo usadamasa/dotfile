@@ -1,0 +1,44 @@
+{
+  "session_id": "bf8bcbb1-4b7c-4c34-9528-7d28050eade9",
+  "project_path": "/Users/masaru_uchida/src/github.com/usadamasa/dotfile",
+  "start_time": "2026-02-08T06:51:55.341Z",
+  "duration_minutes": 3,
+  "user_message_count": 3,
+  "assistant_message_count": 37,
+  "tool_counts": {
+    "Bash": 23,
+    "WebFetch": 1
+  },
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 2,
+  "input_tokens": 1940732,
+  "output_tokens": 4654,
+  "first_prompt": "[Request interrupted by user]",
+  "user_interruptions": 1,
+  "user_response_times": [
+    29.654
+  ],
+  "tool_errors": 7,
+  "tool_error_categories": {
+    "Command Failed": 6,
+    "Other": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": true,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    15,
+    15,
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-08T06:52:00.002Z",
+    "2026-02-08T06:52:00.002Z",
+    "2026-02-08T06:55:13.220Z"
+  ]
+}
