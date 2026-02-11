@@ -29,7 +29,20 @@
   required = true
 [alias]
   mc = !git wt $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
-  reset-wt = !
+  clone-bare = "!f() { \
+    if [ -z \"$1\" ]; then echo \"Usage: git clone-bare <url>\" >&2; return 1; fi; \
+    root=$(git config ghq.root | sed \"s|^~|$HOME|\"); \
+    url=\"$1\"; \
+    path=$(echo \"$url\" | sed -E 's|^[a-z+]*://||; s|^git@||; s|:|/|; s|\\.git$||'); \
+    target=\"$root/$path/.git\"; \
+    if [ -d \"$target\" ]; then echo \"Already exists: $target\" >&2; return 1; fi; \
+    mkdir -p \"$root/$path\" && \
+    git clone --bare \"$url\" \"$target\" && \
+    git -C \"$target\" config remote.origin.fetch \"+refs/heads/*:refs/remotes/origin/*\" && \
+    git -C \"$target\" fetch origin && \
+    git -C \"$target\" remote set-head origin --auto && \
+    echo \"Bare cloned to $root/$path\"; \
+  }; f"
 [fetch]
   prune = true
 [init]
@@ -39,4 +52,4 @@
 	copyuntracked = true
 	copymodified = true
 	hook = test -f .envrc && direnv allow || true
-	basedir = ../worktrees/{gitroot}
+	basedir = .

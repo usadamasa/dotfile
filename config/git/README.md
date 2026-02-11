@@ -17,7 +17,7 @@ bare リポジトリをベースに、ブランチごとに独立した worktree
 
 ```mermaid
 flowchart TD
-    START[ghq get --bare でリポジトリ取得] --> WT_MAIN[git wt main で main worktree 作成]
+    START[git clone-bare でリポジトリ取得] --> WT_MAIN[git wt main で main worktree 作成]
     WT_MAIN --> SETUP[main worktree で初期セットアップ]
     SETUP --> WT_FEATURE[git wt で feature branch worktree 作成 & 移動]
     WT_FEATURE --> DEV[feature branch 上で開発]
@@ -39,10 +39,12 @@ flowchart TD
 ### 1. bare clone でリポジトリ取得
 
 ```bash
-ghq get --bare <repo-url>
+git clone-bare <repo-url>
 ```
 
-`ghq.root` (= `~/src`) 配下に bare リポジトリとしてクローンされる。
+カスタムエイリアスにより、`ghq.root` (= `~/src`) 配下に bare リポジトリをクローンする。
+URL をパースして `~/src/<host>/<owner>/<repo>/.git` に bare clone し、
+refspec 設定・リモートブランチ fetch・HEAD 自動設定まで一括実行する。
 bare clone は作業ディレクトリを持たないため、全ブランチを worktree で管理する前提。
 
 ### 2. main worktree 作成
@@ -52,7 +54,7 @@ git wt main
 ```
 
 bare リポジトリから main ブランチの worktree を作成し、そのディレクトリに移動する。
-`wt.basedir` 設定により、worktree は `../worktrees/{gitroot}` に配置される。
+`wt.basedir` 設定により、worktree はリポジトリルート直下 (`~/src/<host>/<owner>/<repo>/main`) に配置される。
 
 ### 3. 初期セットアップ
 
@@ -151,7 +153,8 @@ git wt -d <feature-branch>
     copyuntracked = true
     copymodified = true
     hook = test -f .envrc && direnv allow || true
-    basedir = ../worktrees/{gitroot}
+    basedir = .
 [alias]
+    clone-bare = "!f() { ... }; f"  # URL をパースして bare clone + refspec 設定
     mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
 ```
