@@ -158,6 +158,11 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
@@ -226,9 +231,5 @@
   },
   "alwaysThinkingEnabled": true,
   "teammateMode": "auto",
-  "statusLine": {
-    "type": "command",
-    "command": "npx -y ccstatusline@latest",
-    "padding": 0
-  }
+  "autoMemoryEnabled": true
 }
