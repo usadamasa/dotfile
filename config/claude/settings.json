@@ -176,13 +176,13 @@
     "gopls-lsp@claude-plugins-official": true,
     "jdtls-lsp@claude-plugins-official": true,
     "orm-discovery-mcp-go@orm-discovery-mcp-go": true,
-    "packer-builders@hashicorp": true,
-    "packer-hcp@hashicorp": true,
+    "packer-builders@hashicorp": false,
+    "packer-hcp@hashicorp": false,
     "terraform-code-generation@hashicorp": true,
     "terraform-module-generation@hashicorp": true,
     "terraform-provider-development@hashicorp": true,
     "codeguard-security@project-codeguard": true,
-    "frontend-design@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": false,
     "feature-dev@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
@@ -230,6 +230,6 @@
     ]
   },
   "alwaysThinkingEnabled": true,
-  "teammateMode": "auto",
-  "autoMemoryEnabled": true
+  "autoMemoryEnabled": true,
+  "teammateMode": "auto"
 }
