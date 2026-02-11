@@ -55,6 +55,50 @@ enter_dummy_repo() {
   cd "$TEST_DIR/dummy"
 }
 
+# 呼び出し元となる別リポジトリ用のリモートを作成するヘルパー
+setup_caller_remote() {
+  CALLER_REMOTE="$TEST_DIR/caller-remote.git"
+  git init --bare "$CALLER_REMOTE" >/dev/null 2>&1
+  local tmp="$TEST_DIR/tmp-caller"
+  git clone "$CALLER_REMOTE" "$tmp" >/dev/null 2>&1
+  cd "$tmp"
+  echo "caller" > README.md
+  git add README.md
+  git commit -m "Caller init" >/dev/null 2>&1
+  git push origin main >/dev/null 2>&1
+  cd "$TEST_DIR"
+  rm -rf "$tmp"
+}
+
+# 他リポジトリの通常 clone 内に cd する
+enter_other_regular_repo() {
+  setup_caller_remote
+  local clone_dir="$TEST_DIR/caller-regular"
+  git clone "$CALLER_REMOTE" "$clone_dir" >/dev/null 2>&1
+  cd "$clone_dir"
+}
+
+# 他リポジトリの bare repo 内に cd する
+enter_other_bare_repo() {
+  setup_caller_remote
+  local bare_dir="$TEST_DIR/caller-bare"
+  git clone --bare "$CALLER_REMOTE" "$bare_dir" >/dev/null 2>&1
+  cd "$bare_dir"
+}
+
+# 他リポジトリの worktree 内に cd する
+enter_other_worktree_repo() {
+  setup_caller_remote
+  local bare_dir="$TEST_DIR/caller-wt/.git"
+  mkdir -p "$TEST_DIR/caller-wt"
+  git clone --bare "$CALLER_REMOTE" "$bare_dir" >/dev/null 2>&1
+  git -C "$bare_dir" config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  git -C "$bare_dir" fetch origin >/dev/null 2>&1
+  git -C "$bare_dir" remote set-head origin --auto >/dev/null 2>&1
+  git -C "$bare_dir" worktree add "$TEST_DIR/caller-wt/main" main >/dev/null 2>&1
+  cd "$TEST_DIR/caller-wt/main"
+}
+
 # =============================================================================
 # URL パースのテスト
 # =============================================================================
@@ -124,6 +168,12 @@ get_clone_target() {
   echo "$TEST_GHQ_ROOT/$parsed_path/.git"
 }
 
+get_clone_root() {
+  local parsed_path
+  parsed_path=$(echo "file://$TEST_REMOTE" | sed -E 's|^[a-z+]*://||; s|^git@||; s|:|/|; s|\.git$||')
+  echo "$TEST_GHQ_ROOT/$parsed_path"
+}
+
 @test "bare clone でディレクトリが正しく配置される" {
   enter_dummy_repo
   run git clone-bare "file://$TEST_REMOTE"
@@ -172,4 +222,80 @@ get_clone_target() {
   run git -C "$target" branch -r
   [ "$status" -eq 0 ]
   [[ "$output" == *"origin/main"* ]]
+}
+
+# =============================================================================
+# worktree 自動作成
+# =============================================================================
+
+@test "bare clone でデフォルトブランチの worktree ディレクトリが作成される" {
+  enter_dummy_repo
+  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  local root
+  root=$(get_clone_root)
+
+  [ -d "$root/main" ]
+}
+
+@test "bare clone で worktree に正しいブランチがチェックアウトされている" {
+  enter_dummy_repo
+  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  local target
+  target=$(get_clone_target)
+
+  run git -C "$target" worktree list
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"main"* ]]
+}
+
+@test "bare clone で worktree にファイルが含まれている" {
+  enter_dummy_repo
+  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  local root
+  root=$(get_clone_root)
+
+  [ -f "$root/main/README.md" ]
+  run cat "$root/main/README.md"
+  [ "$output" = "initial" ]
+}
+
+@test "bare clone の成功メッセージに worktree 情報が含まれる" {
+  enter_dummy_repo
+  run git clone-bare "file://$TEST_REMOTE"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"(worktree: main)"* ]]
+}
+
+# =============================================================================
+# 異なるリポジトリコンテキストからの実行 (GIT_DIR リーク防止)
+# =============================================================================
+
+@test "他リポジトリの通常 clone 内から実行して worktree が作成される" {
+  enter_other_regular_repo
+  run git clone-bare "file://$TEST_REMOTE"
+  [ "$status" -eq 0 ]
+  local root
+  root=$(get_clone_root)
+  [ -d "$root/main" ]
+  [[ "$output" == *"(worktree: main)"* ]]
+}
+
+@test "他リポジトリの bare repo 内から実行して worktree が作成される" {
+  enter_other_bare_repo
+  run git clone-bare "file://$TEST_REMOTE"
+  [ "$status" -eq 0 ]
+  local root
+  root=$(get_clone_root)
+  [ -d "$root/main" ]
+  [[ "$output" == *"(worktree: main)"* ]]
+}
+
+@test "他リポジトリの worktree 内から実行して worktree が作成される" {
+  enter_other_worktree_repo
+  run git clone-bare "file://$TEST_REMOTE"
+  [ "$status" -eq 0 ]
+  local root
+  root=$(get_clone_root)
+  [ -d "$root/main" ]
+  [[ "$output" == *"(worktree: main)"* ]]
 }
