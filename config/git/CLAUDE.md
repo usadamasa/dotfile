@@ -35,7 +35,7 @@ Git のグローバル設定ファイル群を管理するディレクトリ。`
 
 ### カスタムエイリアス
 
-- `git clone-bare <url>` - bare clone を `<ghq.root>/<host>/<owner>/<repo>/.git` に配置｡refspec 設定 & fetch & HEAD 自動設定まで一括実行
+- `git bare-clone <url>` - bare clone を `<ghq.root>/<host>/<owner>/<repo>/.git` に配置｡refspec 設定 & fetch & HEAD 自動設定まで一括実行
 - `git mc` - メインブランチに切替 + pull + `gh poi` でマージ済みブランチ削除
 
 ### git-wt (worktree) 設定
