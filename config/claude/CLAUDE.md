@@ -1,8 +1,7 @@
 # CLAUDE.md
 
-> **Note:** This directory (`config/claude/`) is symlinked to `~/.claude` via dotfiles setup.
-> All configurations here apply globally to all projects.
-> Source: `~/src/github.com/usadamasa/dotfile/config/claude/`
+> **Note:** `config/claude/` 内の管理対象ファイルは `~/.claude` へファイルレベルで symlink されます｡
+> ランタイムファイル(cache, debug, history 等)は `~/.claude` に直接配置され､リポジトリには含まれません｡
 
 ## Conversation Guidelines
 

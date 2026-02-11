@@ -4,6 +4,9 @@ includes:
   go:
     taskfile: ./cmd/Taskfile.yml
     optional: true
+  claude:
+    taskfile: ./config/claude/Taskfile.yml
+    optional: true
 
 vars:
   DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
@@ -43,7 +46,7 @@ tasks:
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "$HOME/.oh-my-zsh" && echo '✓' || echo '✗')"
-        echo "Claude設定: $(test -L "$HOME/.claude" && echo '✓' || echo '✗')"
+      - task: claude:status
 
   test:
     desc: テストを実行
@@ -72,7 +75,7 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
-      - rm -rf "$HOME/.claude"
+      - task: claude:clean
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -138,7 +141,7 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/claude" "$HOME/.claude"
+      - task: claude:setup
 
   _setup-shell:
     internal: true

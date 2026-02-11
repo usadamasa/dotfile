@@ -175,21 +175,33 @@ When working with long commands in this repository:
 This repository manages Claude Code configuration at the global user level.
 
 ### Symlink Structure
-The `config/claude/` directory is symlinked to `~/.claude` during `task setup`.
-This means all configurations in this directory apply globally to all projects.
+`config/claude/` 内の管理対象ファイルは `~/.claude` へファイルレベルで個別に symlink されます｡
+`~/.claude` 自体は実ディレクトリであり､ランタイムファイル(cache, debug, history 等)はリポジトリに含まれません｡
+
+セットアップは `config/claude/Taskfile.yml` で管理されており､`task claude:setup` で個別実行も可能です｡
+
+| 対象 | symlink |
+|------|---------|
+| `CLAUDE.md` | `~/.claude/CLAUDE.md` → `config/claude/CLAUDE.md` |
+| `settings.json` | `~/.claude/settings.json` → `config/claude/settings.json` |
+| `hooks/` | `~/.claude/hooks` → `config/claude/hooks` |
+| `skills/*/` | 各スキルディレクトリを自動検出して個別に symlink |
 
 ### Global Skills
 Skills in `config/claude/skills/` are available across all projects:
 - `usadamasa-draft-pr` - Draft PR creation workflow with fixup commits
-- `usadamasa-skill-creation-guide` - Guide for creating Claude Code skills
-- `content-research-writer` - Content writing assistant with research
-- `cdp-confluence-guide` - CADDi Data Platform Confluence guide
+- `usadamasa-bats-testing` - bats-core testing guide
+- `usadamasa-git-worktree` - Git worktree management guide
+- `usadamasa-init-sub-dir` - Sub-directory CLAUDE.md initialization
 
 ### Adding New Global Skills
 ```sh
 # Create skill directory and SKILL.md
 mkdir -p config/claude/skills/<skill-name>
 touch config/claude/skills/<skill-name>/SKILL.md
+
+# Run setup to create symlink (skills are auto-detected)
+task claude:setup
 
 # Verify skill is recognized
 # Run /skills in Claude Code

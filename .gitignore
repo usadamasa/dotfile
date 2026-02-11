@@ -10,3 +10,5 @@
 /vimdir/dein/
 GetLatest/
 /.task/checksum
+.DS_Store
+.claude/settings.local.json
