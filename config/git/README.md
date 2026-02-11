@@ -17,7 +17,7 @@ bare リポジトリをベースに、ブランチごとに独立した worktree
 
 ```mermaid
 flowchart TD
-    START[git clone-bare でリポジトリ取得] --> WT_MAIN[git wt main で main worktree 作成]
+    START[git bare-clone でリポジトリ取得] --> WT_MAIN[git wt main で main worktree 作成]
     WT_MAIN --> SETUP[main worktree で初期セットアップ]
     SETUP --> WT_FEATURE[git wt で feature branch worktree 作成 & 移動]
     WT_FEATURE --> DEV[feature branch 上で開発]
@@ -39,7 +39,7 @@ flowchart TD
 ### 1. bare clone でリポジトリ取得
 
 ```bash
-git clone-bare <repo-url>
+git bare-clone <repo-url>
 ```
 
 カスタムエイリアスにより、`ghq.root` (= `~/src`) 配下に bare リポジトリをクローンする。
@@ -155,6 +155,6 @@ git wt -d <feature-branch>
     hook = test -f .envrc && direnv allow || true
     basedir = .
 [alias]
-    clone-bare = "!f() { ... }; f"  # URL をパースして bare clone + refspec 設定
+    bare-clone = "!f() { ... }; f"  # URL をパースして bare clone + refspec 設定
     mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
 ```

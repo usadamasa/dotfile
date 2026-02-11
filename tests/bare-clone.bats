@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
-# git clone-bare alias tests
-# clone-bare alias の URL パース、ディレクトリ配置、refspec 設定をテストする
+# git bare-clone alias tests
+# bare-clone alias の URL パース、ディレクトリ配置、refspec 設定をテストする
 
 REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 REAL_GIT_CONFIG="$REPO_ROOT/config/git/config"
@@ -144,15 +144,15 @@ parse_url() {
 
 @test "引数なしでエラー" {
   enter_dummy_repo
-  run git clone-bare
+  run git bare-clone
   [ "$status" -ne 0 ]
-  [[ "$output" == *"Usage: git clone-bare"* ]]
+  [[ "$output" == *"Usage: git bare-clone"* ]]
 }
 
 @test "既存ディレクトリがある場合エラー" {
   mkdir -p "$TEST_GHQ_ROOT/example.com/owner/repo/.git"
   enter_dummy_repo
-  run git clone-bare "https://example.com/owner/repo.git"
+  run git bare-clone "https://example.com/owner/repo.git"
   [ "$status" -ne 0 ]
   [[ "$output" == *"Already exists"* ]]
 }
@@ -176,14 +176,14 @@ get_clone_root() {
 
 @test "bare clone でディレクトリが正しく配置される" {
   enter_dummy_repo
-  run git clone-bare "file://$TEST_REMOTE"
+  run git bare-clone "file://$TEST_REMOTE"
   [ "$status" -eq 0 ]
   [[ "$output" == *"Bare cloned to"* ]]
 }
 
 @test "bare clone で .git ディレクトリが bare リポジトリになっている" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local target
   target=$(get_clone_target)
 
@@ -194,7 +194,7 @@ get_clone_root() {
 
 @test "bare clone で refspec が正しく設定される" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local target
   target=$(get_clone_target)
 
@@ -204,7 +204,7 @@ get_clone_root() {
 
 @test "bare clone で remote HEAD が設定される" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local target
   target=$(get_clone_target)
 
@@ -215,7 +215,7 @@ get_clone_root() {
 
 @test "bare clone でリモートブランチが fetch される" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local target
   target=$(get_clone_target)
 
@@ -230,7 +230,7 @@ get_clone_root() {
 
 @test "bare clone でデフォルトブランチの worktree ディレクトリが作成される" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local root
   root=$(get_clone_root)
 
@@ -239,7 +239,7 @@ get_clone_root() {
 
 @test "bare clone で worktree に正しいブランチがチェックアウトされている" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local target
   target=$(get_clone_target)
 
@@ -250,7 +250,7 @@ get_clone_root() {
 
 @test "bare clone で worktree にファイルが含まれている" {
   enter_dummy_repo
-  git clone-bare "file://$TEST_REMOTE" >/dev/null 2>&1
+  git bare-clone "file://$TEST_REMOTE" >/dev/null 2>&1
   local root
   root=$(get_clone_root)
 
@@ -261,7 +261,7 @@ get_clone_root() {
 
 @test "bare clone の成功メッセージに worktree 情報が含まれる" {
   enter_dummy_repo
-  run git clone-bare "file://$TEST_REMOTE"
+  run git bare-clone "file://$TEST_REMOTE"
   [ "$status" -eq 0 ]
   [[ "$output" == *"(worktree: main)"* ]]
 }
@@ -272,7 +272,7 @@ get_clone_root() {
 
 @test "他リポジトリの通常 clone 内から実行して worktree が作成される" {
   enter_other_regular_repo
-  run git clone-bare "file://$TEST_REMOTE"
+  run git bare-clone "file://$TEST_REMOTE"
   [ "$status" -eq 0 ]
   local root
   root=$(get_clone_root)
@@ -282,7 +282,7 @@ get_clone_root() {
 
 @test "他リポジトリの bare repo 内から実行して worktree が作成される" {
   enter_other_bare_repo
-  run git clone-bare "file://$TEST_REMOTE"
+  run git bare-clone "file://$TEST_REMOTE"
   [ "$status" -eq 0 ]
   local root
   root=$(get_clone_root)
@@ -292,7 +292,7 @@ get_clone_root() {
 
 @test "他リポジトリの worktree 内から実行して worktree が作成される" {
   enter_other_worktree_repo
-  run git clone-bare "file://$TEST_REMOTE"
+  run git bare-clone "file://$TEST_REMOTE"
   [ "$status" -eq 0 ]
   local root
   root=$(get_clone_root)

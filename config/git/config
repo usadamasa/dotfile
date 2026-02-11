@@ -29,9 +29,9 @@
   required = true
 [alias]
   mc = !git wt $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
-  clone-bare = "!f() { \
+  bare-clone = "!f() { \
     unset GIT_DIR GIT_WORK_TREE; \
-    if [ -z \"$1\" ]; then echo \"Usage: git clone-bare <url>\" >&2; return 1; fi; \
+    if [ -z \"$1\" ]; then echo \"Usage: git bare-clone <url>\" >&2; return 1; fi; \
     root=$(git config ghq.root | sed \"s|^~|$HOME|\"); \
     url=\"$1\"; \
     path=$(echo \"$url\" | sed -E 's|^[a-z+]*://||; s|^git@||; s|:|/|; s|\\.git$||'); \
