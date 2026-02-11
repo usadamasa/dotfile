@@ -25,6 +25,9 @@
 
 Read PLAN.md and implement every step sequentially. After each step, mark it complete with [x] in the plan file. Run all relevant CI checks (ruff, tflint, go vet) after completing all steps. If any check fails, fix it before proceeding. When all steps are done, commit and create a PR.
 
+- プランはあくまで「方針」であり､実装時にコードや設定ファイルを読んで実態との乖離に気づいたら､プランに盲従せず実態を優先すること｡
+- 乖離に気づいた時点でユーザーに確認するか､明らかにプラン側の誤りであれば自分で修正して進める｡検証ステップまで問題を先送りしない｡
+
 ### Infrastructure changes
 
 Before proposing any infrastructure changes, confirm:
