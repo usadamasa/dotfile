@@ -47,6 +47,17 @@ Before proposing any infrastructure changes, confirm:
 - 実装中はテストを変更せず､コードを修正し続ける
 - すべてのテストが通過するまで繰り返す
 
+## Git 操作のプリフライトチェック
+
+git 操作 (commit, push, PR作成など) を行う前に、**必ず以下の環境チェックを実行する**:
+
+1. `cat .git` で worktree 環境かどうかを判定する
+   - ファイルで `gitdir: ...` が返る → **worktree 環境**
+   - ディレクトリとして存在する → 通常のリポジトリ
+2. worktree 環境の場合、`git config --get remote.origin.fetch` を確認する
+   - 空なら `git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"` で修正してから `git fetch origin` を実行する
+3. `gh pr create` は worktree + bare 環境では `--head {branch_name}` フラグを付ける
+
 ## 技術調査とツール
 
 - 技術要素やソフトウェアエンジニアリングについて調査するときは subagent: orm-discovery-mcp-go:oreilly-researcher を積極的に利用するようにしてください｡

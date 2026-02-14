@@ -231,5 +231,6 @@
   },
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": true,
-  "teammateMode": "auto"
+  "teammateMode": "auto",
+  "effortLevel": "medium"
 }

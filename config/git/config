@@ -55,4 +55,4 @@
 	copyuntracked = true
 	copymodified = true
 	hook = test -f .envrc && direnv allow || true
-	basedir = .
+	basedir = ../worktree/{gitroot}
