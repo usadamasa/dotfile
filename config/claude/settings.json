@@ -52,6 +52,10 @@
       "Bash(golangci-lint:*)",
       "Bash(ls:*)",
       "Bash(make:*)",
+      "Bash(mkdir -p ~/.claude/**)",
+      "Bash(mkdir -p .claude/**)",
+      "Bash(mkdir ~/.claude/**)",
+      "Bash(mkdir .claude/**)",
       "Bash(pre-commit:*)",
       "Bash(ruff:*)",
       "Bash(task:*)",
@@ -244,6 +248,5 @@
   },
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": true,
-  "teammateMode": "auto",
-  "effortLevel": "medium"
+  "teammateMode": "auto"
 }
