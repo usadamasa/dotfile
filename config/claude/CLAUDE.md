@@ -58,6 +58,20 @@ git 操作 (commit, push, PR作成など) を行う前に、**必ず以下の環
    - 空なら `git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"` で修正してから `git fetch origin` を実行する
 3. `gh pr create` は worktree + bare 環境では `--head {branch_name}` フラグを付ける
 
+## セッション管理
+
+### セッション分割
+
+- 1タスク = 1セッション｡タスク完了後は新規セッションを開始する｡
+- plan → implement → verify のサイクルをworktree単位で分離する｡
+- 長時間セッションではコンテキストが蓄積し､APIコール1回あたりのinput tokensが増大するため､定期的にセッションを区切る｡
+
+### subagentモデル指定
+
+- Taskツールでの探索(`subagent_type=Explore`)は `model: "haiku"` を指定する｡
+- 実装の計画(`subagent_type=Plan`)は `model: "sonnet"` を指定する｡
+- 実装は親セッションのデフォルトモデルを使用する｡
+
 ## 技術調査とツール
 
 - 技術要素やソフトウェアエンジニアリングについて調査するときは subagent: orm-discovery-mcp-go:oreilly-researcher を積極的に利用するようにしてください｡
