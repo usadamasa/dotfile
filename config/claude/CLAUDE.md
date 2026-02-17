@@ -68,8 +68,8 @@ git 操作 (commit, push, PR作成など) を行う前に、**必ず以下の環
 
 ### subagentモデル指定
 
-- Taskツールでの探索(`subagent_type=Explore`)は `model: "haiku"` を指定する｡
-- 実装の計画(`subagent_type=Plan`)は `model: "sonnet"` を指定する｡
+- Taskツールでの探索(`subagent_type=Explore`)は `model: "haiku"` または `model: "sonnet"` を指定する｡
+- 実装の計画(`subagent_type=Plan`)は `model: "opus"` を指定する｡
 - 実装は親セッションのデフォルトモデルを使用する｡
 
 ## 技術調査とツール
