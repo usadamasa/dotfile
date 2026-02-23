@@ -88,7 +88,7 @@ func ScanSessionFile(path string) (*SessionResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	result := &SessionResult{
 		ModelUsage: make(map[string]ModelTokens),

@@ -201,9 +201,7 @@ func domainMatchesAllowlist(domain string, allowlistSet map[string]bool) bool {
 func splitDomain(domain string) []string {
 	var parts []string
 	for _, p := range filepath.SplitList(domain) {
-		for _, s := range split(p, '.') {
-			parts = append(parts, s)
-		}
+		parts = append(parts, split(p, '.')...)
 	}
 	return parts
 }

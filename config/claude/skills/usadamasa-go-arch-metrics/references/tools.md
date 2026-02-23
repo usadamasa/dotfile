@@ -35,7 +35,7 @@ packages:
   # golangci-lint: テスト可能性・保守性メトリクス
   - name: golangci/golangci-lint@v1.62.2
   # go-arch-lint: パッケージ依存方向チェック
-  - name: fe3dex/go-arch-lint@v1.14.0
+  - name: fe3dback/go-arch-lint@v1.14.0
 ```
 
 aqua を使ったツールのインストール:
@@ -142,7 +142,7 @@ internal/usecase/order.go:89:5: nestif: nesting depth 6 > 5 (nestif)
 aqua install
 
 # 手動インストール
-go install github.com/fe3dex/go-arch-lint@latest
+go install github.com/fe3dback/go-arch-lint@latest
 
 # 実行 (プロジェクトルートから)
 go-arch-lint check ./...

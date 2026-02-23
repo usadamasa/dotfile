@@ -49,7 +49,8 @@ if check_tool golangci-lint; then
     pushd "$PROJECT_ROOT" >/dev/null
 
     # JSON 形式で実行 (エラーは無視して違反数を収集)
-    GOLANGCI_JSON=$(golangci-lint run --out-format json --timeout 5m ./... 2>/dev/null || true)
+    # v2 では --out-format json は廃止。--output.json.path stdout を使う
+    GOLANGCI_JSON=$(golangci-lint run --output.json.path stdout --timeout 5m ./... 2>/dev/null || true)
 
     if [[ -n "$GOLANGCI_JSON" ]]; then
         # linter 別の違反数を集計
