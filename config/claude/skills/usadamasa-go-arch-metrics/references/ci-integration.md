@@ -6,6 +6,10 @@ CI でも同じ `aqua.yaml` を使ってツールバージョンを固定する�
 
 ### aqua.yaml (プロジェクトルート)
 
+> **注意**: aqua は go-arch-lint の管理に主に使う。
+> golangci-lint は GitHub Actions では `golangci/golangci-lint-action` が自前でインストールするため aqua 不要。
+> ローカル環境では `go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest` でも可。
+
 ```yaml
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/aquaproj/aqua/main/json-schema/aqua-yaml.json
@@ -16,8 +20,8 @@ registries:
     ref: v4.227.0  # 定期的に更新する
 
 packages:
-  - name: golangci/golangci-lint@v1.62.2
-  - name: fe3dex/go-arch-lint@v1.14.0
+  - name: golangci/golangci-lint@v2.9.0   # golangci-lint v2 系を使う (v1 と設定非互換)
+  - name: fe3dback/go-arch-lint@v1.14.0
 ```
 
 ---
@@ -122,7 +126,7 @@ jobs:
           cache: false
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v7
         with:
           version: v1.62.2
           # .golangci.yml を自動で読み込む
@@ -148,7 +152,7 @@ GitHub Actions 側の設定:
 
 ```yaml
 - name: golangci-lint (new issues only)
-  uses: golangci/golangci-lint-action@v6
+  uses: golangci/golangci-lint-action@v7
   with:
     version: v1.62.2
     args: --new-from-rev=origin/main

@@ -27,23 +27,40 @@ Go プロジェクトのモジュール性とテスト可能性を測定・改�
 | 保守性 | 到達不能コード | deadcode | 違反 = 0 |
 | 静的解析 | 高度なバグ検出 | staticcheck | デフォルト有効 |
 
-## 前提: ツールの準備 (aqua + direnv)
+## golangci-lint のバージョンについて
 
-本スキルのツール群は **aqua** で管理する。aqua が未導入の場合は先にインストールする:
+> **重要**: golangci-lint v1 と v2 は設定ファイルが非互換。**必ず v2 を使うこと。**
+>
+> | 項目 | v1 (旧) | v2 (現行) |
+> |------|---------|----------|
+> | linter 設定 | `linters-settings:` (トップレベル) | `linters.settings:` (linters 内) |
+> | テスト除外 | `issues.exclude-rules:` | `linters.exclusions.rules:` |
+> | JSON 出力 | `--out-format json` | `--output.json.path stdout` |
+> | バージョン宣言 | `version: "1"` or なし | `version: "2"` |
+>
+> v1 形式のキーは v2 では **警告なしに無視される** ため、設定が効いていないことに気づきにくい。
+
+## 前提: ツールの準備
+
+### golangci-lint のインストール
 
 ```bash
-brew install aquaproj/aqua/aqua
-# ~/.zshrc に追加
-export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
+# ローカル: go install で最新 v2 をインストール
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+
+# または aqua で管理 (バージョン固定したい場合)
+# aqua.yaml に golangci/golangci-lint@v2.x.x を追加
 ```
 
-プロジェクトルートの `aqua.yaml` にツールを追加し、**direnv** で自動読み込みを設定する:
+**GitHub Actions では aqua 不要**: `golangci/golangci-lint-action@v6` が自動インストールする。
+
+### go-arch-lint のインストール (モジュール性チェックが必要な場合のみ)
 
 ```bash
-brew install direnv
-# .envrc に追記
-echo 'export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"' >> .envrc
-direnv allow .
+# aqua で管理する (aqua が未導入の場合は先にインストール)
+brew install aquaproj/aqua/aqua
+# aqua.yaml に fe3dback/go-arch-lint@v1.14.0 を追加して:
+aqua install
 ```
 
 詳細は `references/tools.md` の「ツール管理: aqua + direnv」セクションを参照。
@@ -55,9 +72,12 @@ direnv allow .
 `scripts/baseline.sh` を使って現状のメトリクスを把握する。
 
 ```bash
-# aqua でツールをインストールしてからベースラインを測定する
-aqua install
+# golangci-lint が入っていればそのままベースライン測定できる
+# (go-arch-lint がなくても golangci-lint 部分だけ測定される)
 bash ~/.claude/skills/usadamasa-go-arch-metrics/scripts/baseline.sh ./
+
+# go-arch-lint も使いたい場合は aqua でインストールしてから:
+# aqua install && bash ~/.claude/skills/usadamasa-go-arch-metrics/scripts/baseline.sh ./
 ```
 
 出力されたサマリを確認し、違反件数と重大度を記録する。
