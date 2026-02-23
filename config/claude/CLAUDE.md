@@ -36,6 +36,12 @@ Before proposing any infrastructure changes, confirm:
 - 3) What auth method is used (service account, IAM, workload identity)?
 - 4) List any known constraints from previous failed attempts.
 
+### CI 優先ポリシー
+
+- CI が失敗したら、進行中のタスクに関係ない不具合であっても **即座にすべてのタスクを止めて CI 修正に注力** する
+- 「main でも同じだから既存問題」として無視して先に進めてはいけない
+- CI が安定して通ることを確認してから元のタスクを再開する
+
 ### Test-Driven Development (TDD)
 
 - 原則としてテスト駆動開発(TDD)で進める
