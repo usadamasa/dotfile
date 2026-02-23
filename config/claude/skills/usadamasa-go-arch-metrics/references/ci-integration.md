@@ -126,7 +126,7 @@ jobs:
           cache: false
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v7
         with:
           version: v1.62.2
           # .golangci.yml を自動で読み込む
@@ -152,7 +152,7 @@ GitHub Actions 側の設定:
 
 ```yaml
 - name: golangci-lint (new issues only)
-  uses: golangci/golangci-lint-action@v6
+  uses: golangci/golangci-lint-action@v7
   with:
     version: v1.62.2
     args: --new-from-rev=origin/main
