@@ -7,11 +7,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a personal dotfiles repository for macOS development environment setup. The structure follows XDG Base Directory standards:
 
 - `config/` - Contains all configuration files organized by tool
-  - `claude/` - Claude Code configuration (symlinked to `~/.claude`)
-    - `CLAUDE.md` - Global Claude Code instructions
-    - `settings.json` - Permissions, plugins, model settings
-    - `skills/` - Global skills (available in all projects)
-    - `commands/` - Custom commands
   - `git/` - Git configuration and global gitignore
   - `npm/` - npm configuration with custom registry and cache settings
   - `vim/` - Vim configuration with XDG compliance and plugin management
@@ -172,41 +167,17 @@ When working with long commands in this repository:
 
 ## Claude Code Configuration
 
-This repository manages Claude Code configuration at the global user level.
+Claude Code のグローバル設定は **`usadamasa/claude-config`** リポジトリで管理されています｡
 
-### Symlink Structure
-`config/claude/` 内の管理対象ファイルは `~/.claude` へファイルレベルで個別に symlink されます｡
-`~/.claude` 自体は実ディレクトリであり､ランタイムファイル(cache, debug, history 等)はリポジトリに含まれません｡
-
-セットアップは `config/claude/Taskfile.yml` で管理されており､`task claude:setup` で個別実行も可能です｡
-
-| 対象 | symlink |
-|------|---------|
-| `CLAUDE.md` | `~/.claude/CLAUDE.md` → `config/claude/CLAUDE.md` |
-| `settings.json` | `~/.claude/settings.json` → `config/claude/settings.json` |
-| `hooks/` | `~/.claude/hooks` → `config/claude/hooks` |
-| `skills/*/` | 各スキルディレクトリを自動検出して個別に symlink |
-
-### Global Skills
-Skills in `config/claude/skills/` are available across all projects:
-- `usadamasa-draft-pr` - Draft PR creation workflow with fixup commits
-- `usadamasa-bats-testing` - bats-core testing guide
-- `usadamasa-git-worktree` - Git worktree management guide
-- `usadamasa-init-sub-dir` - Sub-directory CLAUDE.md initialization
-
-### Adding New Global Skills
 ```sh
-# Create skill directory and SKILL.md
-mkdir -p config/claude/skills/<skill-name>
-touch config/claude/skills/<skill-name>/SKILL.md
-
-# Run setup to create symlink (skills are auto-detected)
-task claude:setup
-
-# Verify skill is recognized
-# Run /skills in Claude Code
+ghq get github.com/usadamasa/claude-config
+cd ~/src/github.com/usadamasa/claude-config
+task setup
 ```
 
+`task setup` / `task status` / `task clean` は dotfile の Taskfile.yml から自動的に委譲されます｡
+claude-config が未クローンの場合は警告メッセージが表示されます｡
+
 ### Note on Skill Scope
-- **Global skills** → Place in `config/claude/skills/` (applies to all projects)
-- **Project-specific skills** → Place in `.claude/skills/` within the project repository
+- **Global skills** → `usadamasa/claude-config` リポジトリの `skills/` に配置 (全プロジェクトで利用可能)
+- **Project-specific skills** → プロジェクトの `.claude/skills/` に配置
