@@ -82,7 +82,46 @@ PLAN.md が存在する場合は、その進捗状態も確認する。
 
 プロジェクトの auto memory ディレクトリに `SESSION_HANDOFF.md` を書き込む。
 
-保存先の特定方法:
+#### worktree 環境の検出と親 memory への保存
+
+まず `.git` がファイルかディレクトリかを確認し、worktree 環境かどうかを判定する:
+
+```bash
+# .git がファイルなら worktree 環境
+cat .git
+# → "gitdir: /path/to/.git/worktrees/feature" なら worktree
+# → ディレクトリなら通常のリポジトリ
+```
+
+**worktree 環境の場合、2か所に保存する:**
+
+```bash
+# .git ファイルから gitdir を取得
+GIT_DIR=$(sed 's/^gitdir: //' .git | tr -d '\n')
+
+# ブランチ名を取得 (親 memory のファイル名に使う)
+BRANCH_NAME=$(sed 's|ref: refs/heads/||' "$GIT_DIR/HEAD" | tr -d '\n')
+
+# commondir から親 .git ディレクトリを特定
+COMMON_REL=$(cat "$GIT_DIR/commondir" | tr -d '\n')
+# 相対パスを絶対パスに変換
+COMMON_ABS="$(cd "$GIT_DIR" && cd "$COMMON_REL" && pwd)"
+PARENT_ROOT="$(dirname "$COMMON_ABS")"
+
+# パスエンコード: / . _ を - に変換
+encode_path() { echo "$1" | tr '/._' '-'; }
+WORKTREE_ENC=$(encode_path "$(pwd)")
+WORKTREE_MEM="$HOME/.claude/projects/$WORKTREE_ENC/memory"
+PARENT_ENC=$(encode_path "$PARENT_ROOT")
+PARENT_MEM="$HOME/.claude/projects/$PARENT_ENC/memory"
+mkdir -p "$WORKTREE_MEM" "$PARENT_MEM"
+```
+
+保存先:
+1. **主**: worktree の memory path → `$WORKTREE_MEM/SESSION_HANDOFF.md` (現セッションの自動ロード用)
+2. **副**: 親リポジトリの memory path → `$PARENT_MEM/SESSION_HANDOFF_${BRANCH_NAME}.md` (親からの可視性用、親の `SESSION_HANDOFF.md` を上書きしない)
+
+**通常リポジトリの場合の保存先特定方法:**
 
 ```bash
 # CWD のパスから auto memory のプロジェクトディレクトリを導出する
@@ -90,24 +129,25 @@ PLAN.md が存在する場合は、その進捗状態も確認する。
 #   → ~/.claude/projects/-Users-masaru-uchida-src-github-com-usadamasa-dotfile-main/memory/SESSION_HANDOFF.md
 ```
 
-auto memory ディレクトリのパスは、CWD の `/` を `-` に置換し、先頭に `-` を付けたものになる。
+auto memory ディレクトリのパスは、CWD の `/` `.` `_` を `-` に置換したものになる。
 memory サブディレクトリが存在しない場合は作成する。
 
 既存の `SESSION_HANDOFF.md` がある場合は上書きする(常に最新の状態を反映)。
 
-### Step 5: コンテキストを圧縮
+### Step 5: コンテキストを圧縮して作業を再開
 
-`/compact` を実行してコンテキストを圧縮する。
+`/compact` を実行してコンテキストを圧縮する。圧縮後はユーザーの確認を待たずに直ちに次のアクションを実行すること。
 
-圧縮時の維持指示として、引継書の要点を含める:
+圧縮指示に「圧縮後の再開命令」を含める:
 
 ```
-/compact SESSION_HANDOFF.mdの内容を維持しつつコンテキストを圧縮。現在のタスク: <タスク概要>、次のアクション: <次にやること>
+/compact SESSION_HANDOFF.mdの内容を維持しつつコンテキストを圧縮。圧縮完了後はユーザーへの確認なしに直ちに作業を再開すること。次のアクション: <次にやること1>
 ```
+
+圧縮が完了したら、SESSION_HANDOFF.md の「次のアクション」の先頭から自動的に作業を再開する。ユーザーに「続けますか?」等の確認は不要。
 
 ## 注意事項
 
 - 引継書は簡潔に保つ。詳細すぎると次セッションのコンテキストを圧迫する
 - MEMORY.md は更新しない(SESSION_HANDOFF.md は次セッション起動時に自動で読み込まれる)
-- 圧縮後もセッションは継続可能。`claude --continue` で次セッションから再開することもできる
 - PLAN.md がある場合は、そのチェック状態を引継書に反映する

@@ -137,6 +137,54 @@ hook = test -f .envrc && direnv allow || true
 git worktree list
 ```
 
+## worktree 削除前の Claude Code Memory 移行
+
+worktree を削除すると、その worktree に保存された Claude Code の auto-memory (`MEMORY.md`, `SESSION_HANDOFF.md`) が消える。
+`migrate-worktree-memory.sh` を使うと、削除前に親リポジトリの memory path へ自動退避できる。
+
+### 手動実行
+
+```bash
+~/.claude/hooks/migrate-worktree-memory.sh /path/to/worktree
+```
+
+### git-wt deletehook への登録
+
+`wt.deletehook` に登録することで、`git wt -d <branch>` 実行時に自動で実行される:
+
+```ini
+# ~/.config/git/config または各リポジトリの .git/config
+[wt]
+    deletehook = ~/.claude/hooks/migrate-worktree-memory.sh
+```
+
+**設定例 (推奨設定に追加):**
+
+```ini
+[wt]
+    copyignored = true
+    copyuntracked = true
+    copymodified = true
+    hook = test -f .envrc && direnv allow || true
+    basedir = ../worktrees/{gitroot}
+    deletehook = ~/.claude/hooks/migrate-worktree-memory.sh
+```
+
+### 動作内容
+
+1. worktree の `.git` ファイルから親リポジトリのパスを導出する
+2. 親リポジトリの Claude Code memory path (`~/.claude/projects/.../memory/`) に移行する
+3. `SESSION_HANDOFF.md`: 上書きコピー (最新の引き継ぎ情報を優先)
+4. `MEMORY.md`: 親が存在する場合は末尾に追記、存在しない場合はコピー
+
+追記フォーマット:
+
+```markdown
+## [Merged from worktree: {branch-name}] YYYY-MM-DD
+
+{worktree の MEMORY.md 内容}
+```
+
 ## 関連リンク
 
 - [git-wt GitHub](https://github.com/k1LoW/git-wt)
