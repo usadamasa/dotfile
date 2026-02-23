@@ -37,7 +37,7 @@ tasks:
         echo "主要ツール: $(command -v git >/dev/null && command -v gh >/dev/null && echo '✓' || echo '✗')"
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
-        echo "oh-my-zsh: $(test -d "$HOME/.oh-my-zsh" && echo '✓' || echo '✗')"
+        echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
       - |
         CLAUDE_CONFIG_DIR="$HOME/src/github.com/usadamasa/claude-config"
         if [ -d "$CLAUDE_CONFIG_DIR" ]; then
@@ -158,11 +158,12 @@ tasks:
     cmds:
       - echo "🐚 シェル環境をセットアップ中..."
       - |
-        if [ ! -d "$HOME/.oh-my-zsh" ]; then
-          RUNZSH=no sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
+        OMZ_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh"
+        if [ ! -d "$OMZ_DIR" ]; then
+          ZSH="$OMZ_DIR" RUNZSH=no sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
         fi
       - |
-        ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+        ZSH_CUSTOM="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh/custom"
         if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
           git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
         fi
