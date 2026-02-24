@@ -92,5 +92,8 @@ source ${ZDOTDIR}/funcs/peco-src.sh
 # https://github.com/k1LoW/git-wt
 eval "$(git wt --init zsh)"
 
+# Claude Code env
+[ -s "$HOME/.claude/env.sh" ] && . "$HOME/.claude/env.sh"
+
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
