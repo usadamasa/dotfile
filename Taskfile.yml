@@ -38,13 +38,6 @@ tasks:
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
-      - |
-        CLAUDE_CONFIG_DIR="$HOME/src/github.com/usadamasa/claude-config"
-        if [ -d "$CLAUDE_CONFIG_DIR" ]; then
-          task -d "$CLAUDE_CONFIG_DIR" status
-        else
-          echo "Claude設定: ⚠️  未クローン (ghq get github.com/usadamasa/claude-config)"
-        fi
 
   test:
     desc: テストを実行
@@ -72,13 +65,6 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
-      - |
-        CLAUDE_CONFIG_DIR="$HOME/src/github.com/usadamasa/claude-config"
-        if [ -d "$CLAUDE_CONFIG_DIR" ]; then
-          task -d "$CLAUDE_CONFIG_DIR" clean
-        else
-          echo "⚠️  claude-config 未クローン: ghq get github.com/usadamasa/claude-config"
-        fi
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -144,13 +130,6 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
-      - |
-        CLAUDE_CONFIG_DIR="$HOME/src/github.com/usadamasa/claude-config"
-        if [ -d "$CLAUDE_CONFIG_DIR" ]; then
-          task -d "$CLAUDE_CONFIG_DIR" setup
-        else
-          echo "⚠️  claude-config 未クローン: ghq get github.com/usadamasa/claude-config"
-        fi
 
   _setup-shell:
     internal: true
