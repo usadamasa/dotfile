@@ -97,3 +97,6 @@ eval "$(git wt --init zsh)"
 
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
