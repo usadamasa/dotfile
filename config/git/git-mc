@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+
+if [ "$(git rev-parse --git-dir)" != "$(git rev-parse --git-common-dir)" ]; then
+  git wt "$main_branch"
+else
+  git switch "$main_branch"
+fi
+
+git pull --tags origin HEAD
+gh poi
