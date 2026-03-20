@@ -34,8 +34,8 @@
 [init]
   defaultBranch = main
 [wt]
-	copyignored = true
-	copyuntracked = true
-	copymodified = true
-	hook = test -f .envrc && direnv allow || true
-	basedir = ../worktree/{gitroot}
+  copyignored = true
+  copyuntracked = true
+  copymodified = true
+  hook = test -f .envrc && direnv allow || true
+  basedir = ../worktree/{gitroot}

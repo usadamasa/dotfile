@@ -14,12 +14,11 @@ tasks:
     cmds:
       - echo "🚀 初回セットアップを開始します..."
       - task: _install-homebrew
-      - task: _install-go-task
       - task: setup
       - echo "🎉 セットアップ完了！新しいターミナルを開いて設定を有効化してください"
 
   setup:
-    desc: 完全セットアップ（ツール + 設定）
+    desc: 完全セットアップ(ツール + 設定ファイル + シェル環境 + 追加ツール)
     cmds:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
@@ -87,37 +86,12 @@ tasks:
     status:
       - command -v brew
 
-  _install-go-task:
-    internal: true
-    deps: [_install-homebrew]
-    cmds:
-      - |
-        if ! command -v task &> /dev/null; then
-          echo "📦 go-taskをインストール中..."
-          brew install go-task
-        fi
-
   _install-tools:
     internal: true
     deps: [_install-homebrew]
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
-      - |
-        brew install \
-          bats-core \
-          direnv \
-          editorconfig \
-          gh \
-          ghq \
-          git \
-          git-now \
-          jq \
-          peco \
-          pipx \
-          tig \
-          xdg-ninja \
-          zsh \
-        2>/dev/null || echo "⚠️ 一部ツールは既にインストール済みです"
+      - brew bundle install --file Brewfile --quiet
 
   _setup-config:
     internal: true
@@ -156,17 +130,5 @@ tasks:
     cmds:
       - echo "🛠️ 追加ツールをセットアップ中..."
       - mkdir -p "$HOME/.local/share/vim" "$HOME/.cache/vim/swap" "$HOME/.cache/vim/backup"
-      - |
-        if ! command -v powerline-shell &> /dev/null; then
-          pipx install powerline-shell
-        fi
-      - |
-        brew install --cask \
-          font-cica \
-          jetbrains-toolbox \
-          visual-studio-code \
-        2>/dev/null || true
-      - |
-        if command -v gh &> /dev/null && ! gh extension list | grep -q "seachicken/gh-poi"; then
-          gh extension install seachicken/gh-poi
-        fi
+      - pipx install powerline-shell --force --quiet
+      - gh extension install seachicken/gh-poi --force
