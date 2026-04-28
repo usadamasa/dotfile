@@ -102,7 +102,7 @@ teardown() {
 # 共通動作
 # =============================================================================
 
-@test "git pull --tags origin HEAD が実行される" {
+@test "git pull --tags --force origin main が実行される" {
   export MOCK_GIT_DIR=".git"
   export MOCK_GIT_COMMON_DIR=".git"
 
@@ -110,7 +110,7 @@ teardown() {
   [ "$status" -eq 0 ]
 
   run cat "$MOCK_LOG"
-  [[ "$output" == *"git pull --tags origin HEAD"* ]]
+  [[ "$output" == *"git pull --tags --force origin main"* ]]
 }
 
 @test "gh poi が実行される" {

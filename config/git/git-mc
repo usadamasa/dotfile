@@ -9,5 +9,5 @@ else
   git switch "$main_branch"
 fi
 
-git pull --tags origin HEAD
+git pull --tags --force origin "$main_branch"
 gh poi
