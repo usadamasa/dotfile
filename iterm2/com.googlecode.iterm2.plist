@@ -61,6 +61,18 @@
 			<true/>
 			<key>ASCII Ligatures</key>
 			<false/>
+			<key>AWDS Pane Directory</key>
+			<string></string>
+			<key>AWDS Pane Option</key>
+			<string>Recycle</string>
+			<key>AWDS Tab Directory</key>
+			<string></string>
+			<key>AWDS Tab Option</key>
+			<string>Recycle</string>
+			<key>AWDS Window Directory</key>
+			<string>/Users/masaru_uchida/workspace</string>
+			<key>AWDS Window Option</key>
+			<string>Yes</string>
 			<key>Allow Paste Bracketing</key>
 			<true/>
 			<key>Ambiguous Double Width</key>
@@ -872,7 +884,7 @@
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
-			<string>Recycle</string>
+			<string>Advanced</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Description</key>
@@ -1305,7 +1317,7 @@
 			<key>Window Type</key>
 			<integer>0</integer>
 			<key>Working Directory</key>
-			<string>/Users/masaru_uchida</string>
+			<string>/Users/masaru_uchida/workspace</string>
 		</dict>
 		<dict>
 			<key>ASCII Anti Aliased</key>
@@ -2559,12 +2571,6 @@
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
-	<key>OpenArrangementAtStartup</key>
-	<false/>
-	<key>OpenBookmark</key>
-	<false/>
-	<key>OpenNoWindowsAtStartup</key>
-	<false/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>1</integer>
 	<key>PointerActions</key>

@@ -122,7 +122,7 @@ gh pr edit
 ```bash
 # main worktree に移動してクリーンアップ
 git mc
-# → git switch main && git pull --tags origin HEAD && gh poi
+# → git switch main && git pull --tags --force origin main && gh poi
 ```
 
 `git mc` エイリアスは以下を一括実行する:
@@ -156,5 +156,5 @@ git wt -d <feature-branch>
     basedir = .
 [alias]
     bare-clone = "!f() { ... }; f"  # URL をパースして bare clone + refspec 設定
-    mc = !git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') && git pull --tags origin HEAD && gh poi
+    mc = !~/.config/git/git-mc  # main ブランチ切替 + pull --tags --force + gh poi
 ```
