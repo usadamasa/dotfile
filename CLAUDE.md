@@ -11,10 +11,10 @@ This is a personal dotfiles repository for macOS development environment setup. 
   - `npm/` - npm configuration with custom registry and cache settings
   - `vim/` - Vim configuration with XDG compliance and plugin management
   - `zsh/` - Zsh configuration with oh-my-zsh integration
-- `cmd/` - Go CLI ツール群
-  - `<コマンド名>/` - 各コマンドのソースとテスト (package main)
-  - `Taskfile.yml` - Go 関連タスク定義 (go namespace)
-- `go.mod` - Go モジュール定義 (リポジトリルート)
+  - `git/git-mc` - 自作 git サブコマンド (シェルスクリプト)
+- `tests/` - bats-core によるシェルスクリプトのテスト (`*.bats`)
+- `Taskfile.yml` - go-task のタスク定義 (セットアップ/テスト/フォーマット)
+- `Brewfile` - Homebrew で管理する依存ツール一覧
 - `.zshenv` - XDG environment variables (symlinked to home directory)
 
 ## Common Commands
@@ -109,53 +109,40 @@ xdg-ninja --skip-unsupported
 - `XDG_CACHE_HOME` - User-specific cache files (`~/.cache`)
 - `XDG_RUNTIME_DIR` - User-specific runtime files (`/run/user/$UID`)
 
-## Go CLI ツール開発ガイド
+## テスト・フォーマット
+
+```sh
+task test    # bats でシェルスクリプトのテストを実行 (tests/*.bats)
+task format  # editorconfig-checker で .editorconfig 準拠をチェック
+```
+
+シェルスクリプトを Edit/Write すると、`.claude/hooks/lint-shell.sh` が PostToolUse
+フックとして自動的に `shellcheck` と `editorconfig-checker` をかけ、指摘があれば
+その場でフィードバックする (設定は `.claude/settings.json`)｡
+
+## シェルスクリプト開発ガイド
 
 ### ディレクトリ構成
 
-```
-cmd/
-└── <コマンド名>/
-    ├── main.go           # エントリポイント (package main)
-    ├── main_test.go      # main.go のテスト
-    ├── <機能>.go          # 機能ごとにファイル分割
-    └── <機能>_test.go     # 対応するテスト
-```
+- 実行可能なスクリプトは `config/<tool>/` 配下に配置 (例: `config/git/git-mc`)
+- 対応するテストは `tests/<name>.bats` に配置
+- テスト用フィクスチャは `tests/fixtures/`、ヘルパーは `tests/helpers/`
 
-- 1コマンド = 1ディレクトリ｡全ファイル `package main`
-- `go.mod` はリポジトリルートに配置済み (module: `github.com/usadamasa/dotfile`)
-- 外部依存は最小限に｡標準ライブラリで済むならそれで良い
+### テストの作法 (bats-core)
 
-### タスク実行
-
-```sh
-task go:test     # 全 cmd パッケージのテスト実行
-task go:test-v   # 詳細モード (-v)
-task go:vet      # 静的解析
-task go:build    # ビルド
-task test        # bats + Go テストを統合実行
-```
-
-### 新しいコマンドの追加手順
-
-1. `cmd/<コマンド名>/` ディレクトリを作成
-2. `main.go` に `package main` と `func main()` を定義
-3. テストファイル `*_test.go` を同ディレクトリに配置
-4. `task go:test` で自動的にテスト対象に含まれる (`./cmd/...`)
-
-### テストの作法
-
-- テーブル駆動テスト + `t.Run()` でサブテスト化
-- 一時ファイルは `t.TempDir()` を使い自動クリーンアップ
-- テスト用ヘルパー関数はテストファイル内に定義 (例: `writeTestFile`)
-- 正常系と異常系の両方をカバー
+- `@test` ごとに正常系・異常系の両方をカバー
+- 一時ディレクトリは `BATS_TEST_TMPDIR` を使い自動クリーンアップ
+- `setup` / `teardown` で前提条件を整える
+- git 関連機能は通常 clone / bare repo / worktree の各コンテキストからテストする
+  (詳細はプロジェクトスキル `git-context-testing` を参照)
 
 ### コーディング規約
 
-- コメント､エラーメッセージ､CLI の説明文は日本語
-- CLIフラグは `flag` パッケージを使用
-- エラーは `fmt.Fprintf(os.Stderr, ...)` で出力し `os.Exit(1)`
-- 構造化出力は JSON で stdout に出力
+- 冒頭に `set -euo pipefail` を記述する
+- 変数展開は原則ダブルクォートで囲む (`"$VAR"`)
+- `readonly` と代入は分離する (`VAR=$(cmd); readonly VAR`)
+- `echo` より `printf '%s\n'` を優先する
+- コメント・エラーメッセージは日本語
 
 ## Code Formatting Guidelines
 
