@@ -1,3 +1,8 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2153
+# SC2034: BUFFER/LBUFFER は zsh ZLE の特殊変数のため "unused" と誤検知される
+# SC2153: LBUFFER は zsh ZLE の正式な変数名
+
 # find repo with ghq
 function peco-src () {
   # Check if ghq command exists
@@ -10,7 +15,8 @@ function peco-src () {
   # Enable pipefail to catch errors in pipeline
   setopt local_options pipefail
 
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  local selected_dir
+  selected_dir=$(ghq list -p | peco --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
@@ -33,27 +39,34 @@ _peco_gcop_list_branches() {
   fi
 
   # Get current branch
-  local current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+  local current_branch
+  current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 
   # Create temporary files for branch categorization
-  local tmp_file=$(mktemp)
-  local wt_file=$(mktemp)
-  local base_file=$(mktemp)
+  local tmp_file
+  tmp_file=$(mktemp)
+  local wt_file
+  wt_file=$(mktemp)
+  local base_file
+  base_file=$(mktemp)
 
   # Set up trap to ensure cleanup (use EXIT for bash compatibility)
+  # shellcheck disable=SC2064
   trap "rm -f '$tmp_file' '$wt_file' '$base_file'" EXIT
 
   git branch --format="%(refname:short)" > "$tmp_file"
 
   # Determine the main worktree path
-  local git_common_dir=$(git rev-parse --git-common-dir)
+  local git_common_dir
+  git_common_dir=$(git rev-parse --git-common-dir)
   local main_wt_path
   if [[ "$git_common_dir" == ".git" ]]; then
     main_wt_path=$(git rev-parse --show-toplevel)
   else
     main_wt_path=$(dirname "$git_common_dir")
   fi
-  local current_wt_path=$(git rev-parse --show-toplevel)
+  local current_wt_path
+  current_wt_path=$(git rev-parse --show-toplevel)
 
   # Check if we are in a subworktree
   local is_subworktree="false"
@@ -125,10 +138,12 @@ _peco_gcop_checkout() {
   local selected_branch="$1"
 
   # Remove prefix symbol to get branch name
-  local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
+  local branch_name
+  branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
 
   # Check if this is a worktree branch
-  local worktree_path=$(git worktree list --porcelain 2>/dev/null | \
+  local worktree_path
+  worktree_path=$(git worktree list --porcelain 2>/dev/null | \
     awk -v branch="$branch_name" '
       /^worktree / { wt = substr($0, 10) }
       /^branch / && substr($0, 19) == branch { print wt; exit }
@@ -155,7 +170,8 @@ function peco-gcop() {
   fi
 
   # Get branch list and select with peco
-  local selected_branch=$(_peco_gcop_list_branches | peco --query "$LBUFFER" --prompt="BRANCH>")
+  local selected_branch
+  selected_branch=$(_peco_gcop_list_branches | peco --query "$LBUFFER" --prompt="BRANCH>")
 
   # Check if a branch was selected
   if [ -n "$selected_branch" ]; then
@@ -165,7 +181,8 @@ function peco-gcop() {
       zle accept-line
     else
       # Remove prefix symbol if present
-      local branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
+      local branch_name
+      branch_name=$(echo "$selected_branch" | perl -pe 's/^[*#+~@ ] //')
 
       # Set the command to the buffer and execute it
       BUFFER="git checkout ${branch_name}"
@@ -177,3 +194,5 @@ function peco-gcop() {
 }
 zle -N peco-gcop
 bindkey '^[' peco-gcop
+# cmux/ghostty 等の Kitty Keyboard Protocol では ctrl+[ が \e[91;5u として送られる
+bindkey '\e[91;5u' peco-gcop
