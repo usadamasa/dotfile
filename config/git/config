@@ -16,6 +16,7 @@
 [core]
   excludesfile = ~/.config/git/ignore
   ignorecase = false
+  quotepath = false
 [ghq]
   root = ~/src
 [http]
@@ -39,3 +40,14 @@
   copymodified = true
   hook = test -f .envrc && direnv allow || true
   basedir = ../worktree/{gitroot}
+  nocopy = .venv/
+  nocopy = tmp/
+  nocopy = .worktrees/
+  nocopy = .databricks/
+  nocopy = .pytest_cache/
+  nocopy = .ruff_cache/
+  nocopy = __pycache__/
+  nocopy = node_modules/
+[i18n]
+  commitencoding = utf-8
+  logoutputencoding = utf-8
