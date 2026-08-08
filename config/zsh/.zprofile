@@ -46,6 +46,11 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 
 # User-specific paths
 
+# claude-config: `task build:bin` が cmd/ の Go CLI をここへ出力する。
+# hook は同じ実体を絶対パスで起動するので、PATH に載せるのは skill から
+# `cc-dream` のように名前で叩くため。
+export PATH="$HOME/.claude/bin:$PATH"
+
 # Kubernetes tools
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
@@ -57,4 +62,3 @@ export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
 
 autoload -Uz compinit
 compinit
-
