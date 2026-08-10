@@ -55,6 +55,11 @@ mkdir -p "$PIPX_HOME"
 # Rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 
-# uv
-touch "${XDG_DATA_HOME}/../bin/env"
-source "${XDG_DATA_HOME}/../bin/env"
+# uv and other user-local binaries
+# uv's installer writes ~/.local/bin/env solely to prepend this directory to
+# PATH. Do it directly so no sourcing (and no touch to create a missing file)
+# is needed; touch fails under sandboxed shells that cannot write to ~/.local/bin.
+case ":${PATH}:" in
+    *:"$HOME/.local/bin":*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
