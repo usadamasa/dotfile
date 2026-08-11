@@ -32,6 +32,7 @@ task clean        # 設定削除
 
 - **Git関連**: git, gh, ghq, git-now, tig
 - **開発ツール**: jq, direnv, peco, zsh, pipx
+- **ターミナル**: herdr, tmux, iterm2
 - **GUI**: font-cica, jetbrains-toolbox, visual-studio-code
 
 ## 📁 構成
@@ -41,8 +42,8 @@ dotfile/
 ├── Taskfile.yml  # セットアップ自動化
 ├── .zshenv      # XDG Base Directory設定
 └── config/      # 各種設定ファイル
-    ├── claude/
     ├── git/
+    ├── herdr/   # config.toml のみ (socket・ログは ~/.config/herdr に残す)
     ├── npm/
     ├── vim/
     └── zsh/

@@ -37,6 +37,7 @@ tasks:
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
+        echo "herdr設定: $(test -L "$HOME/.config/herdr/config.toml" && echo '✓' || echo '✗')"
 
   test:
     desc: テストを実行
@@ -64,6 +65,8 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
+      # ログとセッション状態が残るディレクトリ自体は消さない
+      - rm -f "$HOME/.config/herdr/config.toml"
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -104,6 +107,10 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
+      # herdr は同じディレクトリに socket・ログ・セッション状態を作るため、
+      # ディレクトリごとではなく config.toml だけを symlink する
+      - mkdir -p "$HOME/.config/herdr"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
   _setup-shell:
     internal: true
