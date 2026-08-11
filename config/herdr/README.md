@@ -7,7 +7,9 @@
 | --- | --- |
 | `config.toml` | herdr 本体の設定 (テーマ・UI・キーバインド) |
 | `herdr-new-agent.sh` | ペインを分割して新しいエージェントを起動する |
-| `herdr-tab-title.sh` | Claude Code のプロンプトをタブ名へ反映するフック |
+
+Claude Code のプロンプトをタブ名へ反映するフックは
+[claude-config](https://github.com/usadamasa/claude-config) の `shared/hooks/` が持つ。
 
 ## キーバインド
 
@@ -35,37 +37,6 @@ herdr は kitty keyboard protocol を使うため、`cmd` や `ctrl+shift` の
 Ghostty は既定で `super+arrow_left/right` を `^A` / `^E` に変換するので、
 `config/ghostty/config` で unbind してある。`ctrl+option+n` が効かない場合は
 同ファイルの `macos-option-as-alt` を有効にする。
-
-## タブ名の自動リネーム
-
-`herdr-tab-title.sh` を Claude Code の `UserPromptSubmit` フックに登録すると、
-送信したプロンプトの先頭 20 文字がタブ名になる。
-
-フックの登録先は [claude-config](https://github.com/usadamasa/claude-config) が
-管理する `~/.claude/settings.json`。`hooks.UserPromptSubmit[0].hooks` へ以下を
-追加する。
-
-```json
-{
-  "type": "command",
-  "command": "$HOME/.config/herdr/herdr-tab-title.sh",
-  "timeout": 5
-}
-```
-
-起動中のセッションには、`/hooks` メニューを一度開けば反映される。
-
-### タブの特定方法
-
-`HERDR_TAB_ID` / `HERDR_PANE_ID` は共有デーモン配下で古い値のまま残ることが
-あり、実際のタブとずれる。そのため `herdr api snapshot` へ問い合わせて、
-次の順で対象タブを決めている。
-
-1. herdr が claude 連携フックから受け取ったセッション ID と一致するペイン
-2. セッション ID が未登録で、`cwd` が一致する claude ペインがちょうど 1 つ
-
-どちらにも当てはまらないときは何もしない。誤ったタブを rename しないための
-判断で、worktree などで cwd がずれている場合はタブ名が変わらない。
 
 ## 参考
 

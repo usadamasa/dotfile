@@ -68,7 +68,7 @@ tasks:
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
       # ログとセッション状態が残るディレクトリ自体は消さない
       - rm -f "$HOME/.config/herdr/config.toml"
-      - rm -f "$HOME/.config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-tab-title.sh"
+      - rm -f "$HOME/.config/herdr/herdr-new-agent.sh"
       - rm -f "$HOME/.config/ghostty/config"
       - echo "🗑️ 設定をクリーンアップしました"
 
@@ -115,7 +115,6 @@ tasks:
       - mkdir -p "$HOME/.config/herdr"
       - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
       - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-new-agent.sh"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-tab-title.sh" "$HOME/.config/herdr/herdr-tab-title.sh"
       # Ghostty も themes などを同じディレクトリに置けるため、config だけを symlink する
       - mkdir -p "$HOME/.config/ghostty"
       - ln -sfn "{{.DOTFILE_DIR}}/config/ghostty/config" "$HOME/.config/ghostty/config"
