@@ -38,6 +38,7 @@ tasks:
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "herdr設定: $(test -L "$HOME/.config/herdr/config.toml" && echo '✓' || echo '✗')"
+        echo "Ghostty設定: $(test -L "$HOME/.config/ghostty/config" && echo '✓' || echo '✗')"
 
   test:
     desc: テストを実行
@@ -67,6 +68,8 @@ tasks:
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
       # ログとセッション状態が残るディレクトリ自体は消さない
       - rm -f "$HOME/.config/herdr/config.toml"
+      - rm -f "$HOME/.config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-tab-title.sh"
+      - rm -f "$HOME/.config/ghostty/config"
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -108,9 +111,14 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
       # herdr は同じディレクトリに socket・ログ・セッション状態を作るため、
-      # ディレクトリごとではなく config.toml だけを symlink する
+      # ディレクトリごとではなくファイル単位で symlink する
       - mkdir -p "$HOME/.config/herdr"
       - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-new-agent.sh"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-tab-title.sh" "$HOME/.config/herdr/herdr-tab-title.sh"
+      # Ghostty も themes などを同じディレクトリに置けるため、config だけを symlink する
+      - mkdir -p "$HOME/.config/ghostty"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/ghostty/config" "$HOME/.config/ghostty/config"
 
   _setup-shell:
     internal: true

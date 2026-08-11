@@ -10,3 +10,28 @@ delivery = "system"
 
 [ui]
 show_agent_labels_on_pane_borders = true
+
+[keys]
+# 既定の prefix 方式は残したまま、よく使う操作にだけ直接バインドを足す。
+# 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリ
+# (shell / vim / エージェント本体) には届かなくなる点に注意。
+
+# タブ移動: cmd + ←/→
+# Ghostty は既定で super+arrow_left/right を ^A / ^E に変換してしまうため、
+# config/ghostty/config 側で unbind してある。
+previous_tab = ["prefix+p", "cmd+left"]
+next_tab = ["prefix+n", "cmd+right"]
+
+# 新しい space (workspace): ctrl + n
+new_workspace = ["prefix+shift+n", "ctrl+n"]
+
+# 新しいタブ: ctrl + shift + n
+new_tab = ["prefix+c", "ctrl+shift+n"]
+
+# 新しいエージェント (claude): ctrl + option + n
+# 現在のペインを分割し、空いたペインで claude を起動する。
+[[keys.command]]
+key = "ctrl+alt+n"
+type = "shell"
+command = "\"$HOME/.config/herdr/herdr-new-agent.sh\" claude"
+description = "start a new claude agent in a sibling pane"

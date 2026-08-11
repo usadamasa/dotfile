@@ -1,0 +1,12 @@
+font-size = 16
+font-thicken = true        # 細いフォントを少し太く見せる(macOS のみ)
+adjust-cell-height = 2     # 行間を少し広げて読みやすく
+
+# cmd+←/→ は既定で ^A / ^E を送る。herdr のタブ移動に使うため、
+# Ghostty 側では何もせずアプリへ渡す
+keybind = super+arrow_left=unbind
+keybind = super+arrow_right=unbind
+
+# ctrl+option+n (herdr の新規エージェント起動) が効かない場合に有効化する。
+# option が Alt 扱いになるので、option を使った文字入力はできなくなる
+# macos-option-as-alt = true
