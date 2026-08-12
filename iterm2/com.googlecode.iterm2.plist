@@ -36,6 +36,10 @@
 	<string>923BC1FF-FB6C-43D6-810C-8F5E0E92A0E6</string>
 	<key>EnableAPIServer</key>
 	<true/>
+	<key>FocusFollowsMouse</key>
+	<true/>
+	<key>FocusOnRightOrMiddleClick</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideScrollbar</key>
@@ -2567,6 +2571,8 @@
 	<false/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>1</integer>
+	<key>PassOnControlClick</key>
+	<true/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -2604,14 +2610,20 @@
 	<true/>
 	<key>QuitWhenAllWindowsClosed</key>
 	<false/>
+	<key>ReportRightClick</key>
+	<true/>
 	<key>SeparateStatusBarsPerPane</key>
 	<true/>
 	<key>ShowSecureKeyboardEntryIndicator</key>
 	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.40000000000000002</real>
 	<key>StatusBarPosition</key>
 	<integer>1</integer>
+	<key>ThreeFingerEmulates</key>
+	<true/>
 	<key>TmuxSyncClipboard</key>
 	<true/>
 	<key>TmuxWindowsShouldCloseAfterDetach</key>
