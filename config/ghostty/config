@@ -50,6 +50,29 @@ clipboard-read = allow
 clipboard-write = allow
 
 #
+# リンク (URL / PR 番号)
+#
+# URL の検出は Ghostty 内蔵。ホバー中に cmd を押すと下線が付き、
+# cmd + クリックで既定のブラウザが開く。この修飾キーは Ghostty 側で
+# ハードコードされていて、ダブルクリックや修飾キー無しには変更できない
+# (keybind にマウストリガーが無いため)。
+# 参考: https://github.com/ghostty-org/ghostty/discussions/4917
+link-url = true
+
+# リンクにポインタを合わせたときにリンク先を吹き出しで表示する。
+# OSC 8 ハイパーリンクは表示文字列とリンク先が別物になりうるので、
+# 飛び先を確認してから押せるように有効にしておく。
+link-previews = true
+
+# PR / issue の `#42` のような独自パターンをクリック可能にする `link`
+# オプションは Ghostty 1.3.1 時点では未実装で、設定すると
+# `ghostty +validate-config` が error.NotImplemented を返す。
+# 上流の方針も「端末側で任意の文字列をマッチさせるのではなく、出力する
+# ツールが OSC 8 を吐く」なので、git の出力は pager (config/git の
+# git-osc8-refs) 側で OSC 8 化して cmd + クリックできるようにしている。
+# 参考: https://github.com/ghostty-org/ghostty/discussions/4379
+
+#
 # ペイン操作 (herdr へ委譲)
 #
 # Ghostty は herdr を載せる器に徹する。ペイン / タブ / workspace の生成と

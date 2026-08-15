@@ -8,6 +8,15 @@
   log = diff-highlight | less
   show = diff-highlight | less
   diff = diff-highlight | less
+# 上の [page] は [pager] の綴り間違いで git からは無視されている
+# (diff-highlight も未インストール)。挙動を変えないためそのまま残し、
+# 実際に効かせる pager は以下の [pager] で定義する。
+[pager]
+  # `#42` のような issue / PR 参照を OSC 8 ハイパーリンクへ変換し、
+  # 端末上で cmd + クリックして開けるようにする。
+  # less には -R が要る (制御シーケンスをそのまま端末へ渡すため)。
+  log = ~/.config/git/git-osc8-refs | less -R
+  show = ~/.config/git/git-osc8-refs | less -R
 [pull]
   rebase = true
   ff = only

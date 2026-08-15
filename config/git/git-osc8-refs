@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# 標準入力に含まれる GitHub の issue / PR 参照 (`#123`) を OSC 8
+# ハイパーリンクへ書き換えて標準出力へ流すフィルタ。
+#
+# Ghostty 1.3.1 時点では任意の正規表現をクリック可能にする `link` 設定が
+# 未実装 (error.NotImplemented) なので、番号参照は出力する側で OSC 8 に
+# しておく必要がある。git の pager として使う想定 (config の [pager] 参照)。
+#
+# リンク先は `<リポジトリの Web URL>/issues/<番号>`。GitHub は PR 番号を
+# /issues/ で開くと /pull/ へリダイレクトするため、issue と PR を区別しない。
+#
+# 認識するリモート URL:
+#   git@github.com:owner/repo(.git)
+#   ssh://git@github.com/owner/repo(.git)
+#   https://github.com/owner/repo(.git)
+#
+# GitHub Enterprise など上記に当てはまらない環境では GIT_OSC8_REFS_BASE に
+# リポジトリの Web URL を設定する。リンク先が決まらないとき (リポジトリ外、
+# origin なし、非対応ホスト) は入力をそのまま素通しする。pager として常に
+# 挟まるため、ここでエラー終了すると git の出力自体が壊れる。
+
+set -euo pipefail
+
+# リモート URL を GitHub の Web URL へ正規化して標準出力へ書く。
+# 変換できないときは何も書かずに 1 を返す。
+# $1: リモート URL
+normalize_remote_url() {
+  local url="$1"
+  local path
+
+  case "$url" in
+    git@github.com:*) path="${url#git@github.com:}" ;;
+    ssh://git@github.com/*) path="${url#ssh://git@github.com/}" ;;
+    https://github.com/*) path="${url#https://github.com/}" ;;
+    http://github.com/*) path="${url#http://github.com/}" ;;
+    *) return 1 ;;
+  esac
+
+  path="${path%/}"
+  path="${path%.git}"
+
+  # owner/repo の 2 階層ちょうどでなければ対象外
+  case "$path" in
+    */*/* | */ | /* | "") return 1 ;;
+    */*) ;;
+    *) return 1 ;;
+  esac
+
+  printf '%s\n' "https://github.com/$path"
+}
+
+# リンク先のベース URL を解決して標準出力へ書く。
+# 解決できないときは何も書かずに 1 を返す。
+resolve_base_url() {
+  if [ -n "${GIT_OSC8_REFS_BASE:-}" ]; then
+    printf '%s\n' "${GIT_OSC8_REFS_BASE%/}"
+    return 0
+  fi
+
+  local url
+  # リポジトリ外や origin 未設定は想定内なので fatal を出力へ混ぜない
+  if ! url=$(git config --get remote.origin.url 2>/dev/null); then
+    return 1
+  fi
+
+  normalize_remote_url "$url"
+}
+
+base=""
+if ! base=$(resolve_base_url); then
+  exec cat
+fi
+
+# `#123` の直前が英数字・`/`・`#` のときは別リポジトリ参照 (owner/repo#1) や
+# 16 進カラー (#42abcd) の可能性があるため書き換えない。ANSI SGR
+# シーケンス直後は色付き出力の途中なので対象に含める。\K で前方の
+# コンテキストを置換対象から外している。
+OSC8_BASE="$base" exec perl -pe '
+  BEGIN { $base = $ENV{OSC8_BASE} }
+  s{(?:^|\e\[[0-9;]*m|[^0-9A-Za-z_/\#-])\K\#([0-9]+)(?![0-9A-Za-z_-])}{\e]8;;$base/issues/$1\e\\\#$1\e]8;;\e\\}g
+'
