@@ -17,16 +17,22 @@ Claude Code のプロンプトをタブ名へ反映するフックは
 
 | 操作 | キー | prefix 版 |
 | --- | --- | --- |
-| ペインを下に分割 | `cmd` + `enter` | `prefix` + `-` |
-| ペインを右に分割 | `cmd` + `shift` + `enter` | `prefix` + `v` |
+| ペインを下に分割 | `cmd` + `enter` / `cmd` + `shift` + `d` | `prefix` + `-` |
+| ペインを右に分割 | `cmd` + `shift` + `enter` / `cmd` + `d` | `prefix` + `v` |
 | ペイン間の移動 | `cmd` + `←↓↑→` | `prefix` + `h/j/k/l` |
+| ペインを循環 | `cmd` + `[` / `]` | `prefix` + `(shift) tab` |
+| ペインのリサイズ | `cmd` + `ctrl` + `←↓↑→` | `prefix` + `r` |
 | ペインを閉じる | `cmd` + `w` | `prefix` + `x` |
 | 新しい space (workspace) | `cmd` + `n` (`ctrl` + `n`) | `prefix` + `shift` + `n` |
 | 新しいタブ | `cmd` + `t` | `prefix` + `c` |
-| 前のタブ | `shift` + `←` / `↑` | `prefix` + `p` |
-| 次のタブ | `shift` + `→` / `↓` | `prefix` + `n` |
+| 前のタブ | `shift` + `←` / `↑`、`cmd` + `shift` + `[`、`ctrl` + `shift` + `tab` | `prefix` + `p` |
+| 次のタブ | `shift` + `→` / `↓`、`cmd` + `shift` + `]`、`ctrl` + `tab` | `prefix` + `n` |
 | 新しい claude エージェント | `ctrl` + `option` + `n` | (なし) |
-| ペインのリサイズ | (なし) | `prefix` + `r` |
+
+`cmd+d` / `cmd+[` / `cmd+shift+[` / `ctrl+tab` は Ghostty が既定で自分の
+split・タブ操作に使っていたキー。向きや役割は Ghostty 既定に合わせたまま
+herdr 側へ移してある。リサイズだけは herdr に方向指定のバインドがないため、
+`herdr pane resize` を叩くカスタムコマンドで実現している。
 
 変更後の反映は再起動不要で、`herdr server reload-config` で足りる。
 

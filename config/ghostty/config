@@ -57,8 +57,10 @@ clipboard-write = allow
 # kitty keyboard protocol の CSI-u シーケンスとして herdr へ送る。
 #
 # csi:<code>;<mod>u の <code> はキーの Unicode コードポイント
-# (enter=13, n=110, t=116, w=119)、<mod> は 1 + shift(1) + alt(2) + ctrl(4)
-# + super(8)。つまり cmd = 9、cmd+shift = 10。矢印は CSI 1;<mod>A/B/C/D。
+# (tab=9, enter=13, d=100, n=110, t=116, w=119, [=91, ]=93)、<mod> は
+# 1 + shift(1) + alt(2) + ctrl(4) + super(8)。つまり cmd = 9、
+# cmd+shift = 10、ctrl = 5、ctrl+shift = 6、cmd+ctrl = 13。
+# 矢印は CSI 1;<mod>A/B/C/D。
 #
 # unbind でも Ghostty が super 付きキーを CSI-u に符号化するが、
 # macOS 側で cmd+矢印などを横取りされた実績があるため、送るバイト列を
@@ -81,9 +83,30 @@ keybind = cmd+right=csi:1;9C
 keybind = cmd+up=csi:1;9A
 keybind = cmd+down=csi:1;9B
 
-# ペインのリサイズは herdr の resize mode (prefix + r) を使う。
-# herdr に方向指定のリサイズを直接バインドする口がないため、
-# Ghostty 側の resize_split は持たない。
+# Cmd+D で「右に」分割 / Cmd+Shift+D で「下に」分割
+# (Ghostty 既定の new_split と同じ向きのまま herdr へ渡す)
+keybind = cmd+d=csi:100;9u
+keybind = cmd+shift+d=csi:100;10u
+
+# Cmd + [ / ] でペインを循環 (既定の goto_split の置き換え)
+keybind = cmd+[=csi:91;9u
+keybind = cmd+]=csi:93;9u
+
+# Cmd + Shift + [ / ] と Ctrl+Tab でタブ移動 (既定の previous/next_tab の置き換え)
+keybind = cmd+shift+[=csi:91;10u
+keybind = cmd+shift+]=csi:93;10u
+keybind = ctrl+tab=csi:9;5u
+keybind = ctrl+shift+tab=csi:9;6u
+
+# Cmd + Ctrl + 矢印キー でペインをリサイズ (既定の resize_split の置き換え)
+keybind = cmd+ctrl+left=csi:1;13D
+keybind = cmd+ctrl+right=csi:1;13C
+keybind = cmd+ctrl+up=csi:1;13A
+keybind = cmd+ctrl+down=csi:1;13B
+
+# 残る Ghostty 既定の split 系 (cmd+option+矢印 の goto_split、cmd+ctrl+= の
+# equalize_splits、cmd+1..9 の goto_tab) は、Ghostty 側にペインもタブも
+# 生えなくなるため何もしない no-op になる。あえて unbind はしない。
 
 #
 # その他

@@ -22,22 +22,25 @@ prompt_new_tab_name = false
 # 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリ
 # (shell / vim / エージェント本体) には届かなくなる点に注意。
 
-# タブ移動: shift + ←/→ (↑/↓ も同義)
-previous_tab = ["shift+left", "shift+up"]
-next_tab = ["shift+right", "shift+down"]
-
-# ここから下の cmd 系は Ghostty が CSI-u で転送してくるキー。
+# ここから下の cmd 系と ctrl+tab は Ghostty が CSI-u で転送してくるキー。
 # config/ghostty/config の keybind = cmd+... = csi:... と対で維持する。
 
-# ペイン分割: cmd + enter で下、cmd + shift + enter で右
-split_horizontal = ["prefix+minus", "cmd+enter"]
-split_vertical = ["prefix+v", "cmd+shift+enter"]
+# タブ移動: shift + ←/→ (↑/↓ も同義)、cmd + shift + [ / ]、ctrl + tab
+previous_tab = ["shift+left", "shift+up", "cmd+shift+[", "ctrl+shift+tab"]
+next_tab = ["shift+right", "shift+down", "cmd+shift+]", "ctrl+tab"]
 
-# ペイン移動: cmd + 矢印
+# ペイン分割: cmd + enter で下、cmd + shift + enter で右
+# cmd + d / cmd + shift + d は Ghostty 既定の new_split と同じ向きに合わせる。
+split_horizontal = ["prefix+minus", "cmd+enter", "cmd+shift+d"]
+split_vertical = ["prefix+v", "cmd+shift+enter", "cmd+d"]
+
+# ペイン移動: cmd + 矢印、循環は cmd + [ / ]
 focus_pane_left = ["prefix+h", "cmd+left"]
 focus_pane_down = ["prefix+j", "cmd+down"]
 focus_pane_up = ["prefix+k", "cmd+up"]
 focus_pane_right = ["prefix+l", "cmd+right"]
+cycle_pane_previous = ["prefix+shift+tab", "cmd+["]
+cycle_pane_next = ["prefix+tab", "cmd+]"]
 
 # ペインを閉じる: cmd + w
 close_pane = ["prefix+x", "cmd+w"]
@@ -57,3 +60,30 @@ key = "ctrl+alt+n"
 type = "shell"
 command = "\"$HOME/.config/herdr/herdr-new-agent.sh\" claude"
 description = "start a new claude agent in a sibling pane"
+
+# ペインのリサイズ: cmd + ctrl + 矢印
+# herdr には方向指定のリサイズを直接バインドする口 (resize_mode 以外) が
+# ないため、CLI を叩くカスタムコマンドで代用する。
+[[keys.command]]
+key = "ctrl+cmd+left"
+type = "shell"
+command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction left --pane "$HERDR_ACTIVE_PANE_ID"'
+description = "resize the focused pane to the left"
+
+[[keys.command]]
+key = "ctrl+cmd+right"
+type = "shell"
+command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction right --pane "$HERDR_ACTIVE_PANE_ID"'
+description = "resize the focused pane to the right"
+
+[[keys.command]]
+key = "ctrl+cmd+up"
+type = "shell"
+command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction up --pane "$HERDR_ACTIVE_PANE_ID"'
+description = "resize the focused pane upward"
+
+[[keys.command]]
+key = "ctrl+cmd+down"
+type = "shell"
+command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction down --pane "$HERDR_ACTIVE_PANE_ID"'
+description = "resize the focused pane downward"
