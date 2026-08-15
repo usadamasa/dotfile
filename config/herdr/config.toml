@@ -22,12 +22,33 @@ prompt_new_tab_name = false
 # 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリ
 # (shell / vim / エージェント本体) には届かなくなる点に注意。
 
-# タブ移動: cmd + ←/→
+# タブ移動: shift + ←/→ (↑/↓ も同義)
 previous_tab = ["shift+left", "shift+up"]
 next_tab = ["shift+right", "shift+down"]
 
-# 新しい space (workspace): ctrl + n
-new_workspace = ["prefix+shift+n", "ctrl+n"]
+# ここから下の cmd 系は Ghostty が CSI-u で転送してくるキー。
+# config/ghostty/config の keybind = cmd+... = csi:... と対で維持する。
+
+# ペイン分割: cmd + enter で下、cmd + shift + enter で右
+split_horizontal = ["prefix+minus", "cmd+enter"]
+split_vertical = ["prefix+v", "cmd+shift+enter"]
+
+# ペイン移動: cmd + 矢印
+focus_pane_left = ["prefix+h", "cmd+left"]
+focus_pane_down = ["prefix+j", "cmd+down"]
+focus_pane_up = ["prefix+k", "cmd+up"]
+focus_pane_right = ["prefix+l", "cmd+right"]
+
+# ペインを閉じる: cmd + w
+close_pane = ["prefix+x", "cmd+w"]
+
+# 新しい space (workspace): cmd + n
+# ctrl + n は cmd + n が使えなかった頃の名残。shell の履歴移動を奪うので、
+# cmd + n が安定して効くなら外してよい。
+new_workspace = ["prefix+shift+n", "ctrl+n", "cmd+n"]
+
+# 新しいタブ: cmd + t
+new_tab = ["prefix+c", "cmd+t"]
 
 # 新しいエージェント (claude): ctrl + option + n
 # 現在のペインを分割し、空いたペインで claude を起動する。

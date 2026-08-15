@@ -17,26 +17,35 @@ Claude Code のプロンプトをタブ名へ反映するフックは
 
 | 操作 | キー | prefix 版 |
 | --- | --- | --- |
-| 前のタブ | `cmd` + `←` | `prefix` + `p` |
-| 次のタブ | `cmd` + `→` | `prefix` + `n` |
-| 新しい space (workspace) | `ctrl` + `n` | `prefix` + `shift` + `n` |
-| 新しいタブ | `ctrl` + `shift` + `n` | `prefix` + `c` |
+| ペインを下に分割 | `cmd` + `enter` | `prefix` + `-` |
+| ペインを右に分割 | `cmd` + `shift` + `enter` | `prefix` + `v` |
+| ペイン間の移動 | `cmd` + `←↓↑→` | `prefix` + `h/j/k/l` |
+| ペインを閉じる | `cmd` + `w` | `prefix` + `x` |
+| 新しい space (workspace) | `cmd` + `n` (`ctrl` + `n`) | `prefix` + `shift` + `n` |
+| 新しいタブ | `cmd` + `t` | `prefix` + `c` |
+| 前のタブ | `shift` + `←` / `↑` | `prefix` + `p` |
+| 次のタブ | `shift` + `→` / `↓` | `prefix` + `n` |
 | 新しい claude エージェント | `ctrl` + `option` + `n` | (なし) |
+| ペインのリサイズ | (なし) | `prefix` + `r` |
 
 変更後の反映は再起動不要で、`herdr server reload-config` で足りる。
 
 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリには届かなくなる。
-特に `ctrl+n` は shell の履歴移動や vim の補完で使われるので、影響が大きいと
-感じたら `config.toml` の `new_workspace` から外す。
+特に `ctrl+n` は shell の履歴移動や vim の補完で使われる。`cmd+n` が安定して
+効くなら `config.toml` の `new_workspace` から外してよい。
 
 ### ターミナル側の前提
 
 herdr は kitty keyboard protocol を使うため、`cmd` や `ctrl+shift` の
 組み合わせも受け取れる。ただし手前でターミナルが横取りしていると届かない。
 
-Ghostty は既定で `super+arrow_left/right` を `^A` / `^E` に変換するので、
-`config/ghostty/config` で unbind してある。`ctrl+option+n` が効かない場合は
-同ファイルの `macos-option-as-alt` を有効にする。
+Ghostty は `cmd` 系のキー (`cmd+enter` / `cmd+n` / `cmd+t` / `cmd+w` /
+`cmd+矢印`) を既定で自分のタブ・ウィンドウ操作に使うため、
+`config/ghostty/config` で CSI-u シーケンス (`csi:13;9u` など) に付け替えて
+herdr へ転送している。キーを増やすときは両方のファイルを対で更新する。
+
+`ctrl+option+n` が効かない場合は `config/ghostty/config` の
+`macos-option-as-alt` を有効にする。
 
 ## 参考
 

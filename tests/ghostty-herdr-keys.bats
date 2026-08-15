@@ -1,0 +1,105 @@
+#!/usr/bin/env bats
+# Ghostty と herdr のキーバインド連携のテスト
+#
+# Ghostty は cmd 系のキーを自分で消費せず、kitty keyboard protocol の
+# CSI-u シーケンスとして herdr へ転送する。両ファイルの対応が崩れると
+# キーがどこにも届かなくなるため、対になっていることを検証する。
+
+GHOSTTY_CONFIG="$BATS_TEST_DIRNAME/../config/ghostty/config"
+HERDR_CONFIG="$BATS_TEST_DIRNAME/../config/herdr/config.toml"
+
+# Ghostty の keybind から転送先のシーケンスを取り出す
+ghostty_action() {
+  local trigger="$1"
+  grep -E "^keybind = ${trigger}=" "$GHOSTTY_CONFIG" | sed -E 's/^keybind = [^=]+=//'
+}
+
+# herdr の [keys] で指定のキーがどのアクションに割り当たっているか
+herdr_action_for_key() {
+  local key="$1"
+  grep -E "^[a-z_]+ = \[.*\"${key}\".*\]" "$HERDR_CONFIG" | sed -E 's/ =.*//'
+}
+
+# =============================================================================
+# Ghostty 側: cmd 系は CSI-u 転送に徹する
+# =============================================================================
+
+@test "cmd 系のキーは Ghostty 自身のペイン・タブ操作に使われない" {
+  run grep -nE '^keybind = cmd\+.*=(new_split|new_tab|new_window|goto_split|resize_split|close_surface)' "$GHOSTTY_CONFIG"
+  [ "$status" -ne 0 ]
+}
+
+@test "cmd+enter は下分割用の CSI-u を送る" {
+  # 13 = enter の Unicode コードポイント、9 = 1 + super(8)
+  [ "$(ghostty_action 'cmd\+enter')" = 'csi:13;9u' ]
+}
+
+@test "cmd+shift+enter は右分割用の CSI-u を送る" {
+  # 10 = 1 + shift(1) + super(8)
+  [ "$(ghostty_action 'cmd\+shift\+enter')" = 'csi:13;10u' ]
+}
+
+@test "cmd+n は workspace 生成用の CSI-u を送る" {
+  # 110 = n の Unicode コードポイント
+  [ "$(ghostty_action 'cmd\+n')" = 'csi:110;9u' ]
+}
+
+@test "cmd+矢印はペイン移動用の CSI-u を送る" {
+  [ "$(ghostty_action 'cmd\+left')" = 'csi:1;9D' ]
+  [ "$(ghostty_action 'cmd\+right')" = 'csi:1;9C' ]
+  [ "$(ghostty_action 'cmd\+up')" = 'csi:1;9A' ]
+  [ "$(ghostty_action 'cmd\+down')" = 'csi:1;9B' ]
+}
+
+# =============================================================================
+# herdr 側: 転送されたキーを受け取るバインドがある
+# =============================================================================
+
+@test "cmd+enter が herdr の下分割に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+enter')" = "split_horizontal" ]
+}
+
+@test "cmd+shift+enter が herdr の右分割に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+shift\+enter')" = "split_vertical" ]
+}
+
+@test "cmd+n が herdr の workspace 生成に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+n')" = "new_workspace" ]
+}
+
+@test "cmd+t が herdr のタブ生成に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+t')" = "new_tab" ]
+}
+
+@test "cmd+w が herdr のペイン close に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+w')" = "close_pane" ]
+}
+
+@test "cmd+矢印が herdr のペイン移動に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+left')" = "focus_pane_left" ]
+  [ "$(herdr_action_for_key 'cmd\+down')" = "focus_pane_down" ]
+  [ "$(herdr_action_for_key 'cmd\+up')" = "focus_pane_up" ]
+  [ "$(herdr_action_for_key 'cmd\+right')" = "focus_pane_right" ]
+}
+
+# =============================================================================
+# 設定ファイル自体の妥当性 (ツールがある環境でのみ)
+# =============================================================================
+
+@test "herdr が config.toml を受け付ける" {
+  if ! command -v herdr > /dev/null; then
+    skip "herdr がインストールされていない"
+  fi
+  HERDR_CONFIG_PATH="$HERDR_CONFIG" run herdr config check
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"ok"* ]]
+}
+
+@test "Ghostty が config を受け付ける" {
+  local ghostty=/Applications/Ghostty.app/Contents/MacOS/ghostty
+  if [ ! -x "$ghostty" ]; then
+    skip "Ghostty がインストールされていない"
+  fi
+  run "$ghostty" +validate-config --config-file="$GHOSTTY_CONFIG"
+  [ "$status" -eq 0 ]
+}
