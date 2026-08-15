@@ -1,12 +1,72 @@
-font-size = 16
-font-thicken = true        # 細いフォントを少し太く見せる(macOS のみ)
-adjust-cell-height = 2     # 行間を少し広げて読みやすく
+#
+# テキストの見た目
+#
+font-size = 20
+font-family = Cica
 
-# cmd+←/→ は既定で ^A / ^E を送る。herdr のタブ移動に使うため、
-# Ghostty 側では何もせずアプリへ渡す
-keybind = super+arrow_left=unbind
-keybind = super+arrow_right=unbind
+# 細いフォントを少し太く見せる(macOS のみ)
+font-thicken = true
+# 行間を少し広げて読みやすく
+adjust-cell-height = 10%
+
+# テキストとウィンドウの間に良い感じのスペースを入れます
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
 
 # ctrl+option+n (herdr の新規エージェント起動) が効かない場合に有効化する。
 # option が Alt 扱いになるので、option を使った文字入力はできなくなる
 # macos-option-as-alt = true
+
+#
+# Windowの見た目
+#
+theme = Xcode Light hc
+
+# 背景と文字が同化する場合に見えるように(ó黒背景で黒を使った時に見えない文字がある)
+minimum-contrast = 1.3
+
+# Mac標準の挙動にする
+macos-window-shadow = true
+macos-titlebar-style = transparent
+mouse-hide-while-typing = true
+
+# 背景を透過
+background-opacity = 0.90
+# ブラー（すりガラス効果）
+background-blur-radius = 20
+
+#
+# クリップボード操作
+#
+
+# 選択しただけでクリップボードにコピー
+copy-on-select = true
+# クリップボードの読み書きを許可
+clipboard-read = allow
+clipboard-write = allow
+
+#
+# ペイン操作
+#
+# 【重要】Cmd+Enter で「下に」分割
+keybind = cmd+enter=new_split:down
+
+# Cmd+Shift+Enter で「右に」分割
+keybind = cmd+shift+enter=new_split:right
+
+# Cmd + 矢印キー で分割した画面を「移動」
+keybind = cmd+left=goto_split:left
+keybind = cmd+right=goto_split:right
+keybind = cmd+up=goto_split:top
+keybind = cmd+down=goto_split:bottom
+
+# Cmd + Shift + 矢印キー で分割サイズを「調整」
+keybind = cmd+shift+left=resize_split:left,20
+keybind = cmd+shift+right=resize_split:right,20
+keybind = cmd+shift+up=resize_split:up,20
+keybind = cmd+shift+down=resize_split:down,20
+
+# Cmd + W で現在の「ペイン（分割）」を閉じる
+# （デフォルトだとウィンドウごと閉じてしまうことがあるため、ペインを閉じる設定を優先）
+keybind = cmd+w=close_surface
