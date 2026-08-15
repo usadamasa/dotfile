@@ -50,29 +50,40 @@ clipboard-read = allow
 clipboard-write = allow
 
 #
-# ペイン操作
+# ペイン操作 (herdr へ委譲)
 #
-# 【重要】Cmd+Enter で「下に」分割
-keybind = cmd+enter=new_split:down
+# Ghostty は herdr を載せる器に徹する。ペイン / タブ / workspace の生成と
+# 移動はすべて herdr 側で行うので、cmd 系のキーは Ghostty で消費せず
+# kitty keyboard protocol の CSI-u シーケンスとして herdr へ送る。
+#
+# csi:<code>;<mod>u の <code> はキーの Unicode コードポイント
+# (enter=13, n=110, t=116, w=119)、<mod> は 1 + shift(1) + alt(2) + ctrl(4)
+# + super(8)。つまり cmd = 9、cmd+shift = 10。矢印は CSI 1;<mod>A/B/C/D。
+#
+# unbind でも Ghostty が super 付きキーを CSI-u に符号化するが、
+# macOS 側で cmd+矢印などを横取りされた実績があるため、送るバイト列を
+# ここで固定する。herdr 側の受け口は config/herdr/config.toml。
 
-# Cmd+Shift+Enter で「右に」分割
-keybind = cmd+shift+enter=new_split:right
+# Cmd+Enter で「下に」分割 / Cmd+Shift+Enter で「右に」分割
+keybind = cmd+enter=csi:13;9u
+keybind = cmd+shift+enter=csi:13;10u
 
-# Cmd + 矢印キー で分割した画面を「移動」
-keybind = cmd+left=goto_split:left
-keybind = cmd+right=goto_split:right
-keybind = cmd+up=goto_split:top
-keybind = cmd+down=goto_split:bottom
+# Cmd+N で新しい workspace / Cmd+T で新しいタブ
+keybind = cmd+n=csi:110;9u
+keybind = cmd+t=csi:116;9u
 
-# Cmd + Shift + 矢印キー で分割サイズを「調整」
-keybind = cmd+shift+left=resize_split:left,20
-keybind = cmd+shift+right=resize_split:right,20
-keybind = cmd+shift+up=resize_split:up,20
-keybind = cmd+shift+down=resize_split:down,20
+# Cmd+W で現在のペインを閉じる (ウィンドウを閉じるのは Cmd+Shift+W)
+keybind = cmd+w=csi:119;9u
 
-# Cmd + W で現在の「ペイン（分割）」を閉じる
-# （デフォルトだとウィンドウごと閉じてしまうことがあるため、ペインを閉じる設定を優先）
-keybind = cmd+w=close_surface
+# Cmd + 矢印キー でペイン間を「移動」
+keybind = cmd+left=csi:1;9D
+keybind = cmd+right=csi:1;9C
+keybind = cmd+up=csi:1;9A
+keybind = cmd+down=csi:1;9B
+
+# ペインのリサイズは herdr の resize mode (prefix + r) を使う。
+# herdr に方向指定のリサイズを直接バインドする口がないため、
+# Ghostty 側の resize_split は持たない。
 
 #
 # その他
