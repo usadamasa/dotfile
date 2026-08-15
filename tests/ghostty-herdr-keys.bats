@@ -51,6 +51,35 @@ herdr_action_for_key() {
   [ "$(ghostty_action 'cmd\+down')" = 'csi:1;9B' ]
 }
 
+@test "cmd+d 系は分割用の CSI-u を送る" {
+  # 100 = d の Unicode コードポイント
+  [ "$(ghostty_action 'cmd\+d')" = 'csi:100;9u' ]
+  [ "$(ghostty_action 'cmd\+shift\+d')" = 'csi:100;10u' ]
+}
+
+@test "cmd+[ / ] はペイン循環用の CSI-u を送る" {
+  # 91 = [、93 = ]
+  [ "$(ghostty_action 'cmd\+\[')" = 'csi:91;9u' ]
+  [ "$(ghostty_action 'cmd\+\]')" = 'csi:93;9u' ]
+}
+
+@test "タブ移動キーはタブ用の CSI-u を送る" {
+  # shift 付きでも送るのは非 shift のコードポイント + shift 修飾子
+  [ "$(ghostty_action 'cmd\+shift\+\[')" = 'csi:91;10u' ]
+  [ "$(ghostty_action 'cmd\+shift\+\]')" = 'csi:93;10u' ]
+  # 9 = tab、5 = 1 + ctrl(4)、6 = 1 + shift(1) + ctrl(4)
+  [ "$(ghostty_action 'ctrl\+tab')" = 'csi:9;5u' ]
+  [ "$(ghostty_action 'ctrl\+shift\+tab')" = 'csi:9;6u' ]
+}
+
+@test "cmd+ctrl+矢印はリサイズ用の CSI-u を送る" {
+  # 13 = 1 + ctrl(4) + super(8)
+  [ "$(ghostty_action 'cmd\+ctrl\+left')" = 'csi:1;13D' ]
+  [ "$(ghostty_action 'cmd\+ctrl\+right')" = 'csi:1;13C' ]
+  [ "$(ghostty_action 'cmd\+ctrl\+up')" = 'csi:1;13A' ]
+  [ "$(ghostty_action 'cmd\+ctrl\+down')" = 'csi:1;13B' ]
+}
+
 # =============================================================================
 # herdr 側: 転送されたキーを受け取るバインドがある
 # =============================================================================
@@ -80,6 +109,33 @@ herdr_action_for_key() {
   [ "$(herdr_action_for_key 'cmd\+down')" = "focus_pane_down" ]
   [ "$(herdr_action_for_key 'cmd\+up')" = "focus_pane_up" ]
   [ "$(herdr_action_for_key 'cmd\+right')" = "focus_pane_right" ]
+}
+
+@test "cmd+d 系が herdr の分割に割り当たっている" {
+  # Ghostty 既定と同じ向き: cmd+d が右、cmd+shift+d が下
+  [ "$(herdr_action_for_key 'cmd\+d')" = "split_vertical" ]
+  [ "$(herdr_action_for_key 'cmd\+shift\+d')" = "split_horizontal" ]
+}
+
+@test "cmd+[ / ] が herdr のペイン循環に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+\[')" = "cycle_pane_previous" ]
+  [ "$(herdr_action_for_key 'cmd\+\]')" = "cycle_pane_next" ]
+}
+
+@test "タブ移動キーが herdr のタブ移動に割り当たっている" {
+  [ "$(herdr_action_for_key 'cmd\+shift\+\[')" = "previous_tab" ]
+  [ "$(herdr_action_for_key 'cmd\+shift\+\]')" = "next_tab" ]
+  [ "$(herdr_action_for_key 'ctrl\+shift\+tab')" = "previous_tab" ]
+  [ "$(herdr_action_for_key 'ctrl\+tab')" = "next_tab" ]
+}
+
+@test "cmd+ctrl+矢印が herdr の pane resize コマンドに割り当たっている" {
+  local direction
+  for direction in left right up down; do
+    run grep -A3 -F "key = \"ctrl+cmd+${direction}\"" "$HERDR_CONFIG"
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"pane resize --direction ${direction}"* ]]
+  done
 }
 
 # =============================================================================
