@@ -1,3 +1,5 @@
+command = /opt/homebrew/bin/herdr
+
 #
 # テキストの見た目
 #
@@ -21,14 +23,15 @@ window-padding-balance = true
 #
 # Windowの見た目
 #
-theme = Xcode Light hc
+
+theme = Atom One Light
 
 # 背景と文字が同化する場合に見えるように(ó黒背景で黒を使った時に見えない文字がある)
 minimum-contrast = 1.3
 
 # Mac標準の挙動にする
 macos-window-shadow = true
-macos-titlebar-style = transparent
+macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 
 # 背景を透過
@@ -70,3 +73,8 @@ keybind = cmd+shift+down=resize_split:down,20
 # Cmd + W で現在の「ペイン（分割）」を閉じる
 # （デフォルトだとウィンドウごと閉じてしまうことがあるため、ペインを閉じる設定を優先）
 keybind = cmd+w=close_surface
+
+#
+# その他
+#
+notify-on-command-finish = always
