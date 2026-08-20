@@ -18,6 +18,12 @@ export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 mkdir -p "$XDG_STATE_HOME/less"
 
+# less の ^O^O (OSC 8 ハイパーリンクを開く) を有効にする。
+# この変数が無いと ^O^N でリンクを選べても開けない。値はハンドラのシェル
+# コマンドで、その標準出力が opener として実行される (man less の推奨形)。
+# git log / show の `#42` は config/git/git-osc8-refs が OSC 8 化している。
+export LESS_OSC8_https="echo open '%o'"
+
 # sqlite
 export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 mkdir -p "$SQLITE_HISTORY"

@@ -25,12 +25,17 @@ Git のグローバル設定ファイル群を管理するディレクトリ。`
 
 `[pager]` の `log` / `show` は `git-osc8-refs` を挟み、出力中の `#123` を OSC 8
 ハイパーリンクへ変換する (リンク先は origin から組み立てた
-`https://github.com/<owner>/<repo>/issues/<番号>`)。Ghostty 上で cmd + クリック、
-または less の `^O^N` / `^O^O` で開ける。
+`https://github.com/<owner>/<repo>/issues/<番号>`)。less の `^O^N` でリンクを選び、
+`^O^O` で開く。
 
+- 開く手段は less に一本化している。端末の cmd + クリックは herdr 配下では効かない
+  (herdr が各ペインの出力を自前でパースして再描画するため、OSC 8 が端末まで
+  届かない)。この理由で `config/ghostty/config` の `link-url` は外してある
+- `^O^O` には `LESS_OSC8_https` の設定が必須 (`.zshenv` で定義)。無いとリンクを
+  選べても開けない
 - Ghostty 1.3.1 の `link` (任意の正規表現をクリック可能にする設定) は未実装なので、
   端末側ではなく出力側で OSC 8 を吐く方式を採っている
-- `less` には `-R` が必須。付けないと OSC 8 が端末まで届かない
+- `less` には `-R` が必須。付けないと OSC 8 が less から先へ渡らない
 - リンク先が決まらないとき (リポジトリ外・origin なし・GitHub 以外のホスト) は
   入力をそのまま素通しする。pager は常に挟まるためエラー終了させてはいけない
 - GitHub Enterprise などは `GIT_OSC8_REFS_BASE` にリポジトリの Web URL を設定する
