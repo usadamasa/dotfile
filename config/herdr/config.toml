@@ -17,6 +17,33 @@ sidebar_min_width = 36
 
 prompt_new_tab_name = false
 
+agent_panel_sort = "priority"
+
+# ペイン間の隙間を詰める (共有の仕切り線だけにする)。
+pane_gaps = false
+
+# タブが 1 枚しかないワークスペースではタブ行を隠す。
+hide_tab_bar_when_single_tab = true
+
+# 選択しただけでクリップボードへコピー。Ghostty 側にも copy-on-select はあるが、
+# マウスを握っているのは herdr なので実効はこちら。
+copy_on_select = true
+
+# サイドバーの行構成。エージェントは「状態 + workspace」と端末タイトルの 2 行、
+# space は「状態 + workspace + ブランチ + git の状態」の 1 行にまとめる。
+[ui.sidebar.agents]
+row_gap = 0
+rows = [
+  ["state_icon", "workspace"],
+  ["terminal_title_stripped"],
+]
+
+[ui.sidebar.spaces]
+row_gap = 0
+rows = [
+  ["state_icon", "workspace", "branch", "git_status"],
+]
+
 [keys]
 # 既定の prefix 方式は残したまま、よく使う操作にだけ直接バインドを足す。
 # 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリ
@@ -53,6 +80,13 @@ new_workspace = ["prefix+shift+n", "ctrl+n", "cmd+n"]
 # 新しいタブ: cmd + t
 new_tab = ["prefix+c", "cmd+t"]
 
+# ペインのリサイズ: cmd + ctrl + 矢印
+# resize_mode (prefix+r) に入らず直接リサイズする。
+resize_pane_left = ["ctrl+cmd+left"]
+resize_pane_down = ["ctrl+cmd+down"]
+resize_pane_up = ["ctrl+cmd+up"]
+resize_pane_right = ["ctrl+cmd+right"]
+
 # 新しいエージェント (claude): ctrl + option + n
 # 現在のペインを分割し、空いたペインで claude を起動する。
 [[keys.command]]
@@ -61,29 +95,13 @@ type = "shell"
 command = "\"$HOME/.config/herdr/herdr-new-agent.sh\" claude"
 description = "start a new claude agent in a sibling pane"
 
-# ペインのリサイズ: cmd + ctrl + 矢印
-# herdr には方向指定のリサイズを直接バインドする口 (resize_mode 以外) が
-# ないため、CLI を叩くカスタムコマンドで代用する。
+# フローティングの scratch shell: prefix + shift + c
+# popup は中のコマンドが終わると閉じる。Ghostty の quick terminal は
+# command = herdr を起動して既存セッションへ attach してしまうので使えない。
 [[keys.command]]
-key = "ctrl+cmd+left"
-type = "shell"
-command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction left --pane "$HERDR_ACTIVE_PANE_ID"'
-description = "resize the focused pane to the left"
-
-[[keys.command]]
-key = "ctrl+cmd+right"
-type = "shell"
-command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction right --pane "$HERDR_ACTIVE_PANE_ID"'
-description = "resize the focused pane to the right"
-
-[[keys.command]]
-key = "ctrl+cmd+up"
-type = "shell"
-command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction up --pane "$HERDR_ACTIVE_PANE_ID"'
-description = "resize the focused pane upward"
-
-[[keys.command]]
-key = "ctrl+cmd+down"
-type = "shell"
-command = '"${HERDR_BIN_PATH:-herdr}" pane resize --direction down --pane "$HERDR_ACTIVE_PANE_ID"'
-description = "resize the focused pane downward"
+key = "prefix+shift+c"
+type = "popup"
+command = "zsh"
+width = "90%"
+height = "85%"
+description = "floating shell popup"

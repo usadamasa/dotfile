@@ -129,13 +129,11 @@ herdr_action_for_key() {
   [ "$(herdr_action_for_key 'ctrl\+tab')" = "next_tab" ]
 }
 
-@test "cmd+ctrl+矢印が herdr の pane resize コマンドに割り当たっている" {
-  local direction
-  for direction in left right up down; do
-    run grep -A3 -F "key = \"ctrl+cmd+${direction}\"" "$HERDR_CONFIG"
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"pane resize --direction ${direction}"* ]]
-  done
+@test "cmd+ctrl+矢印が herdr のペインリサイズに割り当たっている" {
+  [ "$(herdr_action_for_key 'ctrl\+cmd\+left')" = "resize_pane_left" ]
+  [ "$(herdr_action_for_key 'ctrl\+cmd\+down')" = "resize_pane_down" ]
+  [ "$(herdr_action_for_key 'ctrl\+cmd\+up')" = "resize_pane_up" ]
+  [ "$(herdr_action_for_key 'ctrl\+cmd\+right')" = "resize_pane_right" ]
 }
 
 # =============================================================================

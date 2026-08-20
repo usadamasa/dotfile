@@ -31,8 +31,13 @@ minimum-contrast = 1.3
 
 # Mac標準の挙動にする
 macos-window-shadow = true
-macos-titlebar-style = tabs
 mouse-hide-while-typing = true
+
+# タイトルバーを隠して縦幅を稼ぐ。タブもペインも herdr 側に生えるので
+# Ghostty のタブバー (titlebar-style = tabs) は使い道がない。
+# 副作用: タイトルバー領域でのウィンドウドラッグができなくなる。動かすときは
+# 枠を option + クリックでドラッグする (Ghostty ではなく macOS 標準の挙動)。
+macos-titlebar-style = hidden
 
 # 背景を透過
 background-opacity = 0.90
@@ -52,24 +57,19 @@ clipboard-write = allow
 #
 # リンク (URL / PR 番号)
 #
-# URL の検出は Ghostty 内蔵。ホバー中に cmd を押すと下線が付き、
-# cmd + クリックで既定のブラウザが開く。この修飾キーは Ghostty 側で
-# ハードコードされていて、ダブルクリックや修飾キー無しには変更できない
-# (keybind にマウストリガーが無いため)。
-# 参考: https://github.com/ghostty-org/ghostty/discussions/4917
-link-url = true
-
-# リンクにポインタを合わせたときにリンク先を吹き出しで表示する。
-# OSC 8 ハイパーリンクは表示文字列とリンク先が別物になりうるので、
-# 飛び先を確認してから押せるように有効にしておく。
-link-previews = true
-
-# PR / issue の `#42` のような独自パターンをクリック可能にする `link`
-# オプションは Ghostty 1.3.1 時点では未実装で、設定すると
-# `ghostty +validate-config` が error.NotImplemented を返す。
-# 上流の方針も「端末側で任意の文字列をマッチさせるのではなく、出力する
-# ツールが OSC 8 を吐く」なので、git の出力は pager (config/git の
-# git-osc8-refs) 側で OSC 8 化して cmd + クリックできるようにしている。
+# link-url / link-previews は herdr 配下では効かないので設定しない。
+# herdr は各ペインの出力を自前でパースして再描画するため、URL 文字列も
+# OSC 8 ハイパーリンクも Ghostty までは届かず、cmd + クリックが反応しない
+# (実測済み)。herdr の [ui] mouse_capture = false でマウスを端末へ返せば
+# 動く余地はあるが、herdr 自身のマウス UI を失うので採らない。
+#
+# git log / show の `#42` を OSC 8 化する pager (config/git の git-osc8-refs) は
+# 残してあり、リンクを開く手段を less に一本化した。less の ^O^N で選び ^O^O で
+# 開く (.zshenv の LESS_OSC8_https が必要)。
+#
+# なお PR / issue の独自パターンを端末側でクリック可能にする `link` オプションは
+# Ghostty 1.3.1 時点で未実装 (設定すると +validate-config が
+# error.NotImplemented を返す)。
 # 参考: https://github.com/ghostty-org/ghostty/discussions/4379
 
 #
@@ -131,7 +131,16 @@ keybind = cmd+ctrl+down=csi:1;13B
 # equalize_splits、cmd+1..9 の goto_tab) は、Ghostty 側にペインもタブも
 # 生えなくなるため何もしない no-op になる。あえて unbind はしない。
 
+# Cmd+K で画面クリア。Ghostty 既定の clear_screen は herdr 配下では効かない
+# (herdr の TUI が上から描き直してしまう) ので、フォーカス中のペインのシェルへ
+# clear コマンドを打ち込む。
+keybind = cmd+k=text:clear\r
+
 #
 # その他
 #
-notify-on-command-finish = always
+# notify-on-command-finish は設定しない。コマンドの完了はシェルが出す OSC 133 で
+# 検知するが、これも herdr で止まって Ghostty には届かないため発火しない。
+# 同じ理由で jump_to_prompt と write_scrollback_file も機能しない
+# (スクロールバックは herdr の edit_scrollback = prefix+e を使う)。
+# 通知は herdr 側の [ui.toast] で受ける。

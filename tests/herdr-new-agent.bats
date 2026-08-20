@@ -31,6 +31,10 @@ MOCK
   chmod +x "$MOCK_BIN/herdr"
 
   export PATH="$MOCK_BIN:$PATH"
+  # スクリプトは "${HERDR_BIN_PATH:-herdr}" を呼ぶ。herdr のペイン内で実行すると
+  # 実環境の HERDR_BIN_PATH (本物のバイナリ) が漏れてモックが使われないため、
+  # 実環境と同じくこの変数を明示し、モックを指すようにする。
+  export HERDR_BIN_PATH="$MOCK_BIN/herdr"
   export HERDR_ACTIVE_PANE_ID="wA:p1"
   export HERDR_ACTIVE_PANE_CWD="/repo/a"
 }
