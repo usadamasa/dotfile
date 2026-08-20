@@ -1,5 +1,6 @@
 PLAN.md
 
+.playwright-mcp/
 .claude/worktrees/
 CLAUDE.local.md
 typescript

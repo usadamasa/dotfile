@@ -17,6 +17,7 @@ sidebar_min_width = 36
 
 prompt_new_tab_name = false
 
+agent_panel_sort = "priority"
 [keys]
 # 既定の prefix 方式は残したまま、よく使う操作にだけ直接バインドを足す。
 # 直接バインドしたキーは herdr が横取りするため、ペイン内のアプリ
