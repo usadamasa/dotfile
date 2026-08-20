@@ -22,8 +22,9 @@ agent_panel_sort = "priority"
 # ペイン間の隙間を詰める (共有の仕切り線だけにする)。
 pane_gaps = false
 
-# タブが 1 枚しかないワークスペースではタブ行を隠す。
-hide_tab_bar_when_single_tab = true
+# タブ行は常に表示する。ワークスペースは 1 タブで運用することが多く、隠すと
+# タブの存在自体とアクティブなタブ名が画面から消えてしまう。
+hide_tab_bar_when_single_tab = false
 
 # 選択しただけでクリップボードへコピー。Ghostty 側にも copy-on-select はあるが、
 # マウスを握っているのは herdr なので実効はこちら。
