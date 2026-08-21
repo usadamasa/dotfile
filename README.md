@@ -33,7 +33,13 @@ task clean        # 設定削除
 - **Git関連**: git, gh, ghq, git-now, tig
 - **開発ツール**: jq, direnv, peco, zsh, pipx
 - **ターミナル**: herdr, tmux, iterm2
-- **GUI**: font-cica, jetbrains-toolbox, visual-studio-code
+- **フォント**: font-cica, font-hack-nerd-font
+
+### Homebrew で管理しないもの
+
+claude (Desktop) / claude-code / codex / jetbrains-toolbox / visual-studio-code は
+Homebrew から外している。cask 経由で更新すると毎回 sudo パスワードを要求されるため、
+各アプリの公式インストーラと自動更新に任せる (詳細は Brewfile のコメントを参照)。
 
 ## 📁 構成
 
