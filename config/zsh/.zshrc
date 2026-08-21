@@ -68,6 +68,20 @@ export EDITOR='vim'
 # For a full list of active aliases, run `alias`.
 alias ll='ls -al'
 
+# 引数なしの `cd` を ~/workspace へ向ける。
+# zsh の cd は行き先が $HOME 固定で (man zshbuiltins: "or to the value of $HOME
+# if arg is not specified")、変更する組み込みオプションがないため builtin を
+# 関数で包む。$HOME 自体は書き換えない (`~` や子プロセスを巻き込むため)。
+# HOME へは oh-my-zsh が有効にしている auto_cd のおかげで `~` だけで行ける。
+# `cd -` / `cd +n` / `cd old new` は引数ありなので builtin にそのまま渡る。
+cd() {
+  if (( $# == 0 )); then
+    builtin cd "$HOME/workspace"
+  else
+    builtin cd "$@"
+  fi
+}
+
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
