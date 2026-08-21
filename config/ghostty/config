@@ -1,5 +1,25 @@
 command = /opt/homebrew/bin/herdr
 
+# Ghostty が起動する herdr は必ず「最も外側」のクライアントなので、herdr が
+# ペインの子プロセスへ注入する HERDR_* を引き継がせない。
+#
+# herdr は HERDR_ENV=1 を見つけると nested と判定して
+# "error: nested herdr is disabled by default." で起動を拒否する。判定材料は
+# この環境変数だけで、実際にペインの中にいるかどうかは見ていない。そのため
+# Ghostty のアプリプロセスが一度でも HERDR_ENV=1 を持った状態で起動すると
+# (herdr のペインから ghostty バイナリを叩いた場合など)、以後そのアプリが
+# 開くサーフェスはすべて起動できなくなる。
+#
+# env = KEY= はそのキーを「削除」する (空文字を渡すのではない)。ここより後に
+# 値なしの `env =` を書くとマップ全体がリセットされるので注意。
+env = HERDR_ENV=
+env = HERDR_SOCKET_PATH=
+env = HERDR_CLIENT_SOCKET_PATH=
+env = HERDR_BIN_PATH=
+env = HERDR_WORKSPACE_ID=
+env = HERDR_TAB_ID=
+env = HERDR_PANE_ID=
+
 #
 # テキストの見た目
 #
