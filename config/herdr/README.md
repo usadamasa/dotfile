@@ -53,6 +53,26 @@ herdr へ転送している。キーを増やすときは両方のファイル�
 `ctrl+option+n` が効かない場合は `config/ghostty/config` の
 `macos-option-as-alt` を有効にする。
 
+## トラブルシューティング
+
+### `error: nested herdr is disabled by default.`
+
+herdr は `HERDR_ENV=1` を見つけると nested と判定して起動を拒否する。判定材料は
+この環境変数だけで、本当にペインの中にいるかは見ていない。
+
+Ghostty のアプリプロセスが一度でも `HERDR_ENV=1` を持った状態で起動すると
+(herdr のペインから `ghostty` バイナリを直接叩いた場合など)、そのアプリが開く
+サーフェスはすべて `command = herdr` を汚染された環境で起動するため、以後ずっと
+このエラーになる。macOS は同じバンドルのアプリを 1 インスタンスしか持たないので、
+ウィンドウを閉じて Dock から開き直しても汚染されたプロセスが再利用される。
+
+`config/ghostty/config` の `env = HERDR_ENV=` で、Ghostty が起動する子プロセス
+から `HERDR_*` を落としてあるので、この状態にはならない。
+
+すでに汚染されたアプリプロセスが残っている場合は、それを本当に終了させる必要が
+ある。Terminal.app から `herdr server stop` すると、サーバの子孫にぶら下がって
+いる Ghostty ごと落ちるため復旧する。
+
 ## 参考
 
 - [herdr でタブタイトルを Claude Code のプロンプトにする](https://tech.anycloud.co.jp/articles/herdr-claude-code-tab-title/)

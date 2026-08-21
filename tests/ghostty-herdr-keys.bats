@@ -1,9 +1,12 @@
 #!/usr/bin/env bats
-# Ghostty と herdr のキーバインド連携のテスト
+# Ghostty と herdr の連携のテスト
 #
-# Ghostty は cmd 系のキーを自分で消費せず、kitty keyboard protocol の
-# CSI-u シーケンスとして herdr へ転送する。両ファイルの対応が崩れると
-# キーがどこにも届かなくなるため、対になっていることを検証する。
+# キーバインド: Ghostty は cmd 系のキーを自分で消費せず、kitty keyboard
+# protocol の CSI-u シーケンスとして herdr へ転送する。両ファイルの対応が
+# 崩れるとキーがどこにも届かなくなるため、対になっていることを検証する。
+#
+# 環境変数: Ghostty が起動する herdr は最も外側のクライアントなので、
+# HERDR_* を引き継がせない (引き継ぐと nested 判定で起動できなくなる)。
 
 GHOSTTY_CONFIG="$BATS_TEST_DIRNAME/../config/ghostty/config"
 HERDR_CONFIG="$BATS_TEST_DIRNAME/../config/herdr/config.toml"
@@ -134,6 +137,38 @@ herdr_action_for_key() {
   [ "$(herdr_action_for_key 'ctrl\+cmd\+down')" = "resize_pane_down" ]
   [ "$(herdr_action_for_key 'ctrl\+cmd\+up')" = "resize_pane_up" ]
   [ "$(herdr_action_for_key 'ctrl\+cmd\+right')" = "resize_pane_right" ]
+}
+
+# =============================================================================
+# Ghostty 側: herdr が注入する環境変数を引き継がない
+# =============================================================================
+
+@test "Ghostty は HERDR_ENV を子プロセスへ渡さない" {
+  # これが残っていると herdr が nested と誤判定して起動を拒否する
+  run grep -cE '^env = HERDR_ENV=$' "$GHOSTTY_CONFIG"
+  [ "$status" -eq 0 ]
+  [ "$output" = "1" ]
+}
+
+@test "Ghostty は herdr のペイン識別子を子プロセスへ渡さない" {
+  local key
+  for key in HERDR_SOCKET_PATH HERDR_CLIENT_SOCKET_PATH HERDR_BIN_PATH \
+    HERDR_WORKSPACE_ID HERDR_TAB_ID HERDR_PANE_ID; do
+    run grep -cE "^env = ${key}=\$" "$GHOSTTY_CONFIG"
+    [ "$status" -eq 0 ]
+    [ "$output" = "1" ]
+  done
+}
+
+@test "env のクリアより後に env マップ全体のリセットがない" {
+  # 値なしの `env =` はマップ全体を空に戻すため、クリア行が無効化される
+  local first_clear reset_line
+  first_clear=$(grep -nE '^env = HERDR_' "$GHOSTTY_CONFIG" | head -1 | cut -d: -f1)
+  [ -n "$first_clear" ]
+  reset_line=$(grep -nE '^env =\s*$' "$GHOSTTY_CONFIG" | head -1 | cut -d: -f1)
+  if [ -n "$reset_line" ]; then
+    [ "$reset_line" -lt "$first_clear" ]
+  fi
 }
 
 # =============================================================================
