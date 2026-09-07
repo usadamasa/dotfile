@@ -69,6 +69,7 @@ tasks:
       # ログとセッション状態が残るディレクトリ自体は消さない
       - rm -f "$HOME/.config/herdr/config.toml"
       - rm -f "$HOME/.config/herdr/herdr-new-agent.sh"
+      - rm -f "$HOME/.config/herdr/sounds"
       - rm -f "$HOME/.config/ghostty/config"
       - echo "🗑️ 設定をクリーンアップしました"
 
@@ -115,6 +116,9 @@ tasks:
       - mkdir -p "$HOME/.config/herdr"
       - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
       - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-new-agent.sh"
+      # ui.sound.*_path の相対パスは symlink を解決せず $HOME/.config/herdr からの
+      # 相対として扱われるため、sounds ディレクトリも symlink しておく
+      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/sounds" "$HOME/.config/herdr/sounds"
       # Ghostty も themes などを同じディレクトリに置けるため、config だけを symlink する
       - mkdir -p "$HOME/.config/ghostty"
       - ln -sfn "{{.DOTFILE_DIR}}/config/ghostty/config" "$HOME/.config/ghostty/config"
