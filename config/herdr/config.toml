@@ -6,6 +6,17 @@ auto_switch = false
 [ui.sound]
 enabled = true
 
+# herdr には音量の設定が無く、差し替えられるのは MP3 のパスだけ。そのため
+# macOS の Pop / Tink を ffmpeg で約 -8 dB 減衰させたものを同梱してある。
+# 音量を変えたいときは元の aiff から作り直す:
+#
+#   ffmpeg -y -i /System/Library/Sounds/Pop.aiff -af volume=0.4 \
+#     -codec:a libmp3lame -q:a 5 config/herdr/sounds/done.mp3
+#
+# パスは config.toml のあるディレクトリからの相対。
+done_path = "sounds/done.mp3"
+request_path = "sounds/request.mp3"
+
 [ui.toast]
 delivery = "herdr"
 
@@ -50,6 +61,7 @@ copy_on_select = true
 #
 # git_status も built-in で pane の cwd から引く。worktree にいるセッションでは
 # $branch と別の checkout を指すため外してある。
+status_indicators = "symbols"
 [ui.sidebar.agents]
 row_gap = 0
 rows = [
