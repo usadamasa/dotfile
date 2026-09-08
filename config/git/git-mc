@@ -1,7 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+read_main_branch() {
+  git symbolic-ref --quiet refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+}
+
+main_branch=$(read_main_branch) || main_branch=''
+# origin/HEAD goes stale when the default branch is renamed or when the pointer was
+# recorded while another branch was checked out on the remote. Re-resolve it instead
+# of failing with "fatal: invalid reference".
+if [ -z "$main_branch" ] || ! git rev-parse --verify --quiet "refs/remotes/origin/$main_branch" >/dev/null; then
+  git remote set-head origin --auto
+  main_branch=$(read_main_branch) || main_branch=''
+fi
+
+if [ -z "$main_branch" ]; then
+  printf '%s\n' 'git-mc: cannot resolve the default branch from origin/HEAD' >&2
+  exit 1
+fi
 
 if [ "$(git rev-parse --git-dir)" != "$(git rev-parse --git-common-dir)" ]; then
   git wt "$main_branch"
