@@ -1,7 +1,9 @@
+[user]
+  name = usadamasa
+  email = usadamasa@gmail.com
 [include]
+  # 端末ローカルの設定 (.gitignore 済み)。
   path = ~/.config/git/gitconfig.local
-[includeIf "gitdir:~/src/github.com/usadamasa/"]
-  path = ~/.config/git/gitconfig.private
 [color]
   ui = true
 [page]
