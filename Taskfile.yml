@@ -22,7 +22,11 @@ tasks:
     cmds:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
+      - task: _install-nix
+      # nix.conf の use-xdg-base-directories を効かせてから profile を作るため、
+      # nix-direnv より先に設定ファイルを置く
       - task: _setup-config
+      - task: _install-nix-direnv
       - task: _setup-shell
       - task: _setup-additional
       - echo "✅ セットアップ完了"
@@ -39,6 +43,9 @@ tasks:
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "herdr設定: $(test -L "$HOME/.config/herdr/config.toml" && echo '✓' || echo '✗')"
         echo "Ghostty設定: $(test -L "$HOME/.config/ghostty/config" && echo '✓' || echo '✗')"
+        echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
+        echo "nix-direnv: $(test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc" && echo '✓' || echo '✗')"
+        echo "direnv設定: $(test -L "$HOME/.config/direnv" && echo '✓' || echo '✗')"
 
   test:
     desc: テストを実行
@@ -65,12 +72,13 @@ tasks:
     prompt: "設定ファイルを削除しますか？"
     cmds:
       - rm -f "$HOME/.zshenv"
-      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm"
+      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm" "$HOME/.config/direnv"
       # ログとセッション状態が残るディレクトリ自体は消さない
       - rm -f "$HOME/.config/herdr/config.toml"
       - rm -f "$HOME/.config/herdr/herdr-new-agent.sh"
       - rm -f "$HOME/.config/herdr/sounds"
       - rm -f "$HOME/.config/ghostty/config"
+      - rm -f "$HOME/.config/nix/nix.conf"
       - echo "🗑️ 設定をクリーンアップしました"
 
   check-xdg:
@@ -100,6 +108,25 @@ tasks:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet
 
+  # sudo が要るため Brewfile ではなく公式インストーラで入れる。
+  # インストール直後のシェルには PATH が載らないので、nix は絶対パスで判定・実行する
+  _install-nix:
+    internal: true
+    cmds:
+      - echo "❄️ Determinate Nix をインストール中 (sudo のパスワードを求められます)..."
+      - curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+    status:
+      - test -x /nix/var/nix/profiles/default/bin/nix
+
+  _install-nix-direnv:
+    internal: true
+    deps: [_install-nix]
+    cmds:
+      - echo "❄️ nix-direnv をインストール中..."
+      - /nix/var/nix/profiles/default/bin/nix profile add nixpkgs#nix-direnv
+    status:
+      - test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc"
+
   _setup-config:
     internal: true
     cmds:
@@ -111,6 +138,11 @@ tasks:
       - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
       - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
+      # direnv は allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
+      - ln -sfn "{{.DOTFILE_DIR}}/config/direnv" "$HOME/.config/"
+      # nix は registry.json などを同じディレクトリに書くため、nix.conf だけを symlink する
+      - mkdir -p "$HOME/.config/nix"
+      - ln -sfn "{{.DOTFILE_DIR}}/config/nix/nix.conf" "$HOME/.config/nix/nix.conf"
       # herdr は同じディレクトリに socket・ログ・セッション状態を作るため、
       # ディレクトリごとではなくファイル単位で symlink する
       - mkdir -p "$HOME/.config/herdr"

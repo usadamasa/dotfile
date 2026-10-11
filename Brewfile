@@ -37,5 +37,6 @@ tap "k1low/tap"
 #   - claude (Desktop)    : https://claude.ai/download から .dmg
 #   - claude-code         : curl -fsSL https://claude.ai/install.sh | bash
 #   - codex               : npm i -g @openai/codex
+#   - nix                 : Taskfile の _install-nix (Determinate Nix のインストーラ)
 #   - jetbrains-toolbox   : https://www.jetbrains.com/toolbox-app/ から .dmg
 #   - visual-studio-code  : https://code.visualstudio.com/ から .zip
