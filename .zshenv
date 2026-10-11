@@ -69,3 +69,12 @@ case ":${PATH}:" in
     *:"$HOME/.local/bin":*) ;;
     *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
+
+# Nix
+# The installer hooks only /etc/zshrc, so non-interactive shells (zsh -c, the
+# shell nix-direnv runs under) would miss nix and nix-direnv would silently fall
+# back to its bundled upstream nix. The script guards itself against double
+# sourcing, so /etc/zshrc becomes a no-op afterwards.
+if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
