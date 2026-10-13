@@ -1,0 +1,5 @@
+# 自分のリポジトリ (~/src/github.com/usadamasa 配下) の .envrc は direnv allow 無しで信頼する。
+# Claude Code の worktree (<repo>/.claude/worktrees/<name>) は .envrc のパスが毎回変わり、必ず未許可になるため。
+# prefix は文字列の前方一致で、末尾の / も落とされる。usadamasa で始まる別 owner (例: usadamasa-foo) も対象になる。
+[whitelist]
+prefix = [ "~/src/github.com/usadamasa" ]
