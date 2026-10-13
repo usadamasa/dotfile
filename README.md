@@ -32,7 +32,7 @@ task clean        # 設定削除
 
 - **Git関連**: git, gh, ghq, git-now, tig
 - **開発ツール**: jq, direnv, peco, zsh, pipx
-- **ターミナル**: herdr, tmux, iterm2
+- **ターミナル**: herdr
 - **フォント**: font-cica, font-hack-nerd-font
 
 ### Homebrew で管理しないもの

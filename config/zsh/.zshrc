@@ -118,6 +118,4 @@ command -v herdr >/dev/null && eval "$(herdr completion zsh)"
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-test -e "${ZDOTDIR}/.iterm2_shell_integration.zsh" && source "${ZDOTDIR}/.iterm2_shell_integration.zsh" || true
-
 # PATH for ~/.local/bin is set in ~/.zshenv
