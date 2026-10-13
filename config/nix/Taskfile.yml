@@ -1,0 +1,31 @@
+version: '3'
+
+vars:
+  # setup の途中ではインストール直後のシェルに PATH が載らないため、絶対パスで呼ぶ
+  NIX_BIN: /nix/var/nix/profiles/default/bin/nix
+
+tasks:
+  # nix run / nix shell -c は claude-config の guard-bash が止めるため、実行せず store へ落とすだけで確かめる
+  check:
+    desc: nix が daemon に繋がり、binary cache から取得できるか確認
+    cmds:
+      - nix store info
+      - nix build --no-link --print-out-paths nixpkgs#hello
+
+  # sudo が要るため Brewfile ではなく公式インストーラで入れる
+  install:
+    internal: true
+    cmds:
+      - echo "❄️ Determinate Nix をインストール中 (sudo のパスワードを求められます)..."
+      - curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+    status:
+      - test -x "{{.NIX_BIN}}"
+
+  install-direnv:
+    internal: true
+    deps: [install]
+    cmds:
+      - echo "❄️ nix-direnv をインストール中..."
+      - '"{{.NIX_BIN}}" profile add nixpkgs#nix-direnv'
+    status:
+      - test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc"
