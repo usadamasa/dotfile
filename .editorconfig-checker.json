@@ -4,8 +4,6 @@
     "^\\.git/",
     "^\\.github/workflows/.*\\.lock\\.yml",
     "^\\.local/",
-    "^node_modules/",
-    "config/zsh/\\.iterm2_shell_integration\\.zsh",
-    "iterm2/com\\.googlecode\\.iterm2\\.plist"
+    "^node_modules/"
   ]
 }
