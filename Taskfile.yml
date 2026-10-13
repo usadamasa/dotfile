@@ -86,6 +86,13 @@ tasks:
     cmds:
       - xdg-ninja --skip-unsupported
 
+  # nix run / nix shell -c は claude-config の guard-bash が止めるため、実行せず store へ落とすだけで確かめる
+  check-nix:
+    desc: nix が daemon に繋がり、binary cache から取得できるか確認
+    cmds:
+      - /nix/var/nix/profiles/default/bin/nix store info
+      - /nix/var/nix/profiles/default/bin/nix build --no-link --print-out-paths nixpkgs#hello
+
   _install-homebrew:
     internal: true
     cmds:
