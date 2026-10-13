@@ -3,6 +3,9 @@ version: '3'
 vars:
   DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
 
+includes:
+  nix: ./config/nix/Taskfile.yml
+
 tasks:
   default:
     desc: 利用可能なタスク一覧を表示
@@ -22,11 +25,11 @@ tasks:
     cmds:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
-      - task: _install-nix
+      - task: nix:install
       # nix.conf の use-xdg-base-directories を効かせてから profile を作るため、
       # nix-direnv より先に設定ファイルを置く
       - task: _setup-config
-      - task: _install-nix-direnv
+      - task: nix:install-direnv
       - task: _setup-shell
       - task: _setup-additional
       - echo "✅ セットアップ完了"
@@ -107,25 +110,6 @@ tasks:
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet
-
-  # sudo が要るため Brewfile ではなく公式インストーラで入れる。
-  # インストール直後のシェルには PATH が載らないので、nix は絶対パスで判定・実行する
-  _install-nix:
-    internal: true
-    cmds:
-      - echo "❄️ Determinate Nix をインストール中 (sudo のパスワードを求められます)..."
-      - curl -fsSL https://install.determinate.systems/nix | sh -s -- install
-    status:
-      - test -x /nix/var/nix/profiles/default/bin/nix
-
-  _install-nix-direnv:
-    internal: true
-    deps: [_install-nix]
-    cmds:
-      - echo "❄️ nix-direnv をインストール中..."
-      - /nix/var/nix/profiles/default/bin/nix profile add nixpkgs#nix-direnv
-    status:
-      - test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc"
 
   _setup-config:
     internal: true
