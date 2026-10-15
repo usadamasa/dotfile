@@ -12,6 +12,16 @@ tasks:
       - nix store info
       - nix build --no-link --print-out-paths nixpkgs#hello
 
+  check-flake:
+    desc: flake.nix を評価して devShell が解決できるか確認
+    cmds:
+      - nix flake check
+
+  update:
+    desc: flake.lock の nixpkgs を更新する (開発ツールの版が上がる)
+    cmds:
+      - nix flake update
+
   # sudo が要るため Brewfile ではなく公式インストーラで入れる
   install:
     internal: true
