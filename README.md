@@ -35,6 +35,9 @@ task clean        # 設定削除
 - **ターミナル**: herdr
 - **フォント**: font-cica, font-hack-nerd-font
 
+このリポジトリ自体の開発・テストに使うツールは Homebrew ではなく `flake.nix` の devShell で管理する
+(使い方は CLAUDE.md の「テスト・フォーマット」)。
+
 ### Homebrew で管理しないもの
 
 claude (Desktop) / claude-code / codex / jetbrains-toolbox / visual-studio-code は
@@ -46,6 +49,7 @@ Homebrew から外している。cask 経由で更新すると毎回 sudo パス
 ```tree
 dotfile/
 ├── Taskfile.yml  # セットアップ自動化
+├── flake.nix    # 開発ツールの devShell (.envrc の use flake で読み込む)
 ├── .zshenv      # XDG Base Directory設定
 └── config/      # 各種設定ファイル
     ├── git/

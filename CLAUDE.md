@@ -28,6 +28,12 @@ task format  # editorconfig-checker で .editorconfig 準拠をチェック
 フックとして自動的に `shellcheck` と `editorconfig-checker` をかけ、指摘があれば
 その場でフィードバックする (設定は `.claude/settings.json`)｡
 
+### 開発ツールの devShell
+
+テストと lint のツールは `flake.nix` の devShell に置き、direnv (`.envrc`) で読み込む。
+`task nix:check-flake` で flake を検証し、`task nix:update` で nixpkgs を進める。
+`lint-shell.sh` フックは claude を起動したシェルの PATH で動くので、リポジトリ内のシェルから claude を起動する。
+
 ## シェルスクリプト開発ガイド
 
 ### ディレクトリ構成
@@ -63,7 +69,7 @@ When working with long commands in this repository:
 
 ## Claude Code Configuration
 
-Claude Code のグローバル設定は **`usadamasa/claude-config`** リポジトリで管理されています｡
+Claude Code のグローバル設定は **`usadamasa/claude-config`** リポジトリで管理する｡
 
 ```sh
 ghq get github.com/usadamasa/claude-config
@@ -71,8 +77,7 @@ cd ~/src/github.com/usadamasa/claude-config
 task setup
 ```
 
-`task setup` / `task status` / `task clean` は dotfile の Taskfile.yml から自動的に委譲されます｡
-claude-config が未クローンの場合は警告メッセージが表示されます｡
+dotfile の Taskfile.yml は claude-config の task を呼ばない｡claude-config 側のセットアップは上のコマンドで別に行う｡
 
 ### Note on Skill Scope
 - **Global skills** → `usadamasa/claude-config` リポジトリの `skills/` に配置 (全プロジェクトで利用可能)

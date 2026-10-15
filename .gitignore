@@ -1,5 +1,6 @@
 .netrwhist
 .tmp/
+/.direnv/
 /Brewfile.lock.json
 /config/git/gitconfig.local*
 /config/zsh/.zcompdump*
