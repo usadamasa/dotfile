@@ -44,8 +44,6 @@ tasks:
         echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
-        echo "herdr設定: $(test -L "$HOME/.config/herdr/config.toml" && echo '✓' || echo '✗')"
-        echo "Ghostty設定: $(test -L "$HOME/.config/ghostty/config" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
         echo "nix-direnv: $(test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc" && echo '✓' || echo '✗')"
         echo "direnv設定: $(test -L "$HOME/.config/direnv" && echo '✓' || echo '✗')"
@@ -76,11 +74,6 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm" "$HOME/.config/direnv"
-      # ログとセッション状態が残るディレクトリ自体は消さない
-      - rm -f "$HOME/.config/herdr/config.toml"
-      - rm -f "$HOME/.config/herdr/herdr-new-agent.sh"
-      - rm -f "$HOME/.config/herdr/sounds"
-      - rm -f "$HOME/.config/ghostty/config"
       - rm -f "$HOME/.config/nix/nix.conf"
       - echo "🗑️ 設定をクリーンアップしました"
 
@@ -122,17 +115,6 @@ tasks:
       # nix は registry.json などを同じディレクトリに書くため、nix.conf だけを symlink する
       - mkdir -p "$HOME/.config/nix"
       - ln -sfn "{{.DOTFILE_DIR}}/config/nix/nix.conf" "$HOME/.config/nix/nix.conf"
-      # herdr は同じディレクトリに socket・ログ・セッション状態を作るため、
-      # ディレクトリごとではなくファイル単位で symlink する
-      - mkdir -p "$HOME/.config/herdr"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/herdr-new-agent.sh" "$HOME/.config/herdr/herdr-new-agent.sh"
-      # ui.sound.*_path の相対パスは symlink を解決せず $HOME/.config/herdr からの
-      # 相対として扱われるため、sounds ディレクトリも symlink しておく
-      - ln -sfn "{{.DOTFILE_DIR}}/config/herdr/sounds" "$HOME/.config/herdr/sounds"
-      # Ghostty も themes などを同じディレクトリに置けるため、config だけを symlink する
-      - mkdir -p "$HOME/.config/ghostty"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/ghostty/config" "$HOME/.config/ghostty/config"
 
   _setup-shell:
     internal: true
