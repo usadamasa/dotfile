@@ -20,6 +20,7 @@
             editorconfig-checker
             go-task
             shellcheck
+            xdg-ninja
             yamllint
           ];
         };
