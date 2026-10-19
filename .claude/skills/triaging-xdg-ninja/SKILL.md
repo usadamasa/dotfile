@@ -8,20 +8,11 @@ description: xdg-ninja で $HOME 直下の dotfile を点検し、XDG Base Direc
 xdg-ninja の指摘を「このリポジトリで直せるもの」と「直せないもの」に分け、直せるものを
 `usadamasa/dotfile` の issue にする。
 
-## 症状から行動を引く
-
-| 症状 | 行動 |
-| ---- | ---- |
-| `xdg-ninja: command not found` | devShell が未反映。resolving-path skill に従う |
-| `.zshenv` に環境変数があるのに、そのツールのディレクトリが指摘される | 「指摘を分類する」の「設定済みで残る」へ |
-| 同じパスの issue が既にある | 起票しない。新しく分かったことだけを既存 issue へ comment する |
-
 ## 手順
 
 ### 1. 実行する
 
-xdg-ninja は Homebrew ではなく、このリポジトリの devShell (`flake.nix`) から入る。
-リポジトリ直下を cwd にして打つ。
+リポジトリ直下を cwd にして打つ。`command not found` になったら APPENDIX「xdg-ninja が見つからない」へ。
 
 ```bash
 mkdir -p ./tmp
@@ -54,7 +45,7 @@ xdg-ninja --skip-ok --skip-unsupported > ./tmp/xdg-ninja.txt 2>&1
 gh issue list --repo usadamasa/dotfile --label xdg --state all --limit 100
 ```
 
-open の issue と同じパスは起票しない。closed の issue と同じパスなら、再発として新しく立て、旧 issue を関連に書く。
+open の issue と同じパスは起票せず、新しく分かったことだけを既存 issue へ comment する。closed の issue と同じパスなら、再発として新しく立て、旧 issue を関連に書く。
 xdg-ninja の指摘をまとめる親 issue は #7。
 
 ### 4. 起票する
@@ -72,9 +63,14 @@ gh issue create --repo usadamasa/dotfile --label xdg --assignee usadamasa --titl
 1. 背景: xdg-ninja の該当出力 (コードブロック) と、#7 の一環であること
 2. 現状: `.zshenv` や `config/` の該当行 (`path:line`)、`ls -la` で見た $HOME 側の中身と日付
 3. やること
-4. 完了条件: チェックボックス。`task check-xdg` の出力から指摘が消えることを含める
+4. 完了条件: チェックボックス。手順 1 の xdg-ninja の出力から指摘が消えることを含める
 5. 未決事項: 移し先 (`$XDG_DATA_HOME` か `$XDG_CACHE_HOME` か)、既存データの扱いなど
 6. 関連: #7 と、関係する既存 issue
+
+## APPENDIX: xdg-ninja が見つからない
+
+xdg-ninja は Homebrew ではなく、このリポジトリの devShell (`flake.nix`) から入る。
+`command not found` は devShell が Bash へ未反映の状態で、resolving-path skill に従う。
 
 ## APPENDIX: なぜこの分類になるか
 
