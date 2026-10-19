@@ -24,8 +24,9 @@ Git のグローバル設定ファイル群を管理するディレクトリ。`
 
 ### pager
 
-`config` の `[page]` セクションは `[pager]` の綴り間違いで git からは無視されている。
-挙動を変えないためそのまま残してあり、pager は git の既定のまま使う。
+`log` / `show` / `diff` は diff-highlight を挟み、変更行の中で変わった部分を強調する。
+diff-highlight は Homebrew の git (Brewfile の `brew "git"`) の contrib に同梱されていて PATH には載らないため、
+`/opt/homebrew/share/git-core/contrib/diff-highlight/` の絶対パスで呼ぶ。
 
 ### git-wt (worktree) 設定
 
