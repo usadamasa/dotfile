@@ -103,18 +103,31 @@ tasks:
     internal: true
     cmds:
       - echo "⚙️ 設定ファイルをセットアップ中..."
-      - ln -sfn "{{.DOTFILE_DIR}}/.zshenv" "$HOME/"
-      - mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache"
+      - mkdir -p "$HOME/.config/nix" "$HOME/.local/share" "$HOME/.cache"
       - rm -rf "$HOME/.config/zsh"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/zsh" "$HOME/.config/"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/git" "$HOME/.config/"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/vim" "$HOME/.config/"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/npm" "$HOME/.config/"
-      # direnv は allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
-      - ln -sfn "{{.DOTFILE_DIR}}/config/direnv" "$HOME/.config/"
-      # nix は registry.json などを同じディレクトリに書くため、nix.conf だけを symlink する
-      - mkdir -p "$HOME/.config/nix"
-      - ln -sfn "{{.DOTFILE_DIR}}/config/nix/nix.conf" "$HOME/.config/nix/nix.conf"
+      - task: _link
+        vars: { SRC: .zshenv, DEST: .zshenv }
+      - for:
+          - direnv # allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
+          - git
+          - nix/nix.conf # registry.json などを同じディレクトリに書くため、nix.conf だけを symlink する
+          - npm
+          - vim
+          - zsh
+        task: _link
+        vars: { SRC: "config/{{.ITEM}}", DEST: ".config/{{.ITEM}}" }
+
+  # SRC は DOTFILE_DIR から、DEST は $HOME からの相対パス。DEST はリンク名で渡す。
+  # GNU ln はディレクトリを開けないとき、ディレクトリ指定をリンク名と見なして cannot overwrite directory で落ちる
+  _link:
+    internal: true
+    requires:
+      vars: [SRC, DEST]
+    preconditions:
+      - sh: test "{{.DEST}}" = "{{trimSuffix "/" .DEST}}"
+        msg: "DEST はディレクトリではなくリンク名で渡してください: {{.DEST}}"
+    cmds:
+      - ln -sfn "{{.DOTFILE_DIR}}/{{.SRC}}" "$HOME/{{.DEST}}"
 
   _setup-shell:
     internal: true
