@@ -19,8 +19,9 @@ export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 mkdir -p "$XDG_STATE_HOME/less"
 
 # sqlite
-export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
-mkdir -p "$SQLITE_HISTORY"
+# sqlite3 は履歴ファイルの親ディレクトリを作らない
+export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite_history"
+mkdir -p "$XDG_STATE_HOME"
 
 # Docker
 # https://github.com/usadamasa/dotfile/issues/14
