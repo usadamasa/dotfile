@@ -9,6 +9,10 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+# Terminal.app の Resume 用セッション保存を止める。
+# /etc/zshrc_Apple_Terminal は保存先を ${ZDOTDIR}/.zsh_sessions に固定しており、移せない
+# https://github.com/usadamasa/dotfile/issues/3
+SHELL_SESSIONS_DISABLE=1
 
 # vim
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
