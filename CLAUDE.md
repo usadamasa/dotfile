@@ -32,6 +32,7 @@ task format  # editorconfig-checker で .editorconfig 準拠をチェック
 
 テストと lint のツールは `flake.nix` の devShell に置き、direnv (`.envrc`) で読み込む。
 `task nix:check-flake` で flake を検証し、`task nix:update` で nixpkgs を進める。
+flake.lock は Dependabot (`.github/dependabot.yml`) も週次で更新する。
 `lint-shell.sh` フックは claude を起動したシェルの PATH で動くので、リポジトリ内のシェルから claude を起動する。
 
 ## シェルスクリプト開発ガイド
