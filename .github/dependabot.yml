@@ -1,10 +1,23 @@
 version: 2
 updates:
+  # Dependabot は `uses:` のタグと actions.lock の SHA を同じ commit で上げるので、
+  # CI の actions-lock ジョブ (`gh actions-lock --verify`) を通る。
+  #
+  # directory: / は .github/workflows/ しか見ず、composite action
+  # (.github/actions/*) の uses: を上げないので directories で足す。composite
+  # action 側の bump で actions.lock も上がるかは未確認 (2026-10)。actions-lock
+  # ジョブで落ちたら、その PR のブランチで `gh actions-lock` を実行する。
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/*
+    schedule:
+      interval: weekly
+
   # devShell の bats / shellcheck / yamllint などの版は flake.lock の nixpkgs の
   # rev で決まる。nix の対象は flake.lock の input の更新だけで、security
   # updates は出ない。Brewfile は Dependabot に対応する ecosystem が無いので対象外。
-  # workflow が無く PR に CI は走らないので、PR のブランチで
-  # `task nix:check-flake` と `task test` を回して確かめる。
+  # 更新 PR は CI (.github/workflows/ci.yaml) の flake-check と bats-test で確かめる。
   - package-ecosystem: nix
     directory: /
     schedule:

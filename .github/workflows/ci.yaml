@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: ci
+
+on:
+  pull_request:
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# テストのツールは flake.nix の devShell から取る (setup-nix)。版の正本は flake.lock
+jobs:
+  flake-check:
+    name: nix flake check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.1.0
+
+      - uses: $/.github/actions/setup-nix
+
+      - name: Check flake
+        run: task nix:check-flake
+
+  bats-test:
+    name: bats test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.1.0
+
+      - uses: $/.github/actions/setup-nix
+
+      - name: Run bats tests
+        run: task test
+
+  actions-lock:
+    name: actions-lock verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.1.0
+
+      - name: Install gh-actions-lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh extension install github/gh-actions-lock --pin v0.2.0
+
+      - name: Verify actions are locked
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh actions-lock --verify
+
+  ci-status-check:
+    runs-on: ubuntu-slim
+    if: always()
+    timeout-minutes: 10
+    needs:
+      - flake-check
+      - bats-test
+      - actions-lock
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

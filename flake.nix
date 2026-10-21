@@ -22,6 +22,7 @@
             shellcheck
             xdg-ninja
             yamllint
+            zsh # tests/zshenv.bats が .zshenv を zsh で読む。CI のランナーには入っていない
           ];
         };
       });
