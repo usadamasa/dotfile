@@ -33,6 +33,8 @@ task nix:check-flake  # flake.nix の devShell を検証
 task nix:update       # flake.lock の nixpkgs を更新
 ```
 
+flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も週次で更新する。
+
 ## 🛠️ ツールの管理
 
 - **Homebrew**: 日常使いのツールとフォント。一覧は [Brewfile](Brewfile)。
