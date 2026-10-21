@@ -18,7 +18,7 @@ jobs:
     name: nix flake check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.1.0
+      - uses: actions/checkout@v7.0.1
 
       - uses: $/.github/actions/setup-nix
 
@@ -29,7 +29,7 @@ jobs:
     name: bats test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.1.0
+      - uses: actions/checkout@v7.0.1
 
       - uses: $/.github/actions/setup-nix
 
@@ -40,7 +40,7 @@ jobs:
     name: actions-lock verify
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.1.0
+      - uses: actions/checkout@v7.0.1
 
       - name: Install gh-actions-lock
         env:
