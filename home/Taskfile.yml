@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  switch:
+    desc: home-manager の設定をビルドして適用する
+    cmds:
+      - ./home/switch.sh
+
+  # nix flake check は実行中の system 向けの homeConfigurations しか評価せず、linux の CI では
+  # aarch64-darwin 向けが飛ばされる。instantiate は system をまたいでできるので、評価エラーはこれで拾う
+  check:
+    desc: home-manager の設定を評価する (適用はしない)
+    cmds:
+      - nix eval --raw .#homeConfigurations.usadamasa.activationPackage.drvPath

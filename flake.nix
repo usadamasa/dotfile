@@ -1,9 +1,16 @@
 {
-  description = "dotfile の開発ツール";
+  description = "dotfile の開発ツールとホーム環境 (home-manager)";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager = {
+      # nixpkgs が nixos-unstable なので home-manager も master を対にする (release-XX.YY は stable 用)
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { nixpkgs, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       # ローカル (Apple Silicon) と、クラウド環境や CI 向けの linux
       systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
@@ -26,5 +33,13 @@
           ];
         };
       });
+
+      # ホスト名を付けない。macOS の hostname はネットワークで taylor.local / taylor と揺れ、
+      # home-manager CLI は $USER@<hostname> の候補のうち最後に一致した名前を採るため名前が安定しない。
+      # 適用は home/switch.sh (task hm:switch)
+      homeConfigurations.usadamasa = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        modules = [ ./home ];
+      };
     };
 }
