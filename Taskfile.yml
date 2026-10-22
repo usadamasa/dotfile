@@ -47,10 +47,8 @@ tasks:
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
-        echo "home-manager: $(test -L "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager" && echo '✓' || echo '✗')"
-        echo "direnv設定 (home-manager): $(test -L "$HOME/.config/direnv/direnv.toml" && echo '✓' || echo '✗')"
-        echo "nix-direnv (home-manager): $(test -L "$HOME/.config/direnv/lib/hm-nix-direnv.sh" && echo '✓' || echo '✗')"
-        echo "npm設定 (home-manager): $(test -L "$HOME/.config/npm" && echo '✓' || echo '✗')"
+      # home-manager 管理のもの (設定ファイルとパッケージ) は世代の一致で 1 行にまとめる
+      - ./home/status.sh
 
   test:
     desc: テストを実行
