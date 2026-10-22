@@ -25,6 +25,9 @@ jobs:
       - name: Check flake
         run: task nix:check-flake
 
+      - name: Evaluate home-manager configuration
+        run: task hm:check
+
   bats-test:
     name: bats test
     runs-on: ubuntu-latest

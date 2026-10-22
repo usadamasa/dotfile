@@ -33,6 +33,11 @@ export PATH=${CARGO_HOME}/bin:$PATH
 # go install
 export PATH="$(go env GOPATH)/bin:$PATH"
 
+# npm global packages
+# node 本体は nix の profile (home/packages.nix)。global install 先は config/npm/npmrc の prefix で固定なので、
+# `npm prefix --location=global` を呼ばずに同じパスを書く (npm が無い状態でも command not found にならない)
+export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
+
 # User-specific paths
 
 # claude-config: `task build:bin` が cmd/ の Go CLI をここへ出力する。

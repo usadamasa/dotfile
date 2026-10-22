@@ -4,6 +4,7 @@ vars:
   DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
 
 includes:
+  hm: ./home/Taskfile.yml
   nix: ./config/nix/Taskfile.yml
 
 tasks:
@@ -30,6 +31,7 @@ tasks:
       - task: nix:install-custom-conf
       - task: _setup-config
       - task: nix:install-direnv
+      - task: hm:switch
       - task: _setup-shell
       - task: _setup-additional
       - echo "✅ セットアップ完了"
@@ -48,6 +50,8 @@ tasks:
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
         echo "nix-direnv: $(test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc" && echo '✓' || echo '✗')"
         echo "direnv設定: $(test -L "$HOME/.config/direnv" && echo '✓' || echo '✗')"
+        echo "home-manager: $(test -L "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager" && echo '✓' || echo '✗')"
+        echo "npm設定 (home-manager): $(test -L "$HOME/.config/npm" && echo '✓' || echo '✗')"
 
   test:
     desc: テストを実行
@@ -69,12 +73,13 @@ tasks:
         editorconfig-checker
         echo "✅ フォーマットチェック完了"
 
+  # home-manager 管理のもの (home/files.nix) は対象外。外すときは files.nix から行を消して hm:switch する
   clean:
     desc: 設定をクリーンアップ（注意：設定ファイルが削除されます）
     prompt: "設定ファイルを削除しますか？"
     cmds:
       - rm -f "$HOME/.zshenv"
-      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm" "$HOME/.config/direnv"
+      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/direnv"
       - echo "🗑️ 設定をクリーンアップしました"
 
   _install-homebrew:
@@ -110,7 +115,6 @@ tasks:
       - for:
           - direnv # allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
           - git
-          - npm
           - vim
           - zsh
         task: _link

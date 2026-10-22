@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  switch:
+    desc: home-manager の設定をビルドして適用する
+    cmds:
+      - ./home/switch.sh
+
+  # nix flake check は実行中の system 向けの homeConfigurations しか評価せず、linux の CI では
+  # aarch64-darwin 向けが飛ばされる。instantiate は system をまたいでできるので、全ユーザー分の評価エラーをこれで拾う
+  check:
+    desc: home-manager の設定を評価する (適用はしない)
+    cmds:
+      - >-
+        nix eval --json .#homeConfigurations
+        --apply 'configs: builtins.mapAttrs (_: c: c.activationPackage.drvPath) configs'
