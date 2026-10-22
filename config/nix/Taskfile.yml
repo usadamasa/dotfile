@@ -39,12 +39,3 @@ tasks:
       - sudo install -m 0644 -o root -g wheel config/nix/nix.custom.conf /etc/nix/nix.custom.conf
     status:
       - cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf
-
-  install-direnv:
-    internal: true
-    deps: [install-custom-conf]
-    cmds:
-      - echo "❄️ nix-direnv をインストール中..."
-      - '"{{.NIX_BIN}}" profile add nixpkgs#nix-direnv'
-    status:
-      - test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc"

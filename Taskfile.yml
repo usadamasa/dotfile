@@ -27,10 +27,9 @@ tasks:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
       - task: nix:install
-      # use-xdg-base-directories を効かせてから profile を作るため、nix-direnv より先に system 側の設定を置く
+      # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
       - task: _setup-config
-      - task: nix:install-direnv
       - task: hm:switch
       - task: _setup-shell
       - task: _setup-additional
@@ -48,9 +47,9 @@ tasks:
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
-        echo "nix-direnv: $(test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc" && echo '✓' || echo '✗')"
-        echo "direnv設定: $(test -L "$HOME/.config/direnv" && echo '✓' || echo '✗')"
         echo "home-manager: $(test -L "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager" && echo '✓' || echo '✗')"
+        echo "direnv設定 (home-manager): $(test -L "$HOME/.config/direnv/direnv.toml" && echo '✓' || echo '✗')"
+        echo "nix-direnv (home-manager): $(test -L "$HOME/.config/direnv/lib/hm-nix-direnv.sh" && echo '✓' || echo '✗')"
         echo "npm設定 (home-manager): $(test -L "$HOME/.config/npm" && echo '✓' || echo '✗')"
 
   test:
@@ -79,7 +78,7 @@ tasks:
     prompt: "設定ファイルを削除しますか？"
     cmds:
       - rm -f "$HOME/.zshenv"
-      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/direnv"
+      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim"
       - echo "🗑️ 設定をクリーンアップしました"
 
   _install-homebrew:
@@ -113,7 +112,6 @@ tasks:
       - task: _link
         vars: { SRC: .zshenv, DEST: .zshenv }
       - for:
-          - direnv # allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
           - git
           - vim
           - zsh

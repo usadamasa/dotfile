@@ -9,6 +9,8 @@ let
 in
 {
   xdg.configFile = {
+    # ~/.config/direnv は home-manager が lib/ を書くので、ディレクトリごとではなくファイル単位で張る
+    "direnv/direnv.toml".source = link "config/direnv/direnv.toml";
     "npm".source = link "config/npm";
   };
 }
