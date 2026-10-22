@@ -11,4 +11,6 @@ tasks:
   check:
     desc: home-manager の設定を評価する (適用はしない)
     cmds:
-      - "nix eval --json .#homeConfigurations --apply 'configs: builtins.mapAttrs (_: c: c.activationPackage.drvPath) configs'"
+      - >-
+        nix eval --json .#homeConfigurations
+        --apply 'configs: builtins.mapAttrs (_: c: c.activationPackage.drvPath) configs'
