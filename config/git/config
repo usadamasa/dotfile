@@ -23,7 +23,8 @@
 [ghq]
   root = ~/src
 [http]
-  sslVerify = false
+  # macOS の /etc/ssl/cert.pem は失効すべきルートを残すことがあるため、Homebrew の ca-certificates を使う
+  sslCAInfo = /opt/homebrew/etc/ca-certificates/cert.pem
 [merge]
   conflictStyle = diff3
 [filter "lfs"]

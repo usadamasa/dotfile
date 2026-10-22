@@ -1,5 +1,6 @@
 brew "aqua"
 brew "bats-core"
+brew "ca-certificates"
 brew "coreutils"
 brew "curl"
 brew "direnv"
