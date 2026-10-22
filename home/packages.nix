@@ -4,6 +4,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    jq
     # npm と npx も同梱。global install 先は config/npm/npmrc の prefix ($XDG_DATA_HOME/npm) で、
     # その bin は config/zsh/.zprofile が PATH に載せる。
     # nixpkgs の nodejs が 24.22.1 (2026-10-21 の security release) に追いつくまで公式バイナリで代替する。
@@ -11,5 +12,6 @@
     (callPackage ./nodejs-bin.nix { })
     peco
     tree
+    watch
   ];
 }
