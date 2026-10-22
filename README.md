@@ -62,7 +62,7 @@ dotfile/
 ├── Taskfile.yml  # セットアップ自動化
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
 ├── .zshenv       # XDG Base Directory 設定
-├── home/         # home-manager のモジュールと switch.sh
+├── home/         # home-manager のモジュールと switch.sh / status.sh
 ├── config/       # 各種設定ファイル (~/.config へ symlink する)
 │   ├── direnv/
 │   ├── git/
