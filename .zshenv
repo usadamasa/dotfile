@@ -39,7 +39,6 @@ mkdir -p "$XDG_STATE_HOME"
 # js
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 mkdir -p "$XDG_CONFIG_HOME/npm"
-export NVM_DIR="$HOME/.nvm"
 
 # golang
 export GOPATH="$XDG_DATA_HOME/go"
