@@ -12,7 +12,7 @@ concurrency:
 permissions:
   contents: read
 
-# テストのツールは flake.nix の devShell から取る (setup-nix)。版の正本は flake.lock
+# テストのツールは flake.nix の devShell から取る (usadamasa/gh-manage の setup-nix)。版の正本は flake.lock
 jobs:
   flake-check:
     name: nix flake check
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - uses: $/.github/actions/setup-nix
+      - uses: usadamasa/gh-manage/actions/setup-nix@main
 
       - name: Check flake
         run: task nix:check-flake
@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - uses: $/.github/actions/setup-nix
+      - uses: usadamasa/gh-manage/actions/setup-nix@main
 
       - name: Run bats tests
         run: task test
