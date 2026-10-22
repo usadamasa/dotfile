@@ -26,8 +26,8 @@ tasks:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
       - task: nix:install
-      # nix.conf の use-xdg-base-directories を効かせてから profile を作るため、
-      # nix-direnv より先に設定ファイルを置く
+      # use-xdg-base-directories を効かせてから profile を作るため、nix-direnv より先に system 側の設定を置く
+      - task: nix:install-custom-conf
       - task: _setup-config
       - task: nix:install-direnv
       - task: _setup-shell
@@ -45,6 +45,7 @@ tasks:
         echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
+        echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
         echo "nix-direnv: $(test -f "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/nix-direnv/direnvrc" && echo '✓' || echo '✗')"
         echo "direnv設定: $(test -L "$HOME/.config/direnv" && echo '✓' || echo '✗')"
 
@@ -74,7 +75,6 @@ tasks:
     cmds:
       - rm -f "$HOME/.zshenv"
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim" "$HOME/.config/npm" "$HOME/.config/direnv"
-      - rm -f "$HOME/.config/nix/nix.conf"
       - echo "🗑️ 設定をクリーンアップしました"
 
   _install-homebrew:
@@ -103,14 +103,13 @@ tasks:
     internal: true
     cmds:
       - echo "⚙️ 設定ファイルをセットアップ中..."
-      - mkdir -p "$HOME/.config/nix" "$HOME/.local/share" "$HOME/.cache"
+      - mkdir -p "$HOME/.local/share" "$HOME/.cache"
       - rm -rf "$HOME/.config/zsh"
       - task: _link
         vars: { SRC: .zshenv, DEST: .zshenv }
       - for:
           - direnv # allow の記録を別ディレクトリに置くため、ディレクトリごと symlink してよい
           - git
-          - nix/nix.conf # registry.json などを同じディレクトリに書くため、nix.conf だけを symlink する
           - npm
           - vim
           - zsh

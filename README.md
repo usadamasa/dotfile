@@ -31,6 +31,7 @@ task test             # bats でシェルスクリプトのテストを実行
 task format           # editorconfig-checker でチェック
 task nix:check-flake  # flake.nix の devShell を検証
 task nix:update       # flake.lock の nixpkgs を更新
+task nix:install-custom-conf  # config/nix/nix.custom.conf を /etc/nix へ配置 (sudo)
 ```
 
 flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も週次で更新する。
@@ -40,6 +41,9 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
 - **Homebrew**: 日常使いのツールとフォント。一覧は [Brewfile](Brewfile)。
 - **Nix**: [Determinate Nix](https://determinate.systems/) を入れ、このリポジトリのテストと lint のツールを
   [flake.nix](flake.nix) の devShell に置く。direnv (`.envrc` の `use flake`) がリポジトリに入ったときに読み込む。
+  nix の設定は `/etc/nix/nix.conf` を Determinate Nix が管理するので、
+  [config/nix/nix.custom.conf](config/nix/nix.custom.conf) を `/etc/nix/nix.custom.conf` へコピーして
+  `!include` させる (`task nix:install-custom-conf`)。
 
 ## 📁 構成
 
@@ -52,7 +56,7 @@ dotfile/
 ├── config/       # 各種設定ファイル (~/.config へ symlink する)
 │   ├── direnv/
 │   ├── git/
-│   ├── nix/      # nix.conf と nix 関連の task
+│   ├── nix/      # nix.custom.conf (/etc/nix へコピーする) と nix 関連の task
 │   ├── npm/
 │   ├── vim/
 │   └── zsh/
