@@ -31,9 +31,18 @@ tasks:
     status:
       - test -x "{{.NIX_BIN}}"
 
+  # /etc/nix/nix.conf は Determinate Nix が書き換えるため、設定は !include される nix.custom.conf に置く
+  install-custom-conf:
+    desc: config/nix/nix.custom.conf を /etc/nix/nix.custom.conf へ配置する (sudo のパスワードを求められます)
+    deps: [install]
+    cmds:
+      - sudo install -m 0644 -o root -g wheel config/nix/nix.custom.conf /etc/nix/nix.custom.conf
+    status:
+      - cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf
+
   install-direnv:
     internal: true
-    deps: [install]
+    deps: [install-custom-conf]
     cmds:
       - echo "❄️ nix-direnv をインストール中..."
       - '"{{.NIX_BIN}}" profile add nixpkgs#nix-direnv'
