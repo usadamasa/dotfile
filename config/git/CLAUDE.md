@@ -28,6 +28,15 @@ Git のグローバル設定ファイル群を管理するディレクトリ。`
 diff-highlight は Homebrew の git (Brewfile の `brew "git"`) の contrib に同梱されていて PATH には載らないため、
 `/opt/homebrew/share/git-core/contrib/diff-highlight/` の絶対パスで呼ぶ。
 
+### TLS 証明書検証
+
+`http.sslCAInfo` で Homebrew の ca-certificates (Brewfile の `brew "ca-certificates"`) の
+`/opt/homebrew/etc/ca-certificates/cert.pem` を指す。
+git は macOS の libcurl を使い、既定では `/etc/ssl/cert.pem` を読む。
+このファイルは OS の更新まで直らず、秘密鍵が漏洩した中間 CA の親ルートが残ることがある。
+Homebrew の ca-certificates は Mozilla の CA bundle に追従して先に直る。
+ファイルが無いと https の git 操作がすべて失敗するので、`sslVerify = false` で回避しない。
+
 ### git-wt (worktree) 設定
 
 `[wt]` セクションで worktree 作成時の挙動を制御:
