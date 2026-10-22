@@ -25,8 +25,8 @@ else
   printf 'home-manager: ✗ (%s が flake と違う。task hm:switch で合わせる)\n' "$generation"
 fi
 
-# 対話シェルの PATH は /opt/homebrew/bin が nix の profile より前なので、brew 版を消し忘れると
-# 世代が一致していてもそちらが使われる。home-manager が入れた各コマンドの解決先を見る
+# 世代が一致していても、PATH の並びが崩れている (config/zsh/.zprofile を経ていないシェル、macOS 同梱や
+# brew の版が前に来る) と別の実体が使われる。home-manager が入れた各コマンドの解決先を見る
 profile_bin="${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/bin"
 shadowed=()
 count=0
@@ -43,5 +43,5 @@ done
 if [ "${#shadowed[@]}" -eq 0 ]; then
   printf 'home-manager の PATH: ✓ (%d コマンドが nix の profile を指す)\n' "$count"
 else
-  printf 'home-manager の PATH: ✗ (%s。brew uninstall で消すか PATH を見直す)\n' "$(IFS='、'; printf '%s' "${shadowed[*]}")"
+  printf 'home-manager の PATH: ✗ (%s。新しいログインシェルで確かめるか PATH の並びを見直す)\n' "$(IFS='、'; printf '%s' "${shadowed[*]}")"
 fi

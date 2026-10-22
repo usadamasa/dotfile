@@ -4,6 +4,16 @@ if [ -e /opt/homebrew/bin/brew ] ; then
 fi
 export HOMEBREW_NO_ENV_HINTS=true
 
+# nix の profile を /usr/bin と /opt/homebrew/bin より前に戻す。
+# .zshenv (nix-daemon.sh) で先頭に置いても、ログインシェルでは /etc/zprofile の path_helper が /usr/bin などを
+# 前に並べ直し、上の brew shellenv がさらに前に付く。macOS 同梱 (/usr/bin/jq) や brew に残った版より
+# home-manager (home/packages.nix) の版を使うため、path_helper の後のここでもう一度前に置く。
+# NIX_PROFILES は nix-daemon.sh が export する (default と user の profile、空白区切り)。
+# 順に先頭へ足すので、後ろの user profile が先頭になる (nix-daemon.sh と同じ並び)
+for profile in ${=NIX_PROFILES}; do
+  export PATH="$profile/bin:$PATH"
+done
+
 # System-level package managers
 # aqua (binary manager)
 # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
