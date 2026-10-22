@@ -28,15 +28,9 @@ fi
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
-# volta (alternative Node.js manager)
-export PATH="${VOLTA_HOME}/bin:$PATH"
-
 # Language-specific paths
 # rust
 [[ -s ${HOME}/.cargo/env ]] && source ${HOME}/.cargo/env
-
-# npm global packages
-export PATH=$PATH:$(npm prefix --location=global)/bin
 
 # cargo
 export PATH=${CARGO_HOME}/bin:$PATH
