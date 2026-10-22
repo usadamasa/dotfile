@@ -35,7 +35,7 @@ task nix:check-flake  # flake.nix の devShell を検証
 task nix:update       # flake.lock の nixpkgs を更新
 task nix:install-custom-conf  # config/nix/nix.custom.conf を /etc/nix へ配置 (sudo)
 task hm:switch        # home-manager の設定をビルドして適用
-task hm:check         # home-manager の設定を評価だけする (CI が使う)
+task hm:check         # home-manager の設定を全ユーザー分評価だけする (CI が使う)
 ```
 
 flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も週次で更新する。
@@ -48,9 +48,10 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
   nix の設定は `/etc/nix/nix.conf` を Determinate Nix が管理するので、
   [config/nix/nix.custom.conf](config/nix/nix.custom.conf) を `/etc/nix/nix.custom.conf` へコピーして
   `!include` させる (`task nix:install-custom-conf`)。
-- **home-manager**: `flake.nix` の `homeConfigurations.usadamasa` を [home/](home/) のモジュールで組む。
+- **home-manager**: `flake.nix` の `homeConfigurations.<ユーザー名>` を [home/](home/) のモジュールで組む
+  (端末ごとのユーザー名は `flake.nix` の `users` に並べる)。
   設定ファイルは `mkOutOfStoreSymlink` でリポジトリの作業ツリーへ symlink する (編集が即反映される)。
-  適用は `task hm:switch` (`home/switch.sh` が activationPackage をビルドして `activate` を呼ぶ)。
+  適用は `task hm:switch` (`home/switch.sh` が flake の `home-manager` CLI をビルドして `switch --flake .` を呼ぶ)。
   世代の確認と戻しは profile に入る `home-manager generations` / `home-manager switch --rollback`。
 
 ## 📁 構成
@@ -62,11 +63,11 @@ dotfile/
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
 ├── .zshenv       # XDG Base Directory 設定
 ├── home/         # home-manager のモジュールと switch.sh
-├── config/       # 各種設定ファイル (~/.config へ symlink する。張る側を Taskfile から home/files.nix へ移行中)
+├── config/       # 各種設定ファイル (~/.config へ symlink する)
 │   ├── direnv/
 │   ├── git/
 │   ├── nix/      # nix.custom.conf (/etc/nix へコピーする) と nix 関連の task
-│   ├── npm/      # home-manager が張る
+│   ├── npm/
 │   ├── vim/
 │   └── zsh/
 └── tests/        # bats のテスト
