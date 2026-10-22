@@ -9,5 +9,7 @@
     # nixpkgs の nodejs が 24.22.1 (2026-10-21 の security release) に追いつくまで公式バイナリで代替する。
     # 追いついたら `nodejs` に戻す (理由と確認先は nodejs-bin.nix)
     (callPackage ./nodejs-bin.nix { })
+    peco
+    tree
   ];
 }
