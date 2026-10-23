@@ -19,7 +19,7 @@
       # 端末ごとのユーザー名。home-manager CLI は `switch --flake .` で $USER の設定を選ぶ。
       # ホスト名は付けない: macOS の hostname はネットワークで taylor.local / taylor と揺れ、
       # CLI は $USER@<hostname> の候補のうち最後に一致した名前を採るため名前が安定しない
-      users = [ "usadamasa" ];
+      users = [ "masaru_uchida" "usadamasa" ];
       mkHome = username: home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./home ];
