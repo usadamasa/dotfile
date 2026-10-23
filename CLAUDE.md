@@ -13,7 +13,7 @@ export GHQ_ROOT=~/src
 ghq get https://github.com/usadamasa/dotfile.git
 cd ~/src/github.com/usadamasa/dotfile
 
-# Run initial setup (Homebrew + go-task + complete setup)
+# Run initial setup (Homebrew + complete setup)
 task bootstrap
 ```
 

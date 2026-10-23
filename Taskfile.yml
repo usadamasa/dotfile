@@ -14,7 +14,7 @@ tasks:
       - task --list
 
   bootstrap:
-    desc: 初回セットアップ（Homebrew + go-task + 完全セットアップ）
+    desc: 初回セットアップ（Homebrew + 完全セットアップ）
     cmds:
       - echo "🚀 初回セットアップを開始します..."
       - task: _install-homebrew
