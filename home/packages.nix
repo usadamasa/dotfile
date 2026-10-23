@@ -4,6 +4,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    bashInteractive
     jq
     # npm と npx も同梱。global install 先は config/npm/npmrc の prefix ($XDG_DATA_HOME/npm) で、
     # その bin は config/zsh/.zprofile が PATH に載せる。
