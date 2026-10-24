@@ -12,7 +12,9 @@
     # 追いついたら `nodejs` に戻す (理由と確認先は nodejs-bin.nix)
     (callPackage ./nodejs-bin.nix { })
     peco
+    tig
     tree
     watch
+    wget
   ];
 }
