@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# bootstrap.sh のテスト用 curl モック。取得先の URL を MOCK_LOG に残し、インストーラの代わりになるスクリプトを出す。
+# bootstrap.sh は取得した内容を bash -c / sh で実行するので、本物のインストーラが作るもの (brew と nix の実体) を
+# テストの BREW_BIN / NIX_BIN に作る。brew の実体はこのモック群の brew を写す (直後に shellenv が呼ばれる)
+url="${*: -1}"
+printf 'CALLED: curl %s\n' "$url" >> "$MOCK_LOG"
+
+nix_root="${NIX_BIN%/bin/nix}"
+case "$url" in
+  *Homebrew*)
+    printf 'mkdir -p "%s"\n' "$(dirname "$BREW_BIN")"
+    printf 'cp "%s" "%s"\n' "${BASH_SOURCE[0]%/*}/brew" "$BREW_BIN"
+    ;;
+  *determinate*)
+    printf 'mkdir -p "%s" "%s"\n' "$(dirname "$NIX_BIN")" "$nix_root/etc/profile.d"
+    printf ': > "%s"; chmod +x "%s"\n' "$NIX_BIN" "$NIX_BIN"
+    printf ': > "%s"\n' "$nix_root/etc/profile.d/nix-daemon.sh"
+    ;;
+  *)
+    printf '不明な URL: %s\n' "$url" >&2
+    exit 1
+    ;;
+esac

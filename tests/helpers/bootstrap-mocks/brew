@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# bootstrap.sh のテスト用 brew モック。呼び出しを MOCK_LOG に残す。shellenv は何も出さない (eval しても無害)
+printf 'CALLED: brew %s\n' "$*" >> "$MOCK_LOG"
