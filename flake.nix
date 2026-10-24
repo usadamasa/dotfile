@@ -36,6 +36,7 @@
             bats
             editorconfig-checker
             go-task
+            jq
             shellcheck
             xdg-ninja
             yamllint
