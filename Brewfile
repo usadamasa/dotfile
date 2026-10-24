@@ -15,7 +15,6 @@ cask "font-hack-nerd-font"
 #   - claude (Desktop)    : https://claude.ai/download から .dmg
 #   - claude-code         : curl -fsSL https://claude.ai/install.sh | bash
 #   - codex               : npm i -g @openai/codex
-#   - deepl               : https://www.deepl.com/ から .dmg
 #   - nix                 : bootstrap.sh (Determinate Nix のインストーラ)
 #   - jetbrains-toolbox   : https://www.jetbrains.com/toolbox-app/ から .dmg
 #   - visual-studio-code  : https://code.visualstudio.com/ から .zip
