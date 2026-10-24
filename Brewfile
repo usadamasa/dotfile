@@ -5,12 +5,10 @@ brew "aqua"
 brew "coreutils"
 brew "git-now" # nixpkgs に無い
 brew "git"
-brew "k1low/tap/git-wt"
 brew "vim"
 brew "zsh"
 cask "font-cica"
 cask "font-hack-nerd-font"
-tap "k1low/tap"
 
 # 以下は Homebrew で管理しない (更新のたびに sudo パスワードを要求されるため)。
 # 各アプリ自身のインストーラと自動更新に任せる。
