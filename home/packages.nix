@@ -21,7 +21,6 @@
     shellcheck
     tig
     tree
-    uv
     watch
     wget
   ];
