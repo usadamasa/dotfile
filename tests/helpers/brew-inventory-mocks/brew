@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # brew-inventory.sh のテスト用 brew モック。呼び出しと HOMEBREW_NO_ANALYTICS の値を MOCK_LOG に残し、
-# info --json=v2 --installed には fixture の JSON を返す
+# info --json=v2 --installed と tap-info --json --installed には fixture の JSON を返す
 printf 'CALLED: brew %s (HOMEBREW_NO_ANALYTICS=%s)\n' "$*" "${HOMEBREW_NO_ANALYTICS:-unset}" >> "$MOCK_LOG"
 if [ "$1" = "info" ]; then
   cat "$MOCK_BREW_INFO"
+  exit 0
+fi
+if [ "$1" = "tap-info" ]; then
+  cat "$MOCK_BREW_TAP_INFO"
   exit 0
 fi
 printf 'brew モック: 想定外の引数 %s\n' "$*" >&2

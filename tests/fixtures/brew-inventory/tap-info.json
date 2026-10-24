@@ -1,0 +1,29 @@
+[
+  {
+    "name": "homebrew/core",
+    "user": "Homebrew",
+    "repo": "core",
+    "installed": false,
+    "official": true,
+    "formula_names": ["alpha", "beta"],
+    "cask_tokens": []
+  },
+  {
+    "name": "someone/tap",
+    "user": "someone",
+    "repo": "tap",
+    "installed": true,
+    "official": false,
+    "formula_names": ["someone/tap/gamma", "someone/tap/delta"],
+    "cask_tokens": []
+  },
+  {
+    "name": "unused/tap",
+    "user": "unused",
+    "repo": "tap",
+    "installed": true,
+    "official": false,
+    "formula_names": ["unused/tap/epsilon"],
+    "cask_tokens": ["unused/tap/zeta-app"]
+  }
+]

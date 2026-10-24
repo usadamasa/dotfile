@@ -11,6 +11,7 @@ setup() {
   export MOCK_LOG="$BATS_TEST_TMPDIR/calls.log"
   : > "$MOCK_LOG"
   export MOCK_BREW_INFO="$FIXTURES/brew-info.json"
+  export MOCK_BREW_TAP_INFO="$FIXTURES/tap-info.json"
   export MOCK_NIX_EVAL="$FIXTURES/nix-eval.json"
 
   # 採取対象のリポジトリ。Brewfile に alpha と font-example だけ宣言し、config に /opt/homebrew の参照を 1 つ置く
@@ -40,11 +41,13 @@ run_inventory() {
   PATH="$MOCKS:$PATH" run bash "$SCRIPT" --repo "$REPO" --repos-root "$REPOS" --hooks-dir "$HOOKS" --out "$OUT"
 }
 
-@test "brew info と nix eval を 1 回ずつ呼び、brew には HOMEBREW_NO_ANALYTICS=1 を渡す" {
+@test "brew info と brew tap-info と nix eval を 1 回ずつ呼び、brew には HOMEBREW_NO_ANALYTICS=1 を渡す" {
   run_inventory
   [ "$status" -eq 0 ]
 
   run grep -c 'CALLED: brew info --json=v2 --installed (HOMEBREW_NO_ANALYTICS=1)' "$MOCK_LOG"
+  [ "$output" = "1" ]
+  run grep -c 'CALLED: brew tap-info --json --installed (HOMEBREW_NO_ANALYTICS=1)' "$MOCK_LOG"
   [ "$output" = "1" ]
   run grep -c 'CALLED: nix eval' "$MOCK_LOG"
   [ "$output" = "1" ]
@@ -90,6 +93,20 @@ run_inventory() {
   [[ "$output" != *flake.nix* ]]
 }
 
+@test "tap ごとに Brewfile の宣言と、その tap から入っている formula / cask を付け、API だけの official tap は除く" {
+  run_inventory
+  [ "$status" -eq 0 ]
+
+  # homebrew/core は installed: false (JSON API から入れている) なので tap の一覧に出さない
+  [ "$(jq -c '[.taps[].name]' "$OUT/brew-inventory.json")" = '["someone/tap","unused/tap"]' ]
+  [ "$(jq -r '.taps[] | select(.name == "someone/tap") | .declared' "$OUT/brew-inventory.json")" = "true" ]
+  [ "$(jq -c '.taps[] | select(.name == "someone/tap") | .installed_formulae' "$OUT/brew-inventory.json")" = '["gamma"]' ]
+  [ "$(jq -c '.taps[] | select(.name == "someone/tap") | .provides' "$OUT/brew-inventory.json")" = '{"formulae":2,"casks":0}' ]
+  [ "$(jq -r '.taps[] | select(.name == "unused/tap") | .declared' "$OUT/brew-inventory.json")" = "false" ]
+  [ "$(jq -c '.taps[] | select(.name == "unused/tap") | .installed_formulae' "$OUT/brew-inventory.json")" = '[]' ]
+  [ "$(jq -c '.taps[] | select(.name == "unused/tap") | .installed_casks' "$OUT/brew-inventory.json")" = '[]' ]
+}
+
 @test "リポジトリ内の /opt/homebrew 参照を集め、tmp と worktree の写しは除く" {
   run_inventory
   [ "$status" -eq 0 ]
@@ -105,5 +122,6 @@ run_inventory() {
   grep -q '^| alpha |' "$OUT/brew-inventory.md"
   grep -q '^| gamma |' "$OUT/brew-inventory.md"
   grep -q 'selfupdating-app' "$OUT/brew-inventory.md"
+  grep -q '^| unused/tap |' "$OUT/brew-inventory.md"
   grep -q 'config/git/config:2' "$OUT/brew-inventory.md"
 }

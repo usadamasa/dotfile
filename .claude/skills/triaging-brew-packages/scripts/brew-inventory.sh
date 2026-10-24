@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# brew に入っているもの (formula と cask) を全量採取し、振り分けの材料を JSON と markdown で出す
+# brew に入っているもの (formula と cask と tap) を全量採取し、振り分けの材料を JSON と markdown で出す
 # (triaging-brew-packages skill の手順 1)。判断はしない。
 #
-# brew info --json=v2 --installed を 1 回、nix eval を 1 回だけ呼ぶ (formula ごとに brew uses を呼ぶと分単位になる)。
+# brew info --json=v2 --installed と brew tap-info --json --installed を 1 回ずつ、nix eval を 1 回だけ呼ぶ
+# (formula ごとに brew uses を呼ぶと分単位になる)。
 # 直接の依存元は brew info の dependencies を逆引きして出す (brew uses --installed は推移的な依存元を返す)。
 # nix は sandbox の中から daemon に届かないので、.claude/settings.json の sandbox.excludedCommands に載せてあり、
 # リポジトリ直下から相対パスの字面そのままで呼ぶ (SKILL.md の手順 1)
@@ -40,6 +41,7 @@ fi
 
 mkdir -p "$out"
 brew_json="$out/brew-info.json"
+tap_json="$out/brew-tap-info.json"
 nix_json="$out/brew-inventory-nixpkgs.json"
 inventory_json="$out/brew-inventory.json"
 inventory_md="$out/brew-inventory.md"
@@ -61,6 +63,15 @@ if ! HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew info --json=v2 --ins
 fi
 if ! err=$(jq empty "$brew_json" 2>&1); then
   printf 'brew info の出力が JSON でない: %s\n' "$err" >&2
+  exit 1
+fi
+# --installed でも JSON API から入れている homebrew/core と homebrew/cask が installed: false で混ざるので、まとめる段で除く
+if ! HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew tap-info --json --installed > "$tap_json"; then
+  printf 'brew tap-info に失敗した\n' >&2
+  exit 1
+fi
+if ! err=$(jq empty "$tap_json" 2>&1); then
+  printf 'brew tap-info の出力が JSON でない: %s\n' "$err" >&2
   exit 1
 fi
 
@@ -142,6 +153,7 @@ homebrew_refs_json=$(grep_or_empty -rn --exclude-dir=.git --exclude-dir=tmp --ex
 generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 jq -n \
   --slurpfile brew "$brew_json" \
+  --slurpfile taps "$tap_json" \
   --slurpfile nix "$nix_json" \
   --argjson extra "$extra" \
   --argjson homebrew_refs "$homebrew_refs_json" \
@@ -152,6 +164,7 @@ jq -n \
   | ($brewfile | split("\n")) as $lines
   | ([ $lines[] | capture("^\\s*brew \"(?<n>[^\"]+)\"") | .n ]) as $declared_formulae
   | ([ $lines[] | capture("^\\s*cask \"(?<n>[^\"]+)\"") | .n ]) as $declared_casks
+  | ([ $lines[] | capture("^\\s*tap \"(?<n>[^\"]+)\"") | .n ]) as $declared_taps
   | {
       generated_at: $generated_at,
       formulae: [ $b.formulae[] | . as $f | {
@@ -176,6 +189,14 @@ jq -n \
         tap,
         declared: (($declared_casks | index($c.token)) != null)
       } ] | sort_by(.token),
+      taps: [ $taps[0][] | select(.installed == true) | . as $t | {
+        name,
+        official: (.official // false),
+        declared: (($declared_taps | index($t.name)) != null),
+        installed_formulae: ([ $b.formulae[] | select(.tap == $t.name) | .name ] | sort),
+        installed_casks: ([ $b.casks[] | select(.tap == $t.name) | .token ] | sort),
+        provides: { formulae: (.formula_names | length), casks: (.cask_tokens | length) }
+      } ] | sort_by(.name),
       homebrew_path_refs: $homebrew_refs
     }' > "$inventory_json"
 
@@ -199,6 +220,12 @@ jq -r '
   "| token | 名前 | 版 | auto_updates | Brewfile |",
   "|---|---|---|---|---|",
   (.casks[] | "| \(.token) | \(.name) | \(.version) | \(.auto_updates | yn) | \(.declared | yn) |"),
+  "",
+  "## tap (\(.taps | length))",
+  "",
+  "| name | Brewfile | official | この tap から入っている formula | この tap から入っている cask | tap が持つ数 (formula / cask) |",
+  "|---|---|---|---|---|---|",
+  (.taps[] | "| \(.name) | \(.declared | yn) | \(.official | yn) | \(.installed_formulae | dash) | \(.installed_casks | dash) | \(.provides.formulae) / \(.provides.casks) |"),
   "",
   "## リポジトリ内の /opt/homebrew の参照 (\(.homebrew_path_refs | length))",
   "",
