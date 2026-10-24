@@ -5,6 +5,11 @@
 {
   home.packages = with pkgs; [
     bashInteractive
+    # CLI ではなく Mozilla の CA bundle (etc/ssl/certs/ca-bundle.crt)。config/git/config の http.sslCAInfo が指し、
+    # nix-daemon.sh も NIX_PROFILES の後ろ (user profile) を優先して NIX_SSL_CERT_FILE に選ぶので、
+    # git・nix・nixpkgs の curl / wget が同じ bundle を読む
+    cacert
+    curl
     gh
     ghq
     git-filter-repo

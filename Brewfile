@@ -2,9 +2,7 @@
 # ここに残るのは nixpkgs に無いもの、ログインシェル、cask、ほかの設定が /opt/homebrew のパスを指しているもの、
 # ほか issue #105 の「Brew に残すもの」(coreutils は nixpkgs 版が ls / cp で macOS 版を隠す)
 brew "aqua"
-brew "ca-certificates"
 brew "coreutils"
-brew "curl"
 brew "git-now" # nixpkgs に無い
 brew "git"
 brew "k1low/tap/git-wt"

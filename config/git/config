@@ -23,8 +23,8 @@
 [ghq]
   root = ~/src
 [http]
-  # macOS の /etc/ssl/cert.pem は失効すべきルートを残すことがあるため、Homebrew の ca-certificates を使う
-  sslCAInfo = /opt/homebrew/etc/ca-certificates/cert.pem
+  # macOS の /etc/ssl/cert.pem は失効すべきルートを残すことがあるため、home-manager (home/packages.nix) の cacert を使う
+  sslCAInfo = ~/.local/state/nix/profile/etc/ssl/certs/ca-bundle.crt
 [merge]
   conflictStyle = diff3
 [filter "lfs"]
