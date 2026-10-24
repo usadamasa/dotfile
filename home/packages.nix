@@ -28,5 +28,8 @@
     tree
     watch
     wget
+    zsh-autosuggestions
+    zsh-completions
+    zsh-syntax-highlighting
   ];
 }

@@ -50,10 +50,13 @@ HIST_STAMPS="yyyy-mm-dd"
 plugins=(
     direnv
     gcloud
-    zsh-syntax-highlighting
 )
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+# home-manager の profile (home/packages.nix) の補完 (zsh-completions と、gh などが同梱する _gh) を
+# oh-my-zsh の compinit に見せる。programs.zsh を使っていないので HM は fpath を足してくれない
+fpath=("$XDG_STATE_HOME/nix/profile/share/zsh/site-functions" $fpath)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,5 +117,10 @@ eval "$(git wt --init zsh)"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# zsh の plugin は home-manager の profile (home/packages.nix) から読む。oh-my-zsh の plugins=(…) には書かない
+# (custom/plugins への git clone が要る)。syntax-highlighting は他の ZLE widget を包むので最後に source する
+source "$XDG_STATE_HOME/nix/profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$XDG_STATE_HOME/nix/profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # PATH for ~/.local/bin is set in ~/.zshenv
