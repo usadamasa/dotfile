@@ -30,11 +30,12 @@ diff-highlight は Homebrew の git (Brewfile の `brew "git"`) の contrib に�
 
 ### TLS 証明書検証
 
-`http.sslCAInfo` で Homebrew の ca-certificates (Brewfile の `brew "ca-certificates"`) の
-`/opt/homebrew/etc/ca-certificates/cert.pem` を指す。
+`http.sslCAInfo` で home-manager の cacert (`home/packages.nix`) の
+`~/.local/state/nix/profile/etc/ssl/certs/ca-bundle.crt` を指す。
 git は macOS の libcurl を使い、既定では `/etc/ssl/cert.pem` を読む。
 このファイルは OS の更新まで直らず、秘密鍵が漏洩した中間 CA の親ルートが残ることがある。
-Homebrew の ca-certificates は Mozilla の CA bundle に追従して先に直る。
+nixpkgs の cacert は Mozilla の CA bundle に追従して先に直り、flake.lock の更新 (Dependabot 週次) で進む。
+`nix-daemon.sh` が `NIX_SSL_CERT_FILE` に選ぶのも同じファイルなので、git・nix・nixpkgs の curl / wget が同じ bundle を読む。
 ファイルが無いと https の git 操作がすべて失敗するので、`sslVerify = false` で回避しない。
 
 ### git-wt (worktree) 設定
