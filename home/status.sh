@@ -26,14 +26,27 @@ else
 fi
 
 # 世代が一致していても、PATH の並びが崩れている (config/zsh/.zprofile を経ていないシェル、macOS 同梱や
-# brew の版が前に来る) と別の実体が使われる。home-manager が入れた各コマンドの解決先を見る
+# brew の版が前に来る) と別の実体が使われる。home-manager が入れた各コマンドの解決先を見る。
+# direnv が読み込む devShell は /nix/store/… の bin (stdenv の bash など) と .direnv/bin を先頭に足すが、
+# これはリポジトリの中だけの並びなので外し、ログインシェルと同じ PATH で引く
+login_path=
+rest="$PATH:"
+while [ -n "$rest" ]; do
+  entry=${rest%%:*}
+  rest=${rest#*:}
+  case $entry in
+    /nix/store/* | */.direnv/bin) continue ;;
+  esac
+  login_path="${login_path:+$login_path:}$entry"
+done
+
 profile_bin="${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/bin"
 shadowed=()
 count=0
 for path in "$active"/home-path/bin/*; do
   name=$(basename "$path")
   count=$((count + 1))
-  if ! found=$(command -v "$name"); then
+  if ! found=$(PATH="$login_path" command -v "$name"); then
     shadowed+=("$name は PATH に無い")
   elif [ "$found" != "$profile_bin/$name" ]; then
     shadowed+=("$name が $found")
