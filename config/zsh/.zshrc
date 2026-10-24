@@ -50,7 +50,6 @@ HIST_STAMPS="yyyy-mm-dd"
 plugins=(
     direnv
     gcloud
-    task
     zsh-syntax-highlighting
 )
 
@@ -102,6 +101,7 @@ source ${ZDOTDIR}/history_settings.sh
 #
 source ${ZDOTDIR}/funcs/peco-select-history.sh
 source ${ZDOTDIR}/funcs/peco-src.sh
+source ${ZDOTDIR}/funcs/task-completion.zsh
 
 # https://github.com/k1LoW/git-wt
 eval "$(git wt --init zsh)"
