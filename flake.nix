@@ -36,6 +36,7 @@
             bats
             editorconfig-checker
             go-task
+            jq # .claude/skills/triaging-brew-packages/scripts/brew-inventory.sh と tests/brew-inventory.bats
             shellcheck
             xdg-ninja
             yamllint
