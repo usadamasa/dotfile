@@ -114,14 +114,7 @@ tasks:
         if [ ! -d "$OMZ_DIR" ]; then
           ZSH="$OMZ_DIR" RUNZSH=no sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
         fi
-      - |
-        ZSH_CUSTOM="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh/custom"
-        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-          git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-        fi
-        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-          git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-        fi
+      # zsh の plugin (autosuggestions、syntax-highlighting、completions) は home-manager (home/packages.nix) が入れる
 
   _setup-additional:
     internal: true
