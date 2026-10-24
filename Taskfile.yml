@@ -13,20 +13,12 @@ tasks:
     cmds:
       - task --list
 
-  bootstrap:
-    desc: 初回セットアップ（Homebrew + 完全セットアップ）
-    cmds:
-      - echo "🚀 初回セットアップを開始します..."
-      - task: _install-homebrew
-      - task: setup
-      - echo "🎉 セットアップ完了！新しいターミナルを開いて設定を有効化してください"
-
+  # 新しいマシンの初回は bootstrap.sh (Homebrew と Nix を入れて clone し、devShell の task でこれを呼ぶ)
   setup:
     desc: 完全セットアップ(ツール + 設定ファイル + シェル環境 + 追加ツール)
     cmds:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
-      - task: nix:install
       # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
       - task: _setup-config
@@ -79,24 +71,8 @@ tasks:
       - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim"
       - echo "🗑️ 設定をクリーンアップしました"
 
-  _install-homebrew:
-    internal: true
-    cmds:
-      - |
-        if ! command -v brew &> /dev/null; then
-          echo "📦 Homebrewをインストール中..."
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          if [[ -f "/opt/homebrew/bin/brew" ]]; then
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-          fi
-        fi
-    status:
-      - command -v brew
-
   _install-tools:
     internal: true
-    deps: [_install-homebrew]
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet

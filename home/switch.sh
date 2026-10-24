@@ -5,8 +5,8 @@
 # 初回も 2 回目以降も同じ経路
 set -euo pipefail
 
-# task setup の途中 (nix:install 直後) のシェルには nix が PATH に無く、XDG_STATE_HOME も未設定。
-# CLI は PATH の nix を呼び、世代の置き場を XDG_STATE_HOME から決める
+# 新しいマシンの task setup (bootstrap.sh から) は .zshenv を経ていないので、nix が PATH に無いことも
+# XDG_STATE_HOME が未設定のこともある。CLI は PATH の nix を呼び、世代の置き場を XDG_STATE_HOME から決める
 if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
   # shellcheck disable=SC1091
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh

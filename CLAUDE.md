@@ -6,16 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Initial Setup (Recommended)
 ```sh
-# Clone repository (install Homebrew first if not available)
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install git ghq
-export GHQ_ROOT=~/src
-ghq get https://github.com/usadamasa/dotfile.git
-cd ~/src/github.com/usadamasa/dotfile
-
-# Run initial setup (Homebrew + complete setup)
-task bootstrap
+# 新しい Mac で何も入れずに流す。bootstrap.sh が Homebrew・Nix・clone・task setup まで行う
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/usadamasa/dotfile/main/bootstrap.sh)"
 ```
+
+導入済みのマシンで設定を収束させるのは `task setup`。
 
 ## テスト・フォーマット
 

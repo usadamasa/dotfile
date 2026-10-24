@@ -6,7 +6,6 @@ brew "curl"
 brew "editorconfig-checker"
 brew "editorconfig"
 brew "gh"
-brew "ghq"
 brew "git-filter-repo"
 brew "git-now"
 brew "git"
@@ -26,6 +25,6 @@ tap "k1low/tap"
 #   - claude (Desktop)    : https://claude.ai/download から .dmg
 #   - claude-code         : curl -fsSL https://claude.ai/install.sh | bash
 #   - codex               : npm i -g @openai/codex
-#   - nix                 : config/nix/Taskfile.yml の install(Determinate Nix のインストーラ)
+#   - nix                 : bootstrap.sh (Determinate Nix のインストーラ)
 #   - jetbrains-toolbox   : https://www.jetbrains.com/toolbox-app/ から .dmg
 #   - visual-studio-code  : https://code.visualstudio.com/ から .zip

@@ -1,9 +1,6 @@
 version: '3'
 
-vars:
-  # setup の途中ではインストール直後のシェルに PATH が載らないため、絶対パスで呼ぶ
-  NIX_BIN: /nix/var/nix/profiles/default/bin/nix
-
+# Nix 自体のインストール (Determinate Nix のインストーラ) は bootstrap.sh が行う
 tasks:
   # nix run / nix shell -c は claude-config の guard-bash が止めるため、実行せず store へ落とすだけで確かめる
   check:
@@ -22,19 +19,9 @@ tasks:
     cmds:
       - nix flake update
 
-  # sudo が要るため Brewfile ではなく公式インストーラで入れる
-  install:
-    internal: true
-    cmds:
-      - echo "❄️ Determinate Nix をインストール中 (sudo のパスワードを求められます)..."
-      - curl -fsSL https://install.determinate.systems/nix | sh -s -- install
-    status:
-      - test -x "{{.NIX_BIN}}"
-
   # /etc/nix/nix.conf は Determinate Nix が書き換えるため、設定は !include される nix.custom.conf に置く
   install-custom-conf:
     desc: config/nix/nix.custom.conf を /etc/nix/nix.custom.conf へ配置する (sudo のパスワードを求められます)
-    deps: [install]
     cmds:
       - sudo install -m 0644 -o root -g wheel config/nix/nix.custom.conf /etc/nix/nix.custom.conf
     status:

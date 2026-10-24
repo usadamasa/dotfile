@@ -7,26 +7,28 @@ macOS 開発環境用の dotfiles リポジトリです。[go-task](https://task
 
 ## 🚀 セットアップ
 
+新しい Mac では、何も入れずに次の 1 行を流す (Homebrew・Nix のインストールに sudo のパスワードを求められる)。
+[bootstrap.sh](bootstrap.sh) が Homebrew と Determinate Nix を入れ、
+`~/src/github.com/usadamasa/dotfile` へ clone し、devShell の task で `task setup` を実行する。
+導入済みのものは飛ばすので、途中で止まっても打ち直せる。
+
 ```sh
-# リポジトリをクローン
-brew install git ghq
-export GHQ_ROOT=~/src
-ghq get https://github.com/usadamasa/dotfile.git
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/usadamasa/dotfile/main/bootstrap.sh)"
+```
+
+終わったら新しいターミナルを開き、リポジトリで `direnv allow` する。以後は `task` が使える。
+
+```sh
 cd ~/src/github.com/usadamasa/dotfile
-
-# 初回セットアップ (Homebrew・Nix のインストールに sudo のパスワードを求められる)
-task bootstrap
-
-# セットアップ状況確認
-task status
+direnv allow
+task status   # セットアップ状況確認
 ```
 
 ## 📋 コマンド
 
 ```sh
 task                  # タスク一覧表示
-task bootstrap        # 初回セットアップ
-task setup            # 完全セットアップ
+task setup            # 完全セットアップ (導入済みのマシンで設定を収束させる)
 task status           # 状況確認
 task clean            # 設定削除
 task test             # bats でシェルスクリプトのテストを実行
@@ -58,6 +60,7 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
 
 ```tree
 dotfile/
+├── bootstrap.sh  # 新しい Mac の初回セットアップ (curl で取得して実行する)
 ├── Brewfile      # Homebrew で入れるツール
 ├── Taskfile.yml  # セットアップ自動化
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
