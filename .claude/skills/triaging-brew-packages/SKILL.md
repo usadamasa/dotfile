@@ -82,6 +82,9 @@ nix search --inputs-from . nixpkgs <name の一部>
 - devShell にあるツールは home-manager に重ねて入れない。各 repo の devShell が持つ
 - ただし direnv の外から探されるものは home-manager に入れる。claude-config の global hook は `command -v` で探し、
   無ければ黙って skip するので、hook が使うツールは direnv の外に要る
+- 採取は今の端末 1 台しか見ない。この端末で使う形跡が無くても、別の端末で使うものは「消すだけ」にせず
+  `home.packages` へ入れる。`home/` の設定は全端末で共有されるため。該当するのは `aqua`。
+  `home/packages.nix` のその行に「別の端末で使う」とコメントを付け、次の採取で消す側へ振り分けないようにする
 - oh-my-zsh の plugin (`zsh-autosuggestions` `zsh-syntax-highlighting` `zsh-completions`) は 3 つで 1 つの PR にする。
   `home.packages` に入れ、`.zshrc` で profile の `share/` から source し、`_setup-shell` の git clone を消すところまでが
   1 セット。1 つだけ拾って別建てにしない
