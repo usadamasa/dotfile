@@ -10,6 +10,7 @@
     # git・nix・nixpkgs の curl / wget が同じ bundle を読む
     cacert
     curl
+    ffmpeg
     gh
     ghq
     gibo
