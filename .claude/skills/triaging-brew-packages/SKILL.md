@@ -5,9 +5,9 @@ description: brew の中身を全量点検し、home-manager・devShell・brew �
 
 # triaging-brew-packages
 
-brew に入っているもの (Brewfile に無い leaf も含む) を 1 つずつ home-manager / devShell / brew に残す / 消す に
-振り分け、PR 単位の移行プランを書く。成果物はプラン (レポート) で、`brew uninstall` も `task hm:switch` も
-この skill の手順では打たない (それは各 PR の適用手順に書く)。
+brew に入っているもの (Brewfile に無い leaf も含む) を 1 つずつ、home-manager / devShell / brew に残す / 消す の
+どれかへ振り分け、PR 単位の移行プランを書く。成果物はプラン (レポート) になる。`brew uninstall` と `task hm:switch` は
+この skill の手順では打たず、各 PR の適用手順に書く。
 
 ## 手順
 
@@ -19,11 +19,11 @@ brew に入っているもの (Brewfile に無い leaf も含む) を 1 つず�
 task brew:inventory
 ```
 
-`./tmp/brew-inventory.md` (読む用) と `./tmp/brew-inventory.json` (引く用) ができる。script は
-`.claude/skills/triaging-brew-packages/scripts/brew-inventory.sh` で、直接呼ぶと sandbox の中で nix が daemon に
+`./tmp/brew-inventory.md` (読む用) と `./tmp/brew-inventory.json` (引く用) ができる。script の実体は
+`.claude/skills/triaging-brew-packages/scripts/brew-inventory.sh` にある。直接呼ぶと sandbox の中で nix が daemon に
 届かない (APPENDIX「なぜ task 経由か」)。
 
-列の読み方:
+列の読み方は次のとおり。
 
 | 列 | 意味 | 読み違えやすい点 |
 |---|---|---|
@@ -34,7 +34,7 @@ task brew:inventory
 | devShell を持つ repo | `~/src/github.com/usadamasa/*/flake.nix` にその名前がある repo | worktree から実行すると worktree 名も混ざる |
 | direnv の外の参照 | `config/` `home/` `.zshenv` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
 
-nixpkgs の別名 (brew の名前 → nixpkgs の attr):
+nixpkgs の別名 (brew の名前 → nixpkgs の attr) は次のとおり。
 
 | brew | nixpkgs | 備考 |
 |---|---|---|
@@ -57,7 +57,7 @@ nixpkgs の別名 (brew の名前 → nixpkgs の attr):
 
 ### 2. 振り分ける
 
-formula ごとに上から順に当て、最初に当たった行にする。条件は採取結果から読める形で書いてある。
+各 formula について表を上から順に見て、最初に当たった行を採る。条件は採取結果から読める形で書いてある。
 
 | 振り分け | 条件 | 例 (決めた PR / issue) |
 |---|---|---|
@@ -85,8 +85,8 @@ gh issue list --repo usadamasa/dotfile --state open --search "brew OR Brewfile O
 (`ca-certificates` の #154 など) はプランでその issue を指し、段取りを重ねて書かない。
 
 #105 の Phase に既に載っているものは、その Phase の単位でまとめる。`zsh-autosuggestions` `zsh-syntax-highlighting`
-(`zsh-completions` も同じ brew leaf) は Phase 3 案 A で、`.zshrc` の source 行と `_setup-shell` の git clone の削除と
-1 つの PR になる。1 つだけ拾って別建てにしない。
+(`zsh-completions` も同じ brew leaf) は Phase 3 案 A に載っている。これらは `.zshrc` の source 行と `_setup-shell` の
+git clone の削除と 1 つの PR になる。1 つだけ拾って別建てにしない。
 
 ### 4. プランを書く
 
@@ -138,7 +138,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "brew OR Brewfile O
 
 ### 5. 報告する
 
-プランのパスと、振り分けの件数、未決の一覧を返す。issue #105 の表や新しい issue への反映は、指示があってから
+プランのパスと、振り分けの件数、未決の一覧を返す。issue #105 の表や新しい issue への反映は、指示があってから行う
 (`gh issue edit --body-file` / `gh issue create --body-file`。本文は `./tmp` に Write)。
 
 ## 推奨しない形
@@ -157,8 +157,9 @@ gh issue list --repo usadamasa/dotfile --state open --search "brew OR Brewfile O
 
 ## APPENDIX: なぜ task 経由か
 
-`nix eval` は daemon の socket に繋ぐ。sandbox の中の bash からは `Operation not permitted` になり、
-`task` は sandbox の外で動く (`excludedCommands`)。`home/status.sh` と同じ理由。
+`nix eval` は daemon の socket に繋ぐ。sandbox の中の bash からは `Operation not permitted` になる。
+`task` は `excludedCommands` に入っていて sandbox の外で動くので、task から呼べば daemon に届く。
+`home/status.sh` と同じ理由。
 
 ## APPENDIX: なぜ直接の依存元か
 
@@ -176,5 +177,6 @@ hook が使うツールは direnv の外に要る (#152 の `shellcheck`)。
 ## APPENDIX: なぜ brew uninstall までが 1 単位か
 
 `config/zsh/.zprofile` が nix の profile を `/opt/homebrew/bin` より前に置くので (#142)、brew 版が残っても
-使われはしない。ただし `brew upgrade` で更新だけ続き、Brewfile と実体がずれる。`task status` の PATH 行は
-brew の実体が前に来ているものを列挙するので、✓ になるまでが単位 (#105 制約 3)。
+使われはしない。ただし `brew upgrade` で更新だけ続き、Brewfile と実体がずれる。だから brew 版を消すところまでを
+1 単位にする (#105 制約 3)。`task status` の PATH 行は、`.zprofile` を経ていないシェルなどで brew の実体が前に
+来ているものを列挙する。消した後にこの行が ✓ であることを、単位の終わりの確認に使う。
