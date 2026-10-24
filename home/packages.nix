@@ -28,8 +28,6 @@
     tree
     watch
     wget
-    # zsh の plugin。config/zsh/.zshrc が profile の share/ から source し、completions は share/zsh/site-functions を
-    # fpath に足す。oh-my-zsh の custom/plugins へ git clone する形 (Taskfile の _setup-shell) はやめた
     zsh-autosuggestions
     zsh-completions
     zsh-syntax-highlighting
