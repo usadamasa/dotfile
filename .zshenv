@@ -50,8 +50,6 @@ mkdir -p "$GRADLE_USER_HOME"
 export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
 
 # Python
-export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
-mkdir -p "$PYENV_ROOT"
 export PIPX_HOME=$XDG_DATA_HOME/pipx
 mkdir -p "$PIPX_HOME"
 
