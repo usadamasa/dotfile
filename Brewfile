@@ -2,6 +2,7 @@
 # ここには nixpkgs に無いもののみ残す
 brew "aqua"
 brew "coreutils"
+brew "crit"
 brew "git-now"
 brew "vim"
 brew "zsh"
@@ -10,9 +11,11 @@ cask "font-hack-nerd-font"
 
 # 以下は Homebrew で管理しない (更新のたびに sudo パスワードを要求されるため)。
 # 各アプリ自身のインストーラと自動更新に任せる。
+#   - chatgpt             : https://chatgpt.com/ から .dmg
 #   - claude (Desktop)    : https://claude.ai/download から .dmg
 #   - claude-code         : curl -fsSL https://claude.ai/install.sh | bash
 #   - codex               : npm i -g @openai/codex
+#   - deepl               : https://www.deepl.com/ から .dmg
 #   - nix                 : bootstrap.sh (Determinate Nix のインストーラ)
 #   - jetbrains-toolbox   : https://www.jetbrains.com/toolbox-app/ から .dmg
 #   - visual-studio-code  : https://code.visualstudio.com/ から .zip
