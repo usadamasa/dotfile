@@ -31,10 +31,9 @@
     shellcheck
     tig
     tree
+    vim
     watch
     wget
-    # ログインシェルは /bin/zsh (macOS 同梱) のまま。nix 版にするには /etc/shells への追記 (sudo) と chsh が要り、
-    # home-manager からは触れない
     zsh
     zsh-autosuggestions
     zsh-completions

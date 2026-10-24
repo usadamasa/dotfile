@@ -30,7 +30,6 @@ task status   # セットアップ状況確認
 task                  # タスク一覧表示
 task setup            # 完全セットアップ (導入済みのマシンで設定を収束させる)
 task status           # 状況確認
-task clean            # 設定削除
 task test             # bats でシェルスクリプトのテストを実行
 task format           # editorconfig-checker でチェック
 task nix:check-flake  # flake.nix の devShell を検証
@@ -66,7 +65,7 @@ dotfile/
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
 ├── .zshenv       # XDG Base Directory 設定
 ├── home/         # home-manager のモジュールと switch.sh / status.sh
-├── config/       # 各種設定ファイル (~/.config へ symlink する)
+├── config/       # 各種設定ファイル
 │   ├── direnv/
 │   ├── git/
 │   ├── nix/      # nix.custom.conf (/etc/nix へコピーする) と nix 関連の task

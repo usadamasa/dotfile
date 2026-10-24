@@ -4,7 +4,6 @@ brew "aqua"
 brew "coreutils"
 brew "crit"
 brew "git-now"
-brew "vim"
 cask "font-cica"
 cask "font-hack-nerd-font"
 

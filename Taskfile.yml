@@ -1,8 +1,5 @@
 version: '3'
 
-vars:
-  DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
-
 includes:
   hm: ./home/Taskfile.yml
   nix: ./config/nix/Taskfile.yml
@@ -21,7 +18,6 @@ tasks:
       - task: _install-tools
       # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
-      - task: _setup-config
       - task: hm:switch
       - task: _setup-shell
       - task: _setup-additional
@@ -60,43 +56,15 @@ tasks:
         editorconfig-checker
         echo "✅ フォーマットチェック完了"
 
-  # home-manager 管理のもの (home/files.nix) は対象外。外すときは files.nix から行を消して hm:switch する
-  clean:
-    desc: 設定をクリーンアップ（注意：設定ファイルが削除されます）
-    prompt: "設定ファイルを削除しますか？"
-    cmds:
-      - rm -rf "$HOME/.config/vim"
-      - echo "🗑️ 設定をクリーンアップしました"
-
   _install-tools:
     internal: true
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet
 
-  _setup-config:
-    internal: true
-    cmds:
-      - echo "⚙️ 設定ファイルをセットアップ中..."
-      - mkdir -p "$HOME/.local/share" "$HOME/.cache"
-      - task: _link
-        vars: { SRC: config/vim, DEST: .config/vim }
-
-  # SRC は DOTFILE_DIR から、DEST は $HOME からの相対パス。DEST はリンク名で渡す。
-  # GNU ln はディレクトリを開けないとき、ディレクトリ指定をリンク名と見なして cannot overwrite directory で落ちる
-  _link:
-    internal: true
-    requires:
-      vars: [SRC, DEST]
-    preconditions:
-      - sh: test "{{.DEST}}" = "{{trimSuffix "/" .DEST}}"
-        msg: "DEST はディレクトリではなくリンク名で渡してください: {{.DEST}}"
-    cmds:
-      - ln -sfn "{{.DOTFILE_DIR}}/{{.SRC}}" "$HOME/{{.DEST}}"
-
   _setup-shell:
     internal: true
-    deps: [_install-tools, _setup-config]
+    deps: [_install-tools]
     cmds:
       - echo "🐚 シェル環境をセットアップ中..."
       - |
@@ -110,6 +78,5 @@ tasks:
     deps: [_install-tools]
     cmds:
       - echo "🛠️ 追加ツールをセットアップ中..."
-      - mkdir -p "$HOME/.local/share/vim" "$HOME/.cache/vim/swap" "$HOME/.cache/vim/backup"
       - pipx install powerline-shell --force --quiet
       - gh extension install seachicken/gh-poi --force

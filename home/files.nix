@@ -1,4 +1,4 @@
-# $HOME と ~/.config 配下へ張る設定ファイル。Taskfile の _setup-config の ln -sfn を 1 行ずつここへ移す。
+# $HOME と ~/.config 配下へ張る設定ファイル。
 # mkOutOfStoreSymlink でリポジトリの作業ツリーを直接指すので、編集が即反映され、bats テストの前提も変わらない。
 # 世代を戻してもリンクが戻るだけで、リポジトリ側の内容は戻らない
 { config, ... }:
@@ -15,6 +15,7 @@ in
     "direnv/direnv.toml".source = link "config/direnv/direnv.toml";
     "git".source = link "config/git";
     "npm".source = link "config/npm";
+    "vim".source = link "config/vim";
     "zsh".source = link "config/zsh";
   };
 }
