@@ -34,8 +34,6 @@ tasks:
       - |
         echo "Homebrew: $(command -v brew >/dev/null && echo '✓' || echo '✗')"
         echo "主要ツール: $(command -v git >/dev/null && command -v gh >/dev/null && echo '✓' || echo '✗')"
-        echo "XDG設定: $(test -L "$HOME/.zshenv" && echo '✓' || echo '✗')"
-        echo "zsh設定: $(test -L "$HOME/.config/zsh" && echo '✓' || echo '✗')"
         echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
@@ -67,8 +65,7 @@ tasks:
     desc: 設定をクリーンアップ（注意：設定ファイルが削除されます）
     prompt: "設定ファイルを削除しますか？"
     cmds:
-      - rm -f "$HOME/.zshenv"
-      - rm -rf "$HOME/.config/zsh" "$HOME/.config/vim"
+      - rm -rf "$HOME/.config/vim"
       - echo "🗑️ 設定をクリーンアップしました"
 
   _install-tools:
@@ -82,14 +79,8 @@ tasks:
     cmds:
       - echo "⚙️ 設定ファイルをセットアップ中..."
       - mkdir -p "$HOME/.local/share" "$HOME/.cache"
-      - rm -rf "$HOME/.config/zsh"
       - task: _link
-        vars: { SRC: .zshenv, DEST: .zshenv }
-      - for:
-          - vim
-          - zsh
-        task: _link
-        vars: { SRC: "config/{{.ITEM}}", DEST: ".config/{{.ITEM}}" }
+        vars: { SRC: config/vim, DEST: .config/vim }
 
   # SRC は DOTFILE_DIR から、DEST は $HOME からの相対パス。DEST はリンク名で渡す。
   # GNU ln はディレクトリを開けないとき、ディレクトリ指定をリンク名と見なして cannot overwrite directory で落ちる
