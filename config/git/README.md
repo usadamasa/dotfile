@@ -9,8 +9,8 @@ bare リポジトリをベースに、ブランチごとに独立した worktree
 | ツール | 用途 | インストール |
 |--------|------|------------|
 | [ghq](https://github.com/x-motemen/ghq) | リポジトリ管理 | home-manager (`home/packages.nix`) |
-| [git-wt](https://github.com/k1LoW/git-wt) | worktree 操作 | `brew install k1LoW/tap/git-wt` |
-| [gh](https://github.com/cli/cli) | GitHub CLI | `brew install gh` |
+| [git-wt](https://github.com/k1LoW/git-wt) | worktree 操作 | home-manager (`home/packages.nix`) |
+| [gh](https://github.com/cli/cli) | GitHub CLI | home-manager (`home/packages.nix`) |
 | [gh-poi](https://github.com/seachicken/gh-poi) | マージ済みブランチ削除 | `gh extension install seachicken/gh-poi` |
 
 ## ワークフロー全体図
