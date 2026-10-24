@@ -7,10 +7,12 @@
 [color]
   ui = true
 [pager]
-  # diff-highlight は Homebrew の git の contrib にあり、PATH には載らない
-  log = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less
-  show = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less
-  diff = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less
+  # diff-highlight は home-manager の git (home/packages.nix) の contrib にあり、PATH には載らない。
+  # pager は sh -c で実行されるので変数が効く。.zshenv を経ない起動 (GUI から呼ばれる git) では
+  # XDG_STATE_HOME が無いので既定値を添える。http.sslCAInfo はパス型で ~ しか展開されないため直書きのまま
+  log = ${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/git/contrib/diff-highlight/diff-highlight | less
+  show = ${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/git/contrib/diff-highlight/diff-highlight | less
+  diff = ${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/git/contrib/diff-highlight/diff-highlight | less
 [pull]
   rebase = true
   ff = only
