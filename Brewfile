@@ -1,10 +1,8 @@
 # 日常使いの CLI は home-manager (home/packages.nix)、このリポジトリの開発ツールは flake.nix の devShell に置く。
-# ここに残るのは nixpkgs に無いもの、ログインシェル、cask、ほかの設定が /opt/homebrew のパスを指しているもの、
-# ほか issue #105 の「Brew に残すもの」(coreutils は nixpkgs 版が ls / cp で macOS 版を隠す)
+# ここには nixpkgs に無いもののみ残す
 brew "aqua"
 brew "coreutils"
-brew "git-now" # nixpkgs に無い
-brew "git"
+brew "git-now"
 brew "vim"
 brew "zsh"
 cask "font-cica"

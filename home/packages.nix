@@ -13,6 +13,7 @@
     gh
     ghq
     gibo
+    git
     git-filter-repo
     git-wt
     jq

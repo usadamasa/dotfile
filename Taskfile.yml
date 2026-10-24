@@ -68,7 +68,7 @@ tasks:
     prompt: "設定ファイルを削除しますか？"
     cmds:
       - rm -f "$HOME/.zshenv"
-      - rm -rf "$HOME/.config/zsh" "$HOME/.config/git" "$HOME/.config/vim"
+      - rm -rf "$HOME/.config/zsh" "$HOME/.config/vim"
       - echo "🗑️ 設定をクリーンアップしました"
 
   _install-tools:
@@ -86,7 +86,6 @@ tasks:
       - task: _link
         vars: { SRC: .zshenv, DEST: .zshenv }
       - for:
-          - git
           - vim
           - zsh
         task: _link

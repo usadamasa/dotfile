@@ -5,7 +5,7 @@
 
 ## このディレクトリについて
 
-Git のグローバル設定ファイル群を管理するディレクトリ。`~/.config/git/` にシンプリンクされ、XDG Base Directory 準拠の配置で動作する。
+Git のグローバル設定ファイル群を管理するディレクトリ。home-manager (`home/files.nix`) が `~/.config/git/` に symlink を張り、XDG Base Directory 準拠の配置で動作する。
 
 ## 設定の仕組み
 
@@ -24,8 +24,9 @@ Git のグローバル設定ファイル群を管理するディレクトリ。`
 ### pager
 
 `log` / `show` / `diff` は diff-highlight を挟み、変更行の中で変わった部分を強調する。
-diff-highlight は Homebrew の git (Brewfile の `brew "git"`) の contrib に同梱されていて PATH には載らないため、
-`/opt/homebrew/share/git-core/contrib/diff-highlight/` の絶対パスで呼ぶ。
+diff-highlight は home-manager の git (`home/packages.nix`) の contrib に同梱されていて PATH には載らないため、
+`${XDG_STATE_HOME:-$HOME/.local/state}/nix/profile/share/git/contrib/diff-highlight/` のパスで呼ぶ。
+pager は git が `sh -c` で実行するので変数が効く。`http.sslCAInfo` はパス型で `~` しか展開されないので、そちらは直書き。
 
 ### TLS 証明書検証
 
