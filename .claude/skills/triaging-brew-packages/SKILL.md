@@ -5,15 +5,16 @@ description: brew の中身を全量点検し、home-manager・devShell・brew �
 
 # triaging-brew-packages
 
-brew に入っているもの (Brewfile に無い leaf も含む) を 1 つずつ、home-manager / devShell / brew に残す / 消す の
-どれかへ振り分け、PR 単位の移行プランを書く。成果物はプラン (レポート) になる。`brew uninstall` と `task hm:switch` は
-この skill の手順では打たず、各 PR の適用手順に書く。
+brew に入っているもの (Brewfile に無い leaf と tap も含む) を 1 つずつ、home-manager / devShell / brew に残す / 消す の
+どれかへ振り分け、PR 単位の移行プランを書く。成果物はプラン (レポート) になる。`brew uninstall` `brew untap`
+`task hm:switch` はこの skill の手順では打たず、各 PR の適用手順に書く。
 
 ## 手順
 
 ### 1. 採取する
 
-リポジトリ直下 (または worktree) を cwd にして、この字面のまま打つ。brew と nix を 1 回ずつ呼び、1 分かからない。
+リポジトリ直下 (または worktree) を cwd にして、この字面のまま打つ。
+brew を 2 回 (`info` と `tap-info`)、nix を 1 回呼び、1 分かからない。
 
 ```bash
 .claude/skills/triaging-brew-packages/scripts/brew-inventory.sh
@@ -34,6 +35,15 @@ brew に入っているもの (Brewfile に無い leaf も含む) を 1 つず�
 | nixpkgs (同名 attr) | flake.lock の nixpkgs に同じ名前の attr があるか、その版、aarch64-darwin で使えるか | 「無し (同名 attr)」は名前が違うだけのことが多い。下の「nixpkgs の名前を引く」を済ませてから「nixpkgs に無い」と書く。`?` は attr が derivation でない (set) |
 | devShell を持つ repo | `~/src/github.com/usadamasa/*/flake.nix` にその名前がある repo | worktree から実行すると worktree 名も混ざる |
 | direnv の外の参照 | `config/` `home/` `.zshenv` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
+
+tap の表は `brew tap-info --json --installed` から作る。
+JSON API で入れている `homebrew/core` `homebrew/cask` は `installed: false` なので載らない。
+
+| 列 | 意味 | 読み違えやすい点 |
+|---|---|---|
+| Brewfile | `Brewfile` に `tap "<name>"` があるか | 無くても、その tap の formula を `brew "<tap>/<name>"` で宣言していれば `brew bundle` が tap を足す。宣言の有無はその行も見る |
+| この tap から入っている formula / cask | `brew info` の `tap` がこの tap のもの | 両方 `-` なら、tap を残す理由が無い (`brew update` のたびに fetch されるだけ) |
+| tap が持つ数 | tap が提供する formula / cask の数 | 何の tap だったかを思い出す手がかり。json の `provides` |
 
 #### nixpkgs の名前を引く
 
@@ -76,6 +86,14 @@ nix search --inputs-from . nixpkgs <name の一部>
   `home.packages` に入れ、`.zshrc` で profile の `share/` から source し、`_setup-shell` の git clone を消すところまでが
   1 セット。1 つだけ拾って別建てにしない
 
+tap は formula と cask の振り分けが決まった後に見る。
+
+| 振り分け | 条件 |
+|---|---|
+| untap (消すだけ) | その tap から入っている formula / cask が 1 つも無く、Brewfile にも宣言が無い |
+| 最後の 1 つを移す PR で untap | その tap から入っているものが、全部「home.packages へ」「devShell へ」「消すだけ」のどれかに振り分けられた。その PR の適用手順に `brew untap` を書き、Brewfile の `tap` 行も同じ PR で消す |
+| 残す | その tap から入っているものに「brew に残す」がある |
+
 ### 3. 既存の決めごとと突き合わせる
 
 「残す」の根拠は、Brewfile 先頭のコメント、`home/packages.nix` のコメント、この skill の表が持つ。
@@ -99,7 +117,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 
 採取: ./tmp/brew-inventory.md。振り分けの基準: triaging-brew-packages skill。
 
-## 全体 (<formula 数> formula、<cask 数> cask)
+## 全体 (<formula 数> formula、<cask 数> cask、<tap 数> tap)
 
 | 振り分け | 対象 |
 |---|---|
@@ -110,6 +128,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 | 依存で残る | ... |
 | 自己更新に任せる | ... |
 | 用途を聞く | ... |
+| untap | ... (何も入っていない tap と、最後の 1 つを移す PR の番号) |
 
 ## PR 1: <対象>
 
@@ -122,6 +141,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
   ```sh
   task hm:switch
   brew uninstall <formula...>
+  brew untap <tap>          # その tap から入っているものが無くなるとき
   brew autoremove --dry-run
   brew autoremove
   task status
@@ -155,6 +175,8 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 | `brew autoremove` だけで消えると書く | on_request のものは残る。`brew uninstall` を明記する |
 | brew の python / node に乗った venv をそのままにする | `pipx reinstall-all` など作り直しを適用手順に入れる |
 | Brewfile に無い leaf を見なかったことにする | 全部プランに載せる。宣言する・移す・消す・聞く のどれか |
+| tap から入っている最後の formula を消して tap を残す | 同じ PR の適用手順に `brew untap` を書く。残った tap は `brew update` のたびに fetch され、何の tap だったかも忘れる |
+| `brew bundle cleanup` で tap や leaf の差を出す | `--dry-run` は無く、素で打つと Brewfile に無いものを消しに行く。差は採取の Brewfile 列と tap の表から読む |
 | 用途不明のものを「消すだけ」にする | 「用途を聞く」に置く。消すのはユーザーの判断 |
 
 ## APPENDIX: なぜ sandbox の外で動かすか
