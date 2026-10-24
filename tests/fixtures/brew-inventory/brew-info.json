@@ -1,0 +1,53 @@
+{
+  "formulae": [
+    {
+      "name": "alpha",
+      "full_name": "alpha",
+      "tap": "homebrew/core",
+      "versions": { "stable": "1.2.0" },
+      "dependencies": ["beta"],
+      "build_dependencies": [],
+      "installed": [
+        { "version": "1.2.0", "installed_as_dependency": false, "installed_on_request": true }
+      ]
+    },
+    {
+      "name": "beta",
+      "full_name": "beta",
+      "tap": "homebrew/core",
+      "versions": { "stable": "0.9.1" },
+      "dependencies": [],
+      "build_dependencies": [],
+      "installed": [
+        { "version": "0.9.1", "installed_as_dependency": true, "installed_on_request": false }
+      ]
+    },
+    {
+      "name": "gamma",
+      "full_name": "someone/tap/gamma",
+      "tap": "someone/tap",
+      "versions": { "stable": "3.0.0" },
+      "dependencies": [],
+      "build_dependencies": [],
+      "installed": [
+        { "version": "3.0.0_1", "installed_as_dependency": null, "installed_on_request": true }
+      ]
+    }
+  ],
+  "casks": [
+    {
+      "token": "font-example",
+      "name": ["Example Font"],
+      "version": "5.0.3",
+      "auto_updates": null,
+      "tap": "homebrew/cask"
+    },
+    {
+      "token": "selfupdating-app",
+      "name": ["Self Updating App"],
+      "version": "26.1",
+      "auto_updates": true,
+      "tap": "homebrew/cask"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# brew-inventory.sh のテスト用 nix モック。呼び出しを MOCK_LOG に残し、eval には fixture の JSON を返す
+printf 'CALLED: nix %s\n' "$*" >> "$MOCK_LOG"
+if [ "$1" = "eval" ]; then
+  cat "$MOCK_NIX_EVAL"
+  exit 0
+fi
+printf 'nix モック: 想定外の引数 %s\n' "$*" >&2
+exit 1
