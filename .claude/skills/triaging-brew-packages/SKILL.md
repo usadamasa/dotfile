@@ -29,7 +29,7 @@ task brew:inventory
 |---|---|---|
 | Brewfile | `Brewfile` に `brew "<name>"` / `cask "<token>"` があるか | 無い (-) ものは「brew に入っているのに宣言が無い」leaf か依存。宣言するか、移すか、消すかのどれかにする |
 | on_request | `installed_on_request` | ✓ は手で入れたもの。`brew autoremove` は触らないので、消すなら `brew uninstall` を打つ |
-| 直接の依存元 | `brew info` の `dependencies` を逆引きしたもの | 直接だけ。`brew uses --installed` の出力 (推移的) とは数が違う。「依存元 -」でも on_request なら残る |
+| 直接の依存元 | `brew info` の `dependencies` を逆引きしたもの | 直接だけ。`brew uses --installed` の出力 (推移的) とは数が違う。逆引きは installed の全 formula を見ているので、`-` なら `brew uses` を打ち直さなくてよい。「依存元 -」でも on_request なら残る |
 | nixpkgs (同名 attr) | flake.lock の nixpkgs に同じ名前の attr があるか、その版、aarch64-darwin で使えるか | 「無し (同名 attr)」は名前が違うだけのことが多い。下の別名の表を見てから「nixpkgs に無い」と書く。`?` は attr が derivation でない (`rust` は set) |
 | devShell を持つ repo | `~/src/github.com/usadamasa/*/flake.nix` にその名前がある repo | worktree から実行すると worktree 名も混ざる |
 | direnv の外の参照 | `config/` `home/` `.zshenv` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
