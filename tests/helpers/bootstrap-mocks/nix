@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# bootstrap.sh のテスト用 nix モック。呼び出しと、そのときの cwd を MOCK_LOG に残す
+printf 'CALLED: nix %s (pwd=%s)\n' "$*" "$PWD" >> "$MOCK_LOG"

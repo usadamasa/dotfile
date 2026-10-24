@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bootstrap.sh のテスト用 git モック。clone は呼び出しを MOCK_LOG に残して clone 先の .git だけ作る
+printf 'CALLED: git %s\n' "$*" >> "$MOCK_LOG"
+if [ "$1" = "clone" ]; then
+  mkdir -p "${*: -1}/.git"
+fi
