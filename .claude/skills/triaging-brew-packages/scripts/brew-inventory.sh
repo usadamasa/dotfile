@@ -4,7 +4,8 @@
 #
 # brew info --json=v2 --installed を 1 回、nix eval を 1 回だけ呼ぶ (formula ごとに brew uses を呼ぶと分単位になる)。
 # 直接の依存元は brew info の dependencies を逆引きして出す (brew uses --installed は推移的な依存元を返す)。
-# nix は sandbox の中から daemon に届かないので、task brew:inventory から呼ぶ (home/status.sh と同じ)
+# nix は sandbox の中から daemon に届かないので、.claude/settings.json の sandbox.excludedCommands に載せてあり、
+# リポジトリ直下から相対パスの字面そのままで呼ぶ (SKILL.md の手順 1)
 set -euo pipefail
 
 usage() {
@@ -72,7 +73,7 @@ apply=$(printf '%s %s' \
   'pkgs: map (n: let ok = builtins.tryEval (pkgs.${n}.version or null); in { name = n; found = pkgs ? ${n}; version = if ok.success then ok.value else null; darwin = if pkgs ? ${n} then (builtins.tryEval (pkgs.lib.meta.availableOn { system = "aarch64-darwin"; } pkgs.${n})).value or null else null; })' \
   "(builtins.fromJSON ''${names_json}'')")
 if ! nix eval --json --inputs-from "$repo" 'nixpkgs#legacyPackages.aarch64-darwin' --apply "$apply" > "$nix_json"; then
-  printf 'nix eval に失敗した (sandbox の中なら task brew:inventory から呼ぶ)\n' >&2
+  printf 'nix eval に失敗した (sandbox の中なら、リポジトリ直下から相対パスの字面そのままで呼び直す)\n' >&2
   exit 1
 fi
 

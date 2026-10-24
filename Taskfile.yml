@@ -4,7 +4,6 @@ vars:
   DOTFILE_DIR: "{{.USER_WORKING_DIR}}"
 
 includes:
-  brew: ./config/brew/Taskfile.yml
   hm: ./home/Taskfile.yml
   nix: ./config/nix/Taskfile.yml
 

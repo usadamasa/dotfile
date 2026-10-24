@@ -1,9 +1,0 @@
-version: '3'
-
-tasks:
-  # script を直接呼ぶと sandbox の中で nix が daemon に届かないので、task 経由で呼ぶ (home/status.sh と同じ)。
-  # .claude/skills 配下は sandbox から chmod できないので、実行ビットに頼らず bash で呼ぶ
-  inventory:
-    desc: brew に入っているものを全量採取し、振り分けの材料を ./tmp/brew-inventory.{json,md} に出す
-    cmds:
-      - bash ./.claude/skills/triaging-brew-packages/scripts/brew-inventory.sh

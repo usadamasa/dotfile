@@ -38,7 +38,6 @@ task nix:update       # flake.lock の nixpkgs を更新
 task nix:install-custom-conf  # config/nix/nix.custom.conf を /etc/nix へ配置 (sudo)
 task hm:switch        # home-manager の設定をビルドして適用
 task hm:check         # home-manager の設定を全ユーザー分評価だけする (CI が使う)
-task brew:inventory   # brew に入っているものを全量採取する (振り分けは triaging-brew-packages skill)
 ```
 
 flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も週次で更新する。
