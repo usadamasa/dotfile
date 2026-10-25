@@ -111,13 +111,13 @@ run_inventory() {
   [[ "$output" != *flake.nix* ]]
 }
 
-@test "devShell の repo は formula の実行ファイル名でも引き、direnv の外の参照は formula 名だけで引く" {
+@test "devShell の repo と direnv の外の参照は formula の実行ファイル名でも引く" {
   run_inventory
   [ "$status" -eq 0 ]
 
   [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .executables' "$OUT/brew-inventory.json")" = '["delta"]' ]
   [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .devshell_repos' "$OUT/brew-inventory.json")" = '["three"]' ]
-  [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .consumer_refs' "$OUT/brew-inventory.json")" = '[]' ]
+  [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .consumer_refs' "$OUT/brew-inventory.json")" = '["config/zshrc:2"]' ]
   # bin を持たない formula は formula 名だけで引く
   [ "$(jq -c '.formulae[] | select(.name == "beta") | .executables' "$OUT/brew-inventory.json")" = '[]' ]
   [ "$(jq -c '.formulae[] | select(.name == "beta") | .devshell_repos' "$OUT/brew-inventory.json")" = '["one"]' ]

@@ -123,7 +123,7 @@ while IFS= read -r name; do
     done \
     | jq -R -s 'split("\n") | map(select(length > 0)) | sort')
 
-  # flake.nix は nixpkgs の attr 名で書くので、formula 名と違う attr (kubernetes-cli と kubectl) は実行ファイル名で当てる
+  # flake.nix の attr 名や設定から呼ぶコマンド名は formula 名と違うことがある (kubernetes-cli と kubectl) ので、実行ファイル名でも当てる
   patterns=(-e "$name")
   while IFS= read -r exe; do
     patterns+=(-e "$exe")
@@ -142,7 +142,7 @@ while IFS= read -r name; do
 
   refs_json='[]'
   if [ "${#consumer_paths[@]}" -gt 0 ]; then
-    refs_json=$(grep_or_empty -rnwF -e "$name" -- "${consumer_paths[@]}" \
+    refs_json=$(grep_or_empty -rnwF "${patterns[@]}" -- "${consumer_paths[@]}" \
       | cut -d: -f1,2 \
       | while IFS= read -r ref; do
           if [ -n "$ref" ]; then
