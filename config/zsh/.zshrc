@@ -120,4 +120,4 @@ eval "$(git wt --init zsh)"
 source "$XDG_STATE_HOME/nix/profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$XDG_STATE_HOME/nix/profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-# PATH for ~/.local/bin is set in ~/.zshenv
+# PATH for ~/.local/bin is set in $ZDOTDIR/.zshenv

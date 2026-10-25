@@ -63,7 +63,7 @@ dotfile/
 ├── Brewfile      # Homebrew で入れるツール
 ├── Taskfile.yml  # セットアップ自動化
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
-├── .zshenv       # XDG Base Directory 設定
+├── .zshenv       # ZDOTDIR を決めて config/zsh/.zshenv (XDG Base Directory 設定) を読む
 ├── home/         # home-manager のモジュールと switch.sh / status.sh
 ├── config/       # 各種設定ファイル
 │   ├── direnv/
