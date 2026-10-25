@@ -1,6 +1,6 @@
 # home-manager (standalone) の入口。Taskfile の処理を 1 つずつここへ移す (issue #105)。
 # username は flake.nix の users から extraSpecialArgs で渡る
-{ config, username, ... }:
+{ config, lib, username, ... }:
 {
   imports = [
     ./direnv.nix
@@ -25,4 +25,9 @@
   # home-manager CLI を profile に入れる (generations / --rollback 用)。適用自体は home/switch.sh
   programs.home-manager.enable = true;
   news.display = "silent";
+
+  # ディレクトリごとのリンクからファイル単位のリンクへ移したパスに、古い generation の symlink が残っていたら止める
+  home.activation.checkDirLinks = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    bash ${./check-dir-links.sh} "$newGenPath/home-files" "$HOME" || exit 1
+  '';
 }
