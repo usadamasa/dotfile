@@ -28,9 +28,6 @@ done
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
 # Language-specific paths
-# rust
-[[ -s ${HOME}/.cargo/env ]] && source ${HOME}/.cargo/env
-
 # cargo
 export PATH=${CARGO_HOME}/bin:$PATH
 
