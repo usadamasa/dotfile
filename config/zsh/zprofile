@@ -1,3 +1,7 @@
+# 下で先頭へ足し直すと .zshenv が足した分が後ろに残るので、重複は先に出た分だけを残す。
+# path だけだと export PATH=... の代入では重複が落ちないため、PATH にも付ける
+typeset -U path PATH
+
 # homebrew (highest priority - package manager)
 if [ -e /opt/homebrew/bin/brew ] ; then
     eval $(/opt/homebrew/bin/brew shellenv)

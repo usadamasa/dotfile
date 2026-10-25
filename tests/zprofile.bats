@@ -16,7 +16,7 @@ setup() {
 source_zprofile_and_print_path() {
   HOME="$FAKE_HOME" \
     NIX_PROFILES="/nix/var/nix/profiles/default $FAKE_HOME/.local/state/nix/profile" \
-    PATH="/usr/bin:/bin:/usr/sbin:/sbin:$NIX_PROFILE_BIN" \
+    PATH="/usr/bin:/bin:/usr/sbin:/sbin:$NIX_PROFILE_BIN:/nix/var/nix/profiles/default/bin" \
     "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/zprofile"
 }
 
@@ -70,6 +70,26 @@ path_index_of() {
   [ "$nix_index" -ge 0 ]
   [ "$default_index" -ge 0 ]
   [ "$nix_index" -lt "$default_index" ]
+}
+
+# PATH の中で $1 が現れる回数
+path_count_of() {
+  local IFS=':' n=0 entry
+  for entry in $PATH_UNDER_TEST; do
+    if [ "$entry" = "$1" ]; then
+      n=$((n + 1))
+    fi
+  done
+  printf '%d\n' "$n"
+}
+
+@test "nix の profile が PATH に 1 回だけ現れる" {
+  run source_zprofile_and_print_path
+  [ "$status" -eq 0 ]
+  PATH_UNDER_TEST="$output"
+
+  [ "$(path_count_of "$NIX_PROFILE_BIN")" -eq 1 ]
+  [ "$(path_count_of /nix/var/nix/profiles/default/bin)" -eq 1 ]
 }
 
 @test "NIX_PROFILES が無い環境 (nix 未導入) でも PATH が壊れない" {
