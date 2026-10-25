@@ -1,6 +1,5 @@
 # 日常使いの CLI は home-manager (home/packages.nix)、このリポジトリの開発ツールは flake.nix の devShell に置く。
 # ここには nixpkgs に無いもののみ残す
-brew "coreutils"
 brew "crit"
 brew "git-now"
 cask "font-cica"
