@@ -84,7 +84,6 @@ in
     GOPATH = "${xdg.dataHome}/go";
     GRADLE_USER_HOME = "${xdg.dataHome}/gradle";
     SDKMAN_DIR = "${xdg.dataHome}/sdkman";
-    PIPX_HOME = "${xdg.dataHome}/pipx";
     CARGO_HOME = "${xdg.dataHome}/cargo";
   };
 
@@ -94,7 +93,6 @@ in
         "${xdg.stateHome}/less"
         "${xdg.dataHome}/go"
         "${xdg.dataHome}/gradle"
-        "${xdg.dataHome}/pipx"
       ]
     }
   '';
