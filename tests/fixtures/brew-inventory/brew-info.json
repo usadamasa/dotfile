@@ -23,6 +23,17 @@
       ]
     },
     {
+      "name": "delta-cli",
+      "full_name": "delta-cli",
+      "tap": "homebrew/core",
+      "versions": { "stable": "0.18.2" },
+      "dependencies": [],
+      "build_dependencies": [],
+      "installed": [
+        { "version": "0.18.2", "installed_as_dependency": false, "installed_on_request": true }
+      ]
+    },
+    {
       "name": "gamma",
       "full_name": "someone/tap/gamma",
       "tap": "someone/tap",
