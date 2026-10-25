@@ -72,6 +72,16 @@ run_inventory() {
   [ "$(jq -r '.formulae[] | select(.name == "beta") | .installed_on_request' "$OUT/brew-inventory.json")" = "false" ]
 }
 
+@test "cask の depends_on.formula も逆引きし、formula の依存元と分けて付ける" {
+  run_inventory
+  [ "$status" -eq 0 ]
+
+  [ "$(jq -c '.formulae[] | select(.name == "beta") | .cask_dependents' "$OUT/brew-inventory.json")" = '["cli-app"]' ]
+  [ "$(jq -c '.formulae[] | select(.name == "alpha") | .cask_dependents' "$OUT/brew-inventory.json")" = '[]' ]
+  [ "$(jq -c '.casks[] | select(.token == "cli-app") | .deps' "$OUT/brew-inventory.json")" = '["beta"]' ]
+  grep -q '^| beta | .* | alpha, cli-app (cask) |' "$OUT/brew-inventory.md"
+}
+
 @test "nixpkgs の同名 attr の有無・版・darwin 対応を付ける" {
   run_inventory
   [ "$status" -eq 0 ]
