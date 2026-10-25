@@ -71,7 +71,7 @@ nix search --inputs-from . nixpkgs <name の一部>
 |---|---|---|
 | 依存で残る (触らない) | on_request でなく、直接の依存元がある | `pcre2` `gmp` `ncurses`。依存元が全部消えれば `brew autoremove` が消す |
 | 自己更新に任せる | cask で `auto_updates` ✓、または Brewfile 末尾のコメントの一覧にある | ChatGPT、JetBrains Toolbox、claude-code。Brewfile にも home-manager にも書かない |
-| brew に残す | 次のどれか: (a) nixpkgs に無い (名前を引いた上で)、(b) ログインシェル (`$SHELL` が brew のパスを指す)、(c) cask のフォント、(d) nixpkgs 版が macOS 同梱のコマンドを接頭辞なしで隠す、(e) リポジトリの設定が `/opt/homebrew` のパスを直書きしていて、その変更を同じ PR に入れない | (a) `git-now`、(c) `font-cica`、(d) `coreutils` (nixpkgs 版は `ls` `cp` を接頭辞なしで置く。移すなら `coreutils-prefixed`)、(e) `git` (pager の diff-highlight) |
+| brew に残す | 次のどれか: (a) nixpkgs に無い (名前を引いた上で)、(b) ログインシェル (`$SHELL` が brew のパスを指す)、(c) cask のフォント、(d) nixpkgs 版が macOS 同梱のコマンドを接頭辞なしで隠し、接頭辞付きの attr も無い、(e) リポジトリの設定が `/opt/homebrew` のパスを直書きしていて、その変更を同じ PR に入れない | (a) `git-now`、(c) `font-cica`、(e) `git` (pager の diff-highlight)。(d) に当たらない例が `coreutils` で、nixpkgs の `coreutils` は `ls` `cp` を接頭辞なしで置くが、`coreutils-prefixed` があるので home.packages へ移した |
 | devShell へ (brew からは消すだけ) | direnv の外の参照が無く、使う repo が全部 `flake.nix` を持つ。「devShell を持つ repo」に無い repo で使うなら、その repo の devShell に足す | `bats-core` `editorconfig-checker` `yamllint` `go-task` `uv` |
 | home.packages へ | direnv の外で要る。claude-config の global hook が `command -v` で探す、`config/zsh/` から呼ぶ、日常の CLI | `shellcheck` (hook が探す)、`jq` `tig` `wget` `gh` `ghq`。nixpkgs 版が darwin ✗ なら brew に残す |
 | 消すだけ | 直接の依存元が無く、direnv の外の参照も devShell の repo も無く、リポジトリと `~/src` の設定からも用途が無いと分かる。言語ランタイムは中身 (`~/.local/share/pyenv/versions` など) が空なら | `editorconfig`、Python を 1 つも入れていない `pyenv` |

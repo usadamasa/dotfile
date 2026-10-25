@@ -11,6 +11,8 @@
     # nix-daemon.sh も NIX_PROFILES の後ろ (user profile) を優先して NIX_SSL_CERT_FILE に選ぶので、
     # git・nix・nixpkgs の curl / wget が同じ bundle を読む
     cacert
+    # GNU 版は g 接頭辞付き (gdate など) だけ置く。coreutils は ls や cp を接頭辞なしで置き、macOS 版を隠す
+    coreutils-prefixed
     curl
     ffmpeg
     gh
