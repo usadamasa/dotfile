@@ -115,9 +115,6 @@ eval "$(git wt --init zsh)"
 # local env
 [ -s "${ZDOTDIR}/.zshrc.local" ] && . "${ZDOTDIR}/.zshrc.local"
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
 # zsh の plugin は home-manager の profile (home/packages.nix) から読む。oh-my-zsh の plugins=(…) には書かない
 # (custom/plugins への git clone が要る)。syntax-highlighting は他の ZLE widget を包むので最後に source する
 source "$XDG_STATE_HOME/nix/profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
