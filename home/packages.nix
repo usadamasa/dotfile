@@ -23,6 +23,13 @@
     # orm-discovery の go.mod が 1.27.3 を要り、1.26 系の `go` だと GOTOOLCHAIN=auto で toolchain を取りに行くので版付きの attr を使う
     go_1_27
     jq
+    # nixpkgs の krew は bin/krew だけを持ち、kubectl のプラグイン探索に要る kubectl-krew の名前が無いので足す。
+    # krew 公式の `krew install krew` は自己更新する kubectl-krew を ~/.krew/bin (PATH で nix より前) に置くので使わない
+    (symlinkJoin {
+      name = "krew";
+      paths = [ krew ];
+      postBuild = "ln -s krew $out/bin/kubectl-krew";
+    })
     kubectl
     kubectx
     kustomize
