@@ -14,20 +14,26 @@ setup() {
   export MOCK_BREW_TAP_INFO="$FIXTURES/tap-info.json"
   export MOCK_NIX_EVAL="$FIXTURES/nix-eval.json"
 
+  # brew の prefix。delta-cli は formula 名と違う名前の実行ファイル delta を持ち、beta は実行ファイルを持たない
+  export MOCK_BREW_PREFIX="$BATS_TEST_TMPDIR/homebrew"
+  mkdir -p "$MOCK_BREW_PREFIX/opt/delta-cli/bin" "$MOCK_BREW_PREFIX/opt/beta/lib"
+  touch "$MOCK_BREW_PREFIX/opt/delta-cli/bin/delta"
+
   # 採取対象のリポジトリ。Brewfile に alpha と font-example だけ宣言し、config に /opt/homebrew の参照を 1 つ置く
   REPO="$BATS_TEST_TMPDIR/repo"
   mkdir -p "$REPO/config/git" "$REPO/.claude/worktrees/wt/config/git" "$REPO/tmp"
   printf 'brew "alpha"\ncask "font-example"\ntap "someone/tap"\n' > "$REPO/Brewfile"
   printf '[pager]\n  log = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less\n' > "$REPO/config/git/config"
   cp "$REPO/config/git/config" "$REPO/.claude/worktrees/wt/config/git/config"
-  printf 'plugins=(gamma)\n' > "$REPO/config/zshrc"
+  printf 'plugins=(gamma)\nalias diff=delta\n' > "$REPO/config/zshrc"
   printf 'devShells = [ gamma ];\n' > "$REPO/flake.nix"
 
   # devShell を持つ別 repo 群
   REPOS="$BATS_TEST_TMPDIR/repos"
-  mkdir -p "$REPOS/one" "$REPOS/two"
+  mkdir -p "$REPOS/one" "$REPOS/two" "$REPOS/three"
   printf 'packages = [ beta gamma ];\n' > "$REPOS/one/flake.nix"
   printf 'packages = [ ];\n' > "$REPOS/two/flake.nix"
+  printf 'packages = [ delta ];\n' > "$REPOS/three/flake.nix"
 
   # global hook 群
   HOOKS="$BATS_TEST_TMPDIR/hooks"
@@ -41,13 +47,15 @@ run_inventory() {
   PATH="$MOCKS:$PATH" run bash "$SCRIPT" --repo "$REPO" --repos-root "$REPOS" --hooks-dir "$HOOKS" --out "$OUT"
 }
 
-@test "brew info と brew tap-info と nix eval を 1 回ずつ呼び、brew には HOMEBREW_NO_ANALYTICS=1 を渡す" {
+@test "brew info と brew tap-info と brew --prefix と nix eval を 1 回ずつ呼び、brew には HOMEBREW_NO_ANALYTICS=1 を渡す" {
   run_inventory
   [ "$status" -eq 0 ]
 
   run grep -c 'CALLED: brew info --json=v2 --installed (HOMEBREW_NO_ANALYTICS=1)' "$MOCK_LOG"
   [ "$output" = "1" ]
   run grep -c 'CALLED: brew tap-info --json --installed (HOMEBREW_NO_ANALYTICS=1)' "$MOCK_LOG"
+  [ "$output" = "1" ]
+  run grep -c 'CALLED: brew --prefix (HOMEBREW_NO_ANALYTICS=1)' "$MOCK_LOG"
   [ "$output" = "1" ]
   run grep -c 'CALLED: nix eval' "$MOCK_LOG"
   [ "$output" = "1" ]
@@ -101,6 +109,18 @@ run_inventory() {
   jq -r '.formulae[] | select(.name == "gamma") | .consumer_refs[]' "$OUT/brew-inventory.json" | grep -q 'config/zshrc:1'
   run jq -r '.formulae[] | select(.name == "gamma") | .consumer_refs[]' "$OUT/brew-inventory.json"
   [[ "$output" != *flake.nix* ]]
+}
+
+@test "devShell の repo は formula の実行ファイル名でも引き、direnv の外の参照は formula 名だけで引く" {
+  run_inventory
+  [ "$status" -eq 0 ]
+
+  [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .executables' "$OUT/brew-inventory.json")" = '["delta"]' ]
+  [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .devshell_repos' "$OUT/brew-inventory.json")" = '["three"]' ]
+  [ "$(jq -c '.formulae[] | select(.name == "delta-cli") | .consumer_refs' "$OUT/brew-inventory.json")" = '[]' ]
+  # bin を持たない formula は formula 名だけで引く
+  [ "$(jq -c '.formulae[] | select(.name == "beta") | .executables' "$OUT/brew-inventory.json")" = '[]' ]
+  [ "$(jq -c '.formulae[] | select(.name == "beta") | .devshell_repos' "$OUT/brew-inventory.json")" = '["one"]' ]
 }
 
 @test "tap ごとに Brewfile の宣言と、その tap から入っている formula / cask を付け、API だけの official tap は除く" {

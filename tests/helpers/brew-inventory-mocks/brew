@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # brew-inventory.sh のテスト用 brew モック。呼び出しと HOMEBREW_NO_ANALYTICS の値を MOCK_LOG に残し、
-# info --json=v2 --installed と tap-info --json --installed には fixture の JSON を返す
+# info --json=v2 --installed と tap-info --json --installed には fixture の JSON を、--prefix には MOCK_BREW_PREFIX を返す
 printf 'CALLED: brew %s (HOMEBREW_NO_ANALYTICS=%s)\n' "$*" "${HOMEBREW_NO_ANALYTICS:-unset}" >> "$MOCK_LOG"
+if [ "$1" = "--prefix" ]; then
+  printf '%s\n' "$MOCK_BREW_PREFIX"
+  exit 0
+fi
 if [ "$1" = "info" ]; then
   cat "$MOCK_BREW_INFO"
   exit 0
