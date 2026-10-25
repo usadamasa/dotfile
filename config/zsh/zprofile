@@ -14,10 +14,6 @@ for profile in ${=NIX_PROFILES}; do
   export PATH="$profile/bin:$PATH"
 done
 
-# System-level package managers
-# aqua (binary manager)
-# export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-
 # Language version managers (order matters for precedence)
 # rbenv (Ruby)
 [[ -d ~/.rbenv  ]] && \
