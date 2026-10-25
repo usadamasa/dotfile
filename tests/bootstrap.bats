@@ -78,7 +78,7 @@ run_bootstrap() {
   grep -Fxq "CALLED: nix develop --command task setup (pwd=$DOTFILE_DIR)" "$MOCK_LOG"
 }
 
-@test "~/.zprofile に追記しない (config/zsh/.zprofile が brew shellenv を持つ)" {
+@test "~/.zprofile に追記しない (config/zsh/zprofile が brew shellenv を持つ)" {
   rm "$BREW_BIN"
 
   run_bootstrap

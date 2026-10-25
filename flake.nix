@@ -40,7 +40,7 @@
             shellcheck
             xdg-ninja
             yamllint
-            zsh # tests/zshenv.bats が .zshenv を zsh で読む。CI のランナーには入っていない
+            zsh # tests/zprofile.bats が config/zsh/zprofile を zsh で読む。CI のランナーには入っていない
           ];
         };
       });

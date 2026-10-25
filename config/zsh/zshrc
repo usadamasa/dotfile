@@ -1,0 +1,46 @@
+# home/zsh.nix が programs.zsh.initContent へ取り込む (oh-my-zsh を読んだ後に入る)。
+# 変えたら task hm:switch で反映する
+
+# User configuration
+export LANG=ja_JP.UTF-8
+export EDITOR='vim'
+
+alias ll='ls -al'
+
+# 引数なしの `cd` を ~/workspace へ向ける。
+# zsh の cd は行き先が $HOME 固定で (man zshbuiltins: "or to the value of $HOME
+# if arg is not specified")、変更する組み込みオプションがないため builtin を
+# 関数で包む。$HOME 自体は書き換えない (`~` や子プロセスを巻き込むため)。
+# HOME へは oh-my-zsh が有効にしている auto_cd のおかげで `~` だけで行ける。
+# `cd -` / `cd +n` / `cd old new` は引数ありなので builtin にそのまま渡る。
+cd() {
+  if (( $# == 0 )); then
+    builtin cd "$HOME/workspace"
+  else
+    builtin cd "$@"
+  fi
+}
+
+# 色を使用出来るようにする
+autoload -Uz colors
+colors
+
+# 日本語ファイル名を表示可能にする
+setopt print_eight_bit
+
+# ビープ音の停止
+setopt no_beep
+
+# ビープ音の停止(補完時)
+setopt nolistbeep
+
+# programs.zsh.history に option が無い history の設定
+setopt hist_no_store            # historyコマンドは履歴に登録しない
+setopt hist_reduce_blanks       # ヒストリに保存するときに余分なスペースを削除する
+setopt inc_append_history       # 履歴をインクリメンタルに追加
+
+# https://github.com/k1LoW/git-wt
+eval "$(git wt --init zsh)"
+
+# Claude Code env
+[ -s "$HOME/.claude/env.sh" ] && . "$HOME/.claude/env.sh"

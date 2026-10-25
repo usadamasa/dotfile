@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# config/zsh/.zprofile の PATH の並び
+# config/zsh/zprofile (programs.zsh.profileExtra) の PATH の並び
 
 setup() {
   DOTFILE_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
@@ -11,13 +11,13 @@ setup() {
 }
 
 # ログインシェルで /etc/zprofile の path_helper が通った直後の並び (システムが先頭、nix の profile が後ろ) を
-# 起点にして .zprofile を読み、PATH を出力する。NIX_PROFILES は .zshenv の nix-daemon.sh が export する値の形。
+# 起点にして .zprofile を読み、PATH を出力する。NIX_PROFILES は .zshenv (programs.zsh.envExtra) の nix-daemon.sh が export する値の形。
 # brew や go が無い環境でも読める
 source_zprofile_and_print_path() {
   HOME="$FAKE_HOME" \
     NIX_PROFILES="/nix/var/nix/profiles/default $FAKE_HOME/.local/state/nix/profile" \
     PATH="/usr/bin:/bin:/usr/sbin:/sbin:$NIX_PROFILE_BIN" \
-    "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/.zprofile"
+    "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/zprofile"
 }
 
 # PATH の中で $1 が最初に現れる位置 (0 始まり)。無ければ -1
@@ -74,7 +74,7 @@ path_index_of() {
 
 @test "NIX_PROFILES が無い環境 (nix 未導入) でも PATH が壊れない" {
   run env -u NIX_PROFILES HOME="$FAKE_HOME" PATH="/usr/bin:/bin:/usr/sbin:/sbin" \
-    "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/.zprofile"
+    "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/zprofile"
   [ "$status" -eq 0 ]
   PATH_UNDER_TEST="$output"
 
