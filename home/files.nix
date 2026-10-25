@@ -10,7 +10,6 @@ in
     # ~/.config/direnv は home-manager が lib/ を書くので、ディレクトリごとではなくファイル単位で張る
     "direnv/direnv.toml".source = link "config/direnv/direnv.toml";
     "git".source = link "config/git";
-    "npm".source = link "config/npm";
     "vim".source = link "config/vim";
   };
 }
