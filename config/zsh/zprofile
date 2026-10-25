@@ -49,9 +49,6 @@ export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
 # `cc-dream` のように名前で叩くため。
 export PATH="$HOME/.claude/bin:$PATH"
 
-# Kubernetes tools
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 # Docker CLI completions
 fpath=(${HOME}/.docker/completions $fpath)
 
