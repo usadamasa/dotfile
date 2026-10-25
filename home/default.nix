@@ -6,6 +6,7 @@
     ./direnv.nix
     ./files.nix
     ./gh.nix
+    ./launchd.nix
     ./packages.nix
     ./zsh.nix
   ];
