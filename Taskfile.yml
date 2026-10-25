@@ -19,7 +19,6 @@ tasks:
       # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
       - task: hm:switch
-      - task: _setup-shell
       - task: _setup-additional
       - echo "✅ セットアップ完了"
 
@@ -30,7 +29,6 @@ tasks:
       - |
         echo "Homebrew: $(command -v brew >/dev/null && echo '✓' || echo '✗')"
         echo "主要ツール: $(command -v git >/dev/null && command -v gh >/dev/null && echo '✓' || echo '✗')"
-        echo "oh-my-zsh: $(test -d "${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh" && echo '✓' || echo '✗')"
         echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
       # home-manager 管理のもの (設定ファイルとパッケージ) は世代の一致で 1 行にまとめる
@@ -61,17 +59,6 @@ tasks:
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet
-
-  _setup-shell:
-    internal: true
-    deps: [_install-tools]
-    cmds:
-      - echo "🐚 シェル環境をセットアップ中..."
-      - |
-        OMZ_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh"
-        if [ ! -d "$OMZ_DIR" ]; then
-          ZSH="$OMZ_DIR" RUNZSH=no sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
-        fi
 
   _setup-additional:
     internal: true

@@ -4,7 +4,6 @@
 /Brewfile.lock.json
 /config/git/gitconfig.local*
 /config/zsh/.zshrc.local
-/config/zsh/local_funcs/
 /vimdir/dein/
 GetLatest/
 /.task/checksum

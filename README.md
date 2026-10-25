@@ -52,6 +52,8 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
 - **home-manager**: `flake.nix` の `homeConfigurations.<ユーザー名>` を [home/](home/) のモジュールで組む
   (端末ごとのユーザー名は `flake.nix` の `users` に並べる)。
   設定ファイルは `mkOutOfStoreSymlink` でリポジトリの作業ツリーへ symlink する (編集が即反映される)。
+  `programs.*` が生成する設定は store に入るので、`builtins.readFile` で取り込んだファイルを変えたら
+  `task hm:switch` で反映する。
   適用は `task hm:switch` (`home/switch.sh` が flake の `home-manager` CLI をビルドして `switch --flake .` を呼ぶ)。
   世代の確認と戻しは profile に入る `home-manager generations` / `home-manager switch --rollback`。
 
@@ -63,7 +65,6 @@ dotfile/
 ├── Brewfile      # Homebrew で入れるツール
 ├── Taskfile.yml  # セットアップ自動化
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
-├── .zshenv       # ZDOTDIR を決めて config/zsh/.zshenv (XDG Base Directory 設定) を読む
 ├── home/         # home-manager のモジュールと switch.sh / status.sh
 ├── config/       # 各種設定ファイル
 │   ├── direnv/

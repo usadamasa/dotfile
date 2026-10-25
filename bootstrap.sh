@@ -22,7 +22,7 @@ step() {
 }
 
 # Homebrew のインストーラが Xcode Command Line Tools も入れるので、clone に使う git はここで手に入る。
-# シェルの設定への追記はしない (config/zsh/.zprofile が brew shellenv を持つ)
+# シェルの設定への追記はしない (config/zsh/zprofile が brew shellenv を持つ)
 if [ ! -x "$BREW_BIN" ]; then
   step "Homebrew をインストールする (sudo のパスワードを求められる)"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

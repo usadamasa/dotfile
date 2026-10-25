@@ -1,12 +1,16 @@
 # home-manager (standalone) の入口。Taskfile の処理を 1 つずつここへ移す (issue #105)。
 # username は flake.nix の users から extraSpecialArgs で渡る
-{ username, ... }:
+{ config, username, ... }:
 {
   imports = [
     ./direnv.nix
     ./files.nix
     ./packages.nix
+    ./zsh.nix
   ];
+
+  # 作業ツリーを直接指すパス。flake は pure 評価で ./. が store のコピーになるため、ghq の配置を文字列で書く
+  _module.args.dotfileDir = "${config.home.homeDirectory}/src/github.com/usadamasa/dotfile";
 
   home.username = username;
   home.homeDirectory = "/Users/${username}";

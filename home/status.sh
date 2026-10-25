@@ -25,7 +25,7 @@ else
   printf 'home-manager: ✗ (%s が flake と違う。task hm:switch で合わせる)\n' "$generation"
 fi
 
-# 世代が一致していても、PATH の並びが崩れている (config/zsh/.zprofile を経ていないシェル、macOS 同梱や
+# 世代が一致していても、PATH の並びが崩れている (config/zsh/zprofile を経ていないシェル、macOS 同梱や
 # brew の版が前に来る) と別の実体が使われる。home-manager が入れた各コマンドの解決先を見る。
 # direnv が読み込む devShell は /nix/store/… の bin (stdenv の bash など) と .direnv/bin を先頭に足すが、
 # これはリポジトリの中だけの並びなので外し、ログインシェルと同じ PATH で引く
