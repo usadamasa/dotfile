@@ -30,8 +30,9 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "amuse";
-      # direnv の hook は programs.direnv が張るので、oh-my-zsh の direnv plugin は使わない
-      plugins = [ "gcloud" ];
+      # direnv の hook は programs.direnv が張るので、oh-my-zsh の direnv plugin は使わない。
+      # gcloud plugin は brew や公式 installer の置き場しか探さず、nix の google-cloud-sdk (packages.nix) を見つけない
+      plugins = [ ];
       extraConfig = ''
         # oh-my-zsh の compinit は ZSH_COMPDUMP が無いと ZDOTDIR にダンプを書く
         ZSH_COMPDUMP="${xdg.cacheHome}/zsh/zcompdump-$ZSH_VERSION"
