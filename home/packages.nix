@@ -17,6 +17,9 @@
     git
     git-filter-repo
     git-wt
+    # plugin (agents-daemon、orm-discovery、acm-discovery) の SessionStart hook が direnv の外で go build する。
+    # orm-discovery の go.mod が 1.27.3 を要り、1.26 系の `go` だと GOTOOLCHAIN=auto で toolchain を取りに行くので版付きの attr を使う
+    go_1_27
     jq
     kubectl
     kubectx
