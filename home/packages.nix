@@ -49,7 +49,6 @@
     # 追いついたら `nodejs` に戻す (理由と確認先は nodejs-bin.nix)
     (callPackage ./nodejs-bin.nix { })
     peco
-    pipx
     pre-commit
     ripgrep
     # claude-config の global hook (shellcheck-on-write.sh) がどのリポジトリでも command -v で探す。
