@@ -1,6 +1,3 @@
-# home/zsh.nix が programs.zsh.initContent へ取り込む (oh-my-zsh を読んだ後に入る)。
-# 変えたら task hm:switch で反映する
-
 # User configuration
 export LANG=ja_JP.UTF-8
 export EDITOR='vim'

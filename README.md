@@ -31,7 +31,6 @@ task                  # タスク一覧表示
 task setup            # 完全セットアップ (導入済みのマシンで設定を収束させる)
 task status           # 状況確認
 task test             # bats でシェルスクリプトのテストを実行
-task test:hm          # home-manager の zsh 設定を偽の HOME でビルドして起動する (darwin のみ)
 task format           # editorconfig-checker でチェック
 task nix:check-flake  # flake.nix の devShell を検証
 task nix:update       # flake.lock の nixpkgs を更新
@@ -53,8 +52,8 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
 - **home-manager**: `flake.nix` の `homeConfigurations.<ユーザー名>` を [home/](home/) のモジュールで組む
   (端末ごとのユーザー名は `flake.nix` の `users` に並べる)。
   設定ファイルは `mkOutOfStoreSymlink` でリポジトリの作業ツリーへ symlink する (編集が即反映される)。
-  zsh だけは `programs.zsh` ([home/zsh.nix](home/zsh.nix)) が生成し、`config/zsh/` の断片を取り込むので、
-  断片を変えたら `task hm:switch` で反映する。
+  `programs.*` が生成する設定は store に入るので、`builtins.readFile` で取り込んだファイルを変えたら
+  `task hm:switch` で反映する。
   適用は `task hm:switch` (`home/switch.sh` が flake の `home-manager` CLI をビルドして `switch --flake .` を呼ぶ)。
   世代の確認と戻しは profile に入る `home-manager generations` / `home-manager switch --rollback`。
 

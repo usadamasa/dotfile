@@ -41,12 +41,6 @@ tasks:
       - bats tests/
       - echo "✅ テスト完了"
 
-  test:hm:
-    desc: home-manager の zsh 設定を偽の HOME 向けにビルドしてテストする (darwin のみ)
-    cmds:
-      - ./tests/helpers/build-hm-fake-home.sh
-      - bats tests/zsh-home-manager.bats
-
   format:
     desc: .editorconfigに従ってファイルをフォーマット・修正
     cmds:

@@ -46,7 +46,7 @@ in
       highlighters = [ "brackets" "pattern" "cursor" ];
     };
 
-    # home-manager は全 option を setopt / NO_ で書き、oh-my-zsh の設定より後に入るので、移行前の値をすべて明示する
+    # home-manager は全 option を setopt / NO_ で書き、oh-my-zsh の設定より後に入るので、既定に任せず明示する
     history = {
       path = "${xdg.stateHome}/zsh/history";
       size = 10000000;
@@ -62,8 +62,6 @@ in
     };
 
     initContent = lib.concatStringsSep "\n" [
-      # home-manager が常に有効にする。移行前の挙動に合わせて戻す
-      "unsetopt HIST_FCNTL_LOCK"
       (builtins.readFile ../config/zsh/zshrc)
       (builtins.readFile ../config/zsh/funcs/peco-select-history.sh)
       (builtins.readFile ../config/zsh/funcs/peco-src.sh)
@@ -89,7 +87,6 @@ in
     CARGO_HOME = "${xdg.dataHome}/cargo";
   };
 
-  # 移行前は .zshenv がシェルを開くたびに作っていた
   home.activation.createToolDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${
       lib.escapeShellArgs [
