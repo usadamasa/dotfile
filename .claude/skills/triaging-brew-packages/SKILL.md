@@ -31,7 +31,7 @@ brew を 2 回 (`info` と `tap-info`)、nix を 1 回呼び、1 分かからな
 |---|---|---|
 | Brewfile | `Brewfile` に `brew "<name>"` / `cask "<token>"` があるか | 無い (-) ものは「brew に入っているのに宣言が無い」leaf か依存。宣言するか、移すか、消すかのどれかにする |
 | on_request | `installed_on_request` | ✓ は手で入れたもの。`brew autoremove` は触らないので、消すなら `brew uninstall` を打つ |
-| 直接の依存元 | `brew info` の `dependencies` を逆引きしたもの | 直接だけ。`brew uses --installed` の出力 (推移的) とは数が違う。逆引きは installed の全 formula を見ているので、`-` なら `brew uses` を打ち直さなくてよい。「依存元 -」でも on_request なら残る |
+| 直接の依存元 | formula の `dependencies` と cask の `depends_on.formula` を逆引きしたもの。cask は `(cask)` を付ける (json では `cask_dependents`) | 直接だけ。`brew uses --installed` の出力 (推移的で、cask を出さない) とは数が違う。逆引きは installed の全 formula と全 cask を見ているので、`-` なら `brew uses` を打ち直さなくてよい。「依存元 -」でも on_request なら残る |
 | nixpkgs (同名 attr) | flake.lock の nixpkgs に同じ名前の attr があるか、その版、aarch64-darwin で使えるか | 「無し (同名 attr)」は名前が違うだけのことが多い。下の「nixpkgs の名前を引く」を済ませてから「nixpkgs に無い」と書く。`?` は attr が derivation でない (set) |
 | devShell を持つ repo | `~/src/github.com/usadamasa/*/flake.nix` にその名前がある repo | worktree から実行すると worktree 名も混ざる |
 | direnv の外の参照 | `config/` `home/` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
@@ -69,7 +69,7 @@ nix search --inputs-from . nixpkgs <name の一部>
 
 | 振り分け | 条件 | 例 |
 |---|---|---|
-| 依存で残る (触らない) | on_request でなく、直接の依存元がある | `pcre2` `gmp` `ncurses`。依存元が全部消えれば `brew autoremove` が消す |
+| 依存で残る (触らない) | on_request でなく、直接の依存元 (cask を含む) がある | `pcre2` `gmp` `ncurses`。依存元が全部消えれば `brew autoremove` が消す |
 | 自己更新に任せる | cask で `auto_updates` ✓、または Brewfile 末尾のコメントの一覧にある | ChatGPT、JetBrains Toolbox、claude-code。Brewfile にも home-manager にも書かない |
 | brew に残す | 次のどれか: (a) nixpkgs に無い (名前を引いた上で)、(b) ログインシェル (`$SHELL` が brew のパスを指す)、(c) cask のフォント、(d) nixpkgs 版が macOS 同梱のコマンドを接頭辞なしで隠し、接頭辞付きの attr も無い、(e) リポジトリの設定が `/opt/homebrew` のパスを直書きしていて、その変更を同じ PR に入れない | (a) `git-now`、(c) `font-cica`、(e) `git` (pager の diff-highlight)。(d) に当たらない例が `coreutils` で、nixpkgs の `coreutils` は `ls` `cp` を接頭辞なしで置くが、`coreutils-prefixed` があるので home.packages へ移した |
 | devShell へ (brew からは消すだけ) | direnv の外の参照が無く、使う repo が全部 `flake.nix` を持つ。「devShell を持つ repo」に無い repo で使うなら、その repo の devShell に足す | `bats-core` `editorconfig-checker` `yamllint` `go-task` `uv` |
@@ -85,6 +85,8 @@ nix search --inputs-from . nixpkgs <name の一部>
 - 採取は今の端末 1 台しか見ない。この端末で使う形跡が無くても、別の端末で使うものは「消すだけ」にせず
   `home.packages` へ入れる。`home/` の設定は全端末で共有されるため。該当するのは `aqua`。
   `home/packages.nix` のその行に「別の端末で使う」とコメントを付け、次の採取で消す側へ振り分けないようにする
+- 依存元も端末ごとに違う。ある端末で依存元が無かった `openssl@3` が、別の端末では `azure-cli` `tmux` などの
+  formula と cask の `gcloud-cli` に使われていた。PR を適用する端末で採取し直してから `brew uninstall` を打つ
 - zsh の plugin のうち `zsh-autosuggestions` と `zsh-syntax-highlighting` は `home.packages` に入れない。
   `home/zsh.nix` の `programs.zsh.autosuggestion` / `syntaxHighlighting` が読む。
   `zsh-completions` は `home.packages` に入れれば、profile の `share/zsh/site-functions` から補完が読まれる
@@ -143,6 +145,8 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 - 適用手順:
   ```sh
   task hm:switch
+  whence -a <cmd>           # nix の profile が brew より先に当たるか
+  <cmd> auth list など      # 認証を持つツールなら、新しい版から認証が見えるか
   brew uninstall <formula...>
   brew untap <tap>          # その tap から入っているものが無くなるとき
   brew autoremove --dry-run
@@ -160,6 +164,22 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 `task status` の `home-manager の PATH` 行が ✓ になるところまでが 1 単位
 (APPENDIX「なぜ brew uninstall までが 1 単位か」)。
 
+#### 適用で当たる罠
+
+プランの適用手順を書くとき、次を手順か注記に入れる。
+
+- `brew uninstall` は sandbox の中だと `/opt/homebrew` のロックを作れず止まる。読み取り (`brew uses`、
+  `brew autoremove --dry-run`) は sandbox の中で動く。uninstall はユーザーに打ってもらう手順として書く
+- cask の uninstall は `sudo` でパスワードを聞くことがある。`!` で打つと TTY が無く途中で止まるので、
+  普通のターミナルで打ってもらう
+- `brew uninstall` が `required by <cask>` で拒否されたら、cask が依存元になっている。
+  `brew uses --installed` は cask を出さないので、採取の「直接の依存元」の `(cask)` を見る
+- `installed_on_request` ✓ の formula は `brew autoremove` で消えない。`brew uninstall` を明記する。
+  同じ formula の版が 2 つ入っていることがある (`openssl@3` の 3.5.9 と 3.6.5)。`brew list --versions <formula>` で確かめる
+- gcloud を nix へ移すときは、`gcloud components list --only-local-state` に出た component を全部
+  `google-cloud-sdk.withExtraComponents` に書く (nix 版では `gcloud components install` が効かない)。
+  cask を消しても `/opt/homebrew/share/google-cloud-sdk` が残るので、手で消す手順を入れる
+
 ### 5. 報告する
 
 プランのパスと、振り分けの件数、未決の一覧を返す。issue への反映は、指示があってから行う
@@ -169,7 +189,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 
 | 見つけたら | 置き換え先 |
 |---|---|
-| formula ごとに `brew uses --installed` を打つ | 採取の「直接の依存元」を読む。1 回数秒 × 70 で分単位になり、しかも推移的 |
+| formula ごとに `brew uses --installed` を打つ | 採取の「直接の依存元」を読む。1 回数秒 × 70 で分単位になり、しかも推移的で cask の依存元を出さない |
 | 「同名 attr 無し」をそのまま「nixpkgs に無い」と書く | 「nixpkgs の名前を引く」を 1 回だけ |
 | nixpkgs の有無と版を `nix search` だけで決める | 採取の nixpkgs 列 (flake.lock の nixpkgs を `nix eval` した値) を読む。`nix search` は attr 名の一部しか出さず、`gcc` が `gcc-unwrapped` しか無いように見える |
 | GitHub の issue を読んで振り分けの規則にする | 規則はこの skill の表と Brewfile のコメントが持つ。issue は formula ごとの有無だけ引く |
@@ -192,8 +212,10 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
 ## APPENDIX: なぜ直接の依存元か
 
 `brew uses --installed` は推移的な依存元を返す (`ca-certificates` に `coreutils` が出る)。
+しかも formula の依存元しか出さず、cask が依存していても空になる。
 プランの順序に要るのは「これを消したら何が孤児になるか」で、それは直接の依存の逆引きで分かる。
-`brew info --json=v2 --installed` 1 回で全 formula の `dependencies` が取れるので、逆引きは手元で済む。
+`brew info --json=v2 --installed` 1 回で全 formula の `dependencies` と全 cask の `depends_on.formula` が取れるので、
+逆引きは手元で済む。
 
 ## APPENDIX: なぜ devShell と home-manager を分けるか
 

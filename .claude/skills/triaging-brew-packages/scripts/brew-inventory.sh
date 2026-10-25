@@ -4,7 +4,8 @@
 #
 # brew info --json=v2 --installed と brew tap-info --json --installed を 1 回ずつ、nix eval を 1 回だけ呼ぶ
 # (formula ごとに brew uses を呼ぶと分単位になる)。
-# 直接の依存元は brew info の dependencies を逆引きして出す (brew uses --installed は推移的な依存元を返す)。
+# 直接の依存元は formula の dependencies と cask の depends_on.formula を逆引きして出す
+# (brew uses --installed は推移的で、cask の依存元を出さない)。
 # nix は sandbox の中から daemon に届かないので、.claude/settings.json の sandbox.excludedCommands に載せてあり、
 # リポジトリ直下から相対パスの字面そのままで呼ぶ (SKILL.md の手順 1)
 set -euo pipefail
@@ -177,6 +178,7 @@ jq -n \
         installed_as_dependency: (.installed[0].installed_as_dependency // false),
         deps: (.dependencies // []),
         dependents: ([ $b.formulae[] | select((.dependencies // []) | index($f.name)) | .name ] | sort),
+        cask_dependents: ([ $b.casks[] | select((.depends_on.formula // []) | index($f.name)) | .token ] | sort),
         nixpkgs: (($n[$f.name] // {found: false, version: null, darwin: null}) | {found, version, darwin}),
         devshell_repos: ($extra.devshell_repos[$f.name] // []),
         consumer_refs: ($extra.consumer_refs[$f.name] // [])
@@ -187,6 +189,7 @@ jq -n \
         version,
         auto_updates: (.auto_updates // false),
         tap,
+        deps: (.depends_on.formula // []),
         declared: (($declared_casks | index($c.token)) != null)
       } ] | sort_by(.token),
       taps: [ $taps[0][] | select(.installed == true) | . as $t | {
@@ -213,13 +216,13 @@ jq -r '
   "",
   "| name | 版 | Brewfile | on_request | 直接の依存 | 直接の依存元 | nixpkgs (同名 attr) | devShell を持つ repo | direnv の外の参照 |",
   "|---|---|---|---|---|---|---|---|---|",
-  (.formulae[] | "| \(.name) | \(.version) | \(.declared | yn) | \(.installed_on_request | yn) | \(.deps | dash) | \(.dependents | dash) | \(.nixpkgs | nixcol) | \(.devshell_repos | dash) | \(.consumer_refs | refs) |"),
+  (.formulae[] | "| \(.name) | \(.version) | \(.declared | yn) | \(.installed_on_request | yn) | \(.deps | dash) | \(.dependents + (.cask_dependents | map("\(.) (cask)")) | dash) | \(.nixpkgs | nixcol) | \(.devshell_repos | dash) | \(.consumer_refs | refs) |"),
   "",
   "## cask (\(.casks | length))",
   "",
-  "| token | 名前 | 版 | auto_updates | Brewfile |",
-  "|---|---|---|---|---|",
-  (.casks[] | "| \(.token) | \(.name) | \(.version) | \(.auto_updates | yn) | \(.declared | yn) |"),
+  "| token | 名前 | 版 | auto_updates | Brewfile | 依存する formula |",
+  "|---|---|---|---|---|---|",
+  (.casks[] | "| \(.token) | \(.name) | \(.version) | \(.auto_updates | yn) | \(.declared | yn) | \(.deps | dash) |"),
   "",
   "## tap (\(.taps | length))",
   "",
