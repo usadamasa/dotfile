@@ -34,7 +34,7 @@ brew を 2 回 (`info` と `tap-info`)、nix を 1 回呼び、1 分かからな
 | 直接の依存元 | `brew info` の `dependencies` を逆引きしたもの | 直接だけ。`brew uses --installed` の出力 (推移的) とは数が違う。逆引きは installed の全 formula を見ているので、`-` なら `brew uses` を打ち直さなくてよい。「依存元 -」でも on_request なら残る |
 | nixpkgs (同名 attr) | flake.lock の nixpkgs に同じ名前の attr があるか、その版、aarch64-darwin で使えるか | 「無し (同名 attr)」は名前が違うだけのことが多い。下の「nixpkgs の名前を引く」を済ませてから「nixpkgs に無い」と書く。`?` は attr が derivation でない (set) |
 | devShell を持つ repo | `~/src/github.com/usadamasa/*/flake.nix` にその名前がある repo | worktree から実行すると worktree 名も混ざる |
-| direnv の外の参照 | `config/` `home/` `.zshenv` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
+| direnv の外の参照 | `config/` `home/` `Taskfile.yml` と claude-config の `shared/hooks/` で名前が出る箇所 | `git` `zsh` `vim` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る |
 
 tap の表は `brew tap-info --json --installed` から作る。
 JSON API で入れている `homebrew/core` `homebrew/cask` は `installed: false` なので載らない。
@@ -85,9 +85,9 @@ nix search --inputs-from . nixpkgs <name の一部>
 - 採取は今の端末 1 台しか見ない。この端末で使う形跡が無くても、別の端末で使うものは「消すだけ」にせず
   `home.packages` へ入れる。`home/` の設定は全端末で共有されるため。該当するのは `aqua`。
   `home/packages.nix` のその行に「別の端末で使う」とコメントを付け、次の採取で消す側へ振り分けないようにする
-- oh-my-zsh の plugin (`zsh-autosuggestions` `zsh-syntax-highlighting` `zsh-completions`) は 3 つで 1 つの PR にする。
-  `home.packages` に入れ、`.zshrc` で profile の `share/` から source し、`_setup-shell` の git clone を消すところまでが
-  1 セット。1 つだけ拾って別建てにしない
+- zsh の plugin のうち `zsh-autosuggestions` と `zsh-syntax-highlighting` は `home.packages` に入れない。
+  `home/zsh.nix` の `programs.zsh.autosuggestion` / `syntaxHighlighting` が読む。
+  `zsh-completions` は `home.packages` に入れれば、profile の `share/zsh/site-functions` から補完が読まれる
 
 tap は formula と cask の振り分けが決まった後に見る。
 
@@ -204,7 +204,7 @@ hook が使うツールは direnv の外に要る。
 
 ## APPENDIX: なぜ brew uninstall までが 1 単位か
 
-`config/zsh/.zprofile` が nix の profile を `/opt/homebrew/bin` より前に置くので、brew 版が残っても
+`config/zsh/zprofile` が nix の profile を `/opt/homebrew/bin` より前に置くので、brew 版が残っても
 使われはしない。ただし `brew upgrade` で更新だけ続き、Brewfile と実体がずれる。だから brew 版を消すところまでを
 1 単位にする。`task status` の PATH 行は、`.zprofile` を経ていないシェルなどで brew の実体が前に
 来ているものを列挙する。消した後にこの行が ✓ であることを、単位の終わりの確認に使う。

@@ -103,7 +103,7 @@ done < "$flakes_list"
 
 # direnv の外から参照される場所: このリポジトリの設定・Taskfile・home-manager と、claude-config の global hook
 consumer_paths=()
-for p in "$repo/config" "$repo/home" "$repo/.zshenv" "$repo/Taskfile.yml" "$hooks_dir"; do
+for p in "$repo/config" "$repo/home" "$repo/Taskfile.yml" "$hooks_dir"; do
   if [ -e "$p" ]; then
     consumer_paths+=("$p")
   fi

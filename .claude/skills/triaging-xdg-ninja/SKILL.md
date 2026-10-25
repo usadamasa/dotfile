@@ -25,13 +25,14 @@ xdg-ninja --skip-ok --skip-unsupported > ./tmp/xdg-ninja.txt 2>&1
 
 ### 2. 指摘を分類する
 
-指摘ごとに、`.zshenv` と `config/` 配下 (`npmrc` など) の設定を `rg -n` で引き、次の表で分ける。
+指摘ごとに、`home/` (環境変数は `home/zsh.nix` の `home.sessionVariables`) と `config/` 配下 (`npmrc` など) の設定を
+`rg -n` で引き、次の表で分ける。
 
 | 分類 | 見分け方 | 扱い |
 | ---- | ---- | ---- |
-| 未設定 | xdg-ninja が示す環境変数や設定が `.zshenv` や `config/` に無い | 移す issue を立てる |
+| 未設定 | xdg-ninja が示す環境変数や設定が `home/` や `config/` に無い | 移す issue を立てる |
 | 設定済みで残る (古い) | 設定はあり、`ls -la` で見た $HOME 側の更新日時が古い | 残骸の片付けの issue を立てる。移行先に同じ中身があるかも書く |
-| 設定済みで残る (新しい) | 設定はあり、$HOME 側に最近の更新がある | `.zshenv` を読まない経路 (launchd、GUI アプリ、zsh 以外のシェル) が作り直している。原因の調査を issue にする |
+| 設定済みで残る (新しい) | 設定はあり、$HOME 側に最近の更新がある | zsh の起動ファイルを読まない経路 (launchd、GUI アプリ、zsh 以外のシェル) が作り直している。原因の調査を issue にする |
 | macOS で移せない | `~/.trash`、`$XDG_RUNTIME_DIR` の未設定 | issue にしない。報告に理由を 1 行書く |
 | 管轄外 | `~/.claude` | このリポジトリでは扱わない。claude-config が symlink と sandbox のパスを持つ (filing-issues skill) |
 | zsh の起点 | `~/.zshenv` | 移さない。`ZDOTDIR` を決めるファイルで、置き換え先の `/etc/zshenv` は sudo が要る |
@@ -61,7 +62,7 @@ gh issue create --repo usadamasa/dotfile --label xdg --assignee usadamasa --titl
 本文の節は次の順に置く。
 
 1. 背景: xdg-ninja の該当出力 (コードブロック) と、#7 の一環であること
-2. 現状: `.zshenv` や `config/` の該当行 (`path:line`)、`ls -la` で見た $HOME 側の中身と日付
+2. 現状: `home/` や `config/` の該当行 (`path:line`)、`ls -la` で見た $HOME 側の中身と日付
 3. やること
 4. 完了条件: チェックボックス。手順 1 の xdg-ninja の出力から指摘が消えることを含める
 5. 未決事項: 移し先 (`$XDG_DATA_HOME` か `$XDG_CACHE_HOME` か)、既存データの扱いなど
