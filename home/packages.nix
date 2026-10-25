@@ -23,6 +23,8 @@
     # orm-discovery の go.mod が 1.27.3 を要り、1.26 系の `go` だと GOTOOLCHAIN=auto で toolchain を取りに行くので版付きの attr を使う
     go_1_27
     jq
+    # kubectl のプラグインは krew を使わず nixpkgs のパッケージで入れる (krew の ctx は kubectx で足りる)
+    kube-capacity
     kubectl
     kubectx
     kustomize
