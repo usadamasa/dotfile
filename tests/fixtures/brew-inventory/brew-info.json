@@ -40,14 +40,24 @@
       "name": ["Example Font"],
       "version": "5.0.3",
       "auto_updates": null,
-      "tap": "homebrew/cask"
+      "tap": "homebrew/cask",
+      "depends_on": {}
     },
     {
       "token": "selfupdating-app",
       "name": ["Self Updating App"],
       "version": "26.1",
       "auto_updates": true,
-      "tap": "homebrew/cask"
+      "tap": "homebrew/cask",
+      "depends_on": { "macos": { ">=": ["13"] } }
+    },
+    {
+      "token": "cli-app",
+      "name": ["CLI App"],
+      "version": "540.0.0",
+      "auto_updates": null,
+      "tap": "homebrew/cask",
+      "depends_on": { "formula": ["beta"] }
     }
   ]
 }
