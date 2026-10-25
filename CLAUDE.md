@@ -17,7 +17,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```sh
 task test    # bats でシェルスクリプトのテストを実行 (tests/*.bats)
 task format  # editorconfig-checker で .editorconfig 準拠をチェック
+task test:hm # home-manager の zsh 設定を偽の HOME 向けにビルドし直してから tests/zsh-home-manager.bats を流す
 ```
+
+`tests/zsh-home-manager.bats` は `tmp/hm-fake-home/` にビルド済みの結果を読むだけで、自分ではビルドしない。
+生成物が無ければ skip するので、darwin 向けのビルドをしない CI では毎回 skip になる。
+CI が緑でも、zsh 設定は確かめていない。
+`task test` も前のビルド結果を読むので、`home/zsh.nix` や `config/zsh/` を変えたら
+`task test:hm` でビルドからやり直す。
+
+Claude Code の sandbox では、スクリプトや task から呼ぶ `nix build` が nix daemon に繋がらない。
+`tests/helpers/build-hm-fake-home.sh` の `nix build` を直接打ってから bats を流す。
 
 シェルスクリプトを Edit/Write すると、`.claude/hooks/lint-shell.sh` が PostToolUse
 フックとして自動的に `shellcheck` と `editorconfig-checker` をかけ、指摘があれば
