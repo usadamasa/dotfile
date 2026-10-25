@@ -174,8 +174,7 @@ gh issue list --repo usadamasa/dotfile --state open --search "<formula 名>"
   普通のターミナルで打ってもらう
 - `brew uninstall` が `required by <cask>` で拒否されたら、cask が依存元になっている。
   `brew uses --installed` は cask を出さないので、採取の「直接の依存元」の `(cask)` を見る
-- `installed_on_request` ✓ の formula は `brew autoremove` で消えない。`brew uninstall` を明記する。
-  同じ formula の版が 2 つ入っていることがある (`openssl@3` の 3.5.9 と 3.6.5)。`brew list --versions <formula>` で確かめる
+- 同じ formula の版が 2 つ入っていることがある (`openssl@3` の 3.5.9 と 3.6.5)。`brew list --versions <formula>` で確かめる
 - gcloud を nix へ移すときは、`gcloud components list --only-local-state` に出た component を全部
   `google-cloud-sdk.withExtraComponents` に書く (nix 版では `gcloud components install` が効かない)。
   cask を消しても `/opt/homebrew/share/google-cloud-sdk` が残るので、手で消す手順を入れる
