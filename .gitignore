@@ -3,7 +3,6 @@
 /.direnv/
 /Brewfile.lock.json
 /config/git/gitconfig.local*
-/config/zsh/.zcompdump*
 /config/zsh/.zshrc.local
 /config/zsh/local_funcs/
 /vimdir/dein/
