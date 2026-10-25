@@ -12,14 +12,13 @@ tasks:
 
   # 新しいマシンの初回は bootstrap.sh (Homebrew と Nix を入れて clone し、devShell の task でこれを呼ぶ)
   setup:
-    desc: 完全セットアップ(ツール + 設定ファイル + シェル環境 + 追加ツール)
+    desc: 完全セットアップ(ツール + 設定ファイル + シェル環境)
     cmds:
       - echo "⚙️ セットアップを開始します..."
       - task: _install-tools
       # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
       - task: hm:switch
-      - task: _setup-additional
       - echo "✅ セットアップ完了"
 
   status:
@@ -59,11 +58,3 @@ tasks:
     cmds:
       - echo "🛠️ 開発ツールをインストール中..."
       - brew bundle install --file Brewfile --quiet
-
-  _setup-additional:
-    internal: true
-    deps: [_install-tools]
-    cmds:
-      - echo "🛠️ 追加ツールをセットアップ中..."
-      - pipx install powerline-shell --force --quiet
-      - gh extension install seachicken/gh-poi --force
