@@ -9,7 +9,15 @@ in
   inherit pkgs;
   modules = [
     "${flake}/home"
-    { home.homeDirectory = pkgs.lib.mkForce home; }
+    {
+      home.homeDirectory = pkgs.lib.mkForce home;
+      # xdg.*Home の既定は環境変数の XDG_*_HOME を拾い、--impure ではビルドした人の HOME になる
+      xdg.cacheHome = "${home}/.cache";
+      xdg.configHome = "${home}/.config";
+      xdg.dataHome = "${home}/.local/share";
+      xdg.stateHome = "${home}/.local/state";
+      xdg.binHome = "${home}/.local/bin";
+    }
   ];
   extraSpecialArgs = { inherit username; };
 }).activationPackage

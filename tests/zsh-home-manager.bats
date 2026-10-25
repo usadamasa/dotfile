@@ -11,14 +11,15 @@ setup_file() {
   if [ ! -d "$HM_RESULT" ]; then
     return 0
   fi
-  # activation の代わりに home-files を写す。oh-my-zsh が ~/.cache に書けるよう書き込み権限を戻す
+  # activation の代わりに zsh の設定だけを張る。~/.config/zsh はディレクトリごと生成物へ向ける
+  # (Claude Code の sandbox は .zshrc / .zprofile という名前のファイルを作らせない)
   if [ -d "$FAKE_HOME" ]; then
     chmod -R u+w "$FAKE_HOME"
     rm -rf "$FAKE_HOME"
   fi
-  mkdir -p "$FAKE_HOME"
-  cp -R "$HM_RESULT/home-files/." "$FAKE_HOME/"
-  chmod -R u+w "$FAKE_HOME"
+  mkdir -p "$FAKE_HOME/.config" "$FAKE_HOME/.cache/oh-my-zsh" "$FAKE_HOME/.local/state"
+  ln -s "$HM_RESULT/home-files/.zshenv" "$FAKE_HOME/.zshenv"
+  ln -s "$HM_RESULT/home-files/.config/zsh" "$FAKE_HOME/.config/zsh"
 }
 
 setup() {
@@ -62,7 +63,7 @@ run_login_zsh() {
 }
 
 @test "PATH に ~/.local/bin が 1 回だけ入る" {
-  run_login_zsh '${#${(M)path:#$HOME/.local/bin}}'
+  run_login_zsh '${#${(@M)path:#$HOME/.local/bin}}'
 
   [ "$status" -eq 0 ]
   [ "$last_line" = "1" ]
@@ -98,7 +99,7 @@ run_login_zsh() {
 }
 
 @test "direnv の hook が 1 つだけ張られる" {
-  run_login_zsh '${#${(M)precmd_functions:#_direnv_hook}}'
+  run_login_zsh '${#${(@M)precmd_functions:#_direnv_hook}}'
 
   [ "$status" -eq 0 ]
   [ "$last_line" = "1" ]
