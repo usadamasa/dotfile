@@ -24,7 +24,9 @@ brew に入っている formula・cask・tap を振り分け、PR 単位の移�
   (推移的で、cask を出さない)
 - nixpkgs が「無し (同名 attr)」: 名前が違うだけのことが多い。`nix search --inputs-from . nixpkgs <名前の一部>` で
   1 回引いてから「nixpkgs に無い」と決める (`bats-core` は `bats`、`ca-certificates` は `cacert`)
-- direnv の外の参照: `git` `zsh` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る
+- devShell を持つ repo: `flake.nix` を formula 名と formula の実行ファイル名 (json の `executables`) で引いたもの。
+  attr 名がどちらとも違うものは拾えない
+- direnv の外の参照: formula 名だけで引く。`git` `zsh` のような一般語は件数が膨らむ。json の `consumer_refs` で中身を見る
 
 ### 2. formula と cask を振り分ける
 

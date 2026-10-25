@@ -2,7 +2,7 @@
 # brew に入っているもの (formula と cask と tap) を全量採取し、振り分けの材料を JSON と markdown で出す
 # (triaging-brew-packages skill の手順 1)。判断はしない。
 #
-# brew info --json=v2 --installed と brew tap-info --json --installed を 1 回ずつ、nix eval を 1 回だけ呼ぶ
+# brew info --json=v2 --installed と brew tap-info --json --installed と brew --prefix を 1 回ずつ、nix eval を 1 回だけ呼ぶ
 # (formula ごとに brew uses を呼ぶと分単位になる)。
 # 直接の依存元は formula の dependencies と cask の depends_on.formula を逆引きして出す
 # (brew uses --installed は推移的で、cask の依存元を出さない)。
@@ -75,6 +75,10 @@ if ! err=$(jq empty "$tap_json" 2>&1); then
   printf 'brew tap-info の出力が JSON でない: %s\n' "$err" >&2
   exit 1
 fi
+if ! brew_prefix=$(HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 brew --prefix); then
+  printf 'brew --prefix に失敗した\n' >&2
+  exit 1
+fi
 
 # --- 2. nixpkgs の同名 attr --------------------------------------------------------------------
 # flake.lock の nixpkgs を見る。同名 attr が無いだけで「nixpkgs に無い」とは限らない (bats-core → bats など)。
@@ -110,11 +114,24 @@ for p in "$repo/config" "$repo/home" "$repo/Taskfile.yml" "$hooks_dir"; do
   fi
 done
 
-extra='{"devshell_repos":{},"consumer_refs":{}}'
+extra='{"devshell_repos":{},"consumer_refs":{},"executables":{}}'
 while IFS= read -r name; do
+  exes_json=$(for exe in "$brew_prefix/opt/$name/bin"/*; do
+      if [ -e "$exe" ]; then
+        basename "$exe"
+      fi
+    done \
+    | jq -R -s 'split("\n") | map(select(length > 0)) | sort')
+
+  # flake.nix は nixpkgs の attr 名で書くので、formula 名と違う attr (kubernetes-cli と kubectl) は実行ファイル名で当てる
+  patterns=(-e "$name")
+  while IFS= read -r exe; do
+    patterns+=(-e "$exe")
+  done < <(printf '%s' "$exes_json" | jq -r '.[]')
+
   repos_json='[]'
   if [ "${#flakes[@]}" -gt 0 ]; then
-    repos_json=$(grep_or_empty -lwF -e "$name" -- "${flakes[@]}" \
+    repos_json=$(grep_or_empty -lwF "${patterns[@]}" -- "${flakes[@]}" \
       | while IFS= read -r f; do
           if [ -n "$f" ]; then
             basename "$(dirname "$f")"
@@ -135,8 +152,8 @@ while IFS= read -r name; do
       | jq -R -s 'split("\n") | map(select(length > 0))')
   fi
 
-  extra=$(printf '%s' "$extra" | jq --arg n "$name" --argjson r "$repos_json" --argjson c "$refs_json" \
-    '.devshell_repos[$n] = $r | .consumer_refs[$n] = $c')
+  extra=$(printf '%s' "$extra" | jq --arg n "$name" --argjson r "$repos_json" --argjson c "$refs_json" --argjson e "$exes_json" \
+    '.devshell_repos[$n] = $r | .consumer_refs[$n] = $c | .executables[$n] = $e')
 done < <(jq -r '.formulae[].name' "$brew_json")
 
 # /opt/homebrew を直書きしている設定 (git の pager など)。tests と worktree の写し、Brewfile 自身、作業メモは除く
@@ -180,6 +197,7 @@ jq -n \
         dependents: ([ $b.formulae[] | select((.dependencies // []) | index($f.name)) | .name ] | sort),
         cask_dependents: ([ $b.casks[] | select((.depends_on.formula // []) | index($f.name)) | .token ] | sort),
         nixpkgs: (($n[$f.name] // {found: false, version: null, darwin: null}) | {found, version, darwin}),
+        executables: ($extra.executables[$f.name] // []),
         devshell_repos: ($extra.devshell_repos[$f.name] // []),
         consumer_refs: ($extra.consumer_refs[$f.name] // [])
       } ] | sort_by(.name),
