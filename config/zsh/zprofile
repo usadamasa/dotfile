@@ -32,8 +32,6 @@ export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
 
 # User-specific paths
 
-# claude のネイティブ版、codex、uv tool の置き場。home.sessionPath は 1 シェル 1 回しか読まれず、
-# 入れ子の zsh -l では path_helper に /usr/bin の後ろへ回されたままになるので、ここで毎回前に置く
 export PATH="$HOME/.local/bin:$PATH"
 
 # claude-config: `task build:bin` が cmd/ の Go CLI をここへ出力する。
