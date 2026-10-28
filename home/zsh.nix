@@ -80,6 +80,8 @@ in
     LESSHISTFILE = "${xdg.stateHome}/less/history";
     # sqlite3 は履歴ファイルの親ディレクトリを作らない (xdg.stateHome は xdg.enable が作る)
     SQLITE_HISTORY = "${xdg.stateHome}/sqlite_history";
+    PYTHON_HISTORY = "${xdg.stateHome}/python/history";
+    PYTHONPYCACHEPREFIX = "${xdg.cacheHome}/python";
     # npmrc の ${XDG_*} 展開は環境変数が無い経路で効かないので、絶対パスで直接渡す
     NPM_CONFIG_CACHE = "${xdg.cacheHome}/npm";
     NPM_CONFIG_INIT_MODULE = "${xdg.configHome}/npm/config/npm-init.js";
@@ -94,6 +96,7 @@ in
     run mkdir -p ${
       lib.escapeShellArgs [
         "${xdg.stateHome}/less"
+        "${xdg.stateHome}/python"
         "${xdg.dataHome}/go"
         "${xdg.dataHome}/gradle"
       ]
