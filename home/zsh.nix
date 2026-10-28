@@ -80,7 +80,6 @@ in
     LESSHISTFILE = "${xdg.stateHome}/less/history";
     # sqlite3 は履歴ファイルの親ディレクトリを作らない (xdg.stateHome は xdg.enable が作る)
     SQLITE_HISTORY = "${xdg.stateHome}/sqlite_history";
-    # 3.13 以降の REPL が読む。親ディレクトリが無いと書き込み失敗を握り潰して履歴が残らないので、createToolDirs で作る
     PYTHON_HISTORY = "${xdg.stateHome}/python/history";
     PYTHONPYCACHEPREFIX = "${xdg.cacheHome}/python";
     # npmrc の ${XDG_*} 展開は環境変数が無い経路で効かないので、絶対パスで直接渡す
