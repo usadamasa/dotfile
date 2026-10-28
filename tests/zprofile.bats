@@ -72,6 +72,22 @@ path_index_of() {
   [ "$nix_index" -lt "$default_index" ]
 }
 
+@test "~/.local/bin が後ろに残っていても nix の profile より前に置き直し、1 回だけ現れる" {
+  # 入れ子の zsh -l では、親が足した ~/.local/bin が path_helper で /usr/bin の後ろへ回る
+  run env HOME="$FAKE_HOME" \
+    NIX_PROFILES="/nix/var/nix/profiles/default $FAKE_HOME/.local/state/nix/profile" \
+    PATH="/usr/bin:/bin:/usr/sbin:/sbin:$FAKE_HOME/.local/bin:$NIX_PROFILE_BIN" \
+    "$ZSH_BIN" -f -c 'source "$1" 2>/dev/null; print -r -- "$PATH"' _ "$DOTFILE_DIR/config/zsh/zprofile"
+  [ "$status" -eq 0 ]
+  PATH_UNDER_TEST="$output"
+
+  local_bin_index=$(path_index_of "$FAKE_HOME/.local/bin")
+  nix_index=$(path_index_of "$NIX_PROFILE_BIN")
+  [ "$local_bin_index" -ge 0 ]
+  [ "$local_bin_index" -lt "$nix_index" ]
+  [ "$(path_count_of "$FAKE_HOME/.local/bin")" -eq 1 ]
+}
+
 # PATH の中で $1 が現れる回数
 path_count_of() {
   local IFS=':' n=0 entry
