@@ -50,6 +50,9 @@
     (callPackage ./nodejs-bin.nix { })
     peco
     pre-commit
+    # python3 は 3.14 系を指すので、最新の安定版を版付きの attr で入れる。pip は同梱されない。
+    # 履歴と __pycache__ の置き場は PYTHON_HISTORY / PYTHONPYCACHEPREFIX (zsh.nix) で XDG へ移す
+    python315
     ripgrep
     # claude-config の global hook (shellcheck-on-write.sh) がどのリポジトリでも command -v で探す。
     # devShell だけにあるツール (bats など) と違い、direnv の外でも要る
