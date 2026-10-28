@@ -72,8 +72,6 @@ in
     ];
   };
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
-
   home.sessionVariables = {
     VIMINIT = ''let \$MYVIMRC=\"${xdg.configHome}/vim/vimrc\" | source \$MYVIMRC'';
     VIMDOTDIR = "${xdg.configHome}/vim";
@@ -88,7 +86,6 @@ in
     NPM_CONFIG_PREFIX = "${xdg.dataHome}/npm";
     GOPATH = "${xdg.dataHome}/go";
     GRADLE_USER_HOME = "${xdg.dataHome}/gradle";
-    SDKMAN_DIR = "${xdg.dataHome}/sdkman";
     CARGO_HOME = "${xdg.dataHome}/cargo";
   };
 

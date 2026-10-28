@@ -18,15 +18,6 @@ for profile in ${=NIX_PROFILES}; do
   export PATH="$profile/bin:$PATH"
 done
 
-# Language version managers (order matters for precedence)
-# rbenv (Ruby)
-[[ -d ~/.rbenv  ]] && \
-  export PATH=${HOME}/.rbenv/bin:${PATH} && \
-  eval "$(rbenv init -)"
-
-# sdkman (Java/JVM)
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-
 # Language-specific paths
 # cargo
 export PATH=${CARGO_HOME}/bin:$PATH
@@ -40,6 +31,10 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
 
 # User-specific paths
+
+# claude のネイティブ版、codex、uv tool の置き場。home.sessionPath は 1 シェル 1 回しか読まれず、
+# 入れ子の zsh -l では path_helper に /usr/bin の後ろへ回されたままになるので、ここで毎回前に置く
+export PATH="$HOME/.local/bin:$PATH"
 
 # claude-config: `task build:bin` が cmd/ の Go CLI をここへ出力する。
 # hook は同じ実体を絶対パスで起動するので、PATH に載せるのは skill から
