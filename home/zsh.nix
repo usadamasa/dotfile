@@ -23,6 +23,11 @@ in
       if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
           . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
       fi
+
+      # ログインシェルを通らない zsh (GUI アプリの zsh -c) 向け。並びは zprofile が決める
+      if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+          export PATH="$HOME/.local/bin:$PATH"
+      fi
     '';
 
     profileExtra = builtins.readFile ../config/zsh/zprofile;

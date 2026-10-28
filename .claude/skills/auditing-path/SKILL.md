@@ -30,6 +30,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/path-origins.sh
 |---|---|
 | `~/.config/zsh/.zprofile:<行>` | `config/zsh/zprofile` (home-manager が前置きを足すので行番号はずれる。entry の字面で引く) |
 | `nix-daemon.sh` | `home/zsh.nix` の `envExtra` が読む nix の installer の script |
+| `~/.config/zsh/.zshenv:<行>` | `home/zsh.nix` の `envExtra` (ログインシェルを通らない zsh 向けに `~/.local/bin` を足す) |
 | `hm-session-vars.sh` | `home.sessionPath`。使わない (APPENDIX「なぜ zprofile で足すか」) |
 | `/etc/zprofile` | `path_helper` が `/etc/paths` と `/etc/paths.d/*` から足す。リポジトリの外 |
 | `(起動前の環境)` | clean では launchd の PATH |
@@ -52,6 +53,9 @@ bash ${CLAUDE_SKILL_DIR}/scripts/path-origins.sh
 2. nix の profile (home-manager の版を macOS 同梱と brew より優先する)
 3. brew
 4. `path_helper` が並べるシステムの entry
+
+GUI アプリが起動する `zsh -c` (ログインシェルでない) でも要る entry は、`home/zsh.nix` の `envExtra` にも
+「無いときだけ足す」形で書く。並びは zprofile が決めるので、envExtra 側では位置を気にしない。
 
 足した後は `task hm:switch` を打ち、新しい端末と入れ子の `zsh -l` の両方で採取し直す。
 
