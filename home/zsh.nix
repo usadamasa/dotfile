@@ -92,6 +92,7 @@ in
     GOPATH = "${xdg.dataHome}/go";
     GRADLE_USER_HOME = "${xdg.dataHome}/gradle";
     CARGO_HOME = "${xdg.dataHome}/cargo";
+    CODEX_HOME = "${xdg.dataHome}/codex";
     PLATFORMIO_CORE_DIR = "${xdg.dataHome}/platformio";
   };
 
