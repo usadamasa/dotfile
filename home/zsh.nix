@@ -92,7 +92,6 @@ in
     GOPATH = "${xdg.dataHome}/go";
     GRADLE_USER_HOME = "${xdg.dataHome}/gradle";
     CARGO_HOME = "${xdg.dataHome}/cargo";
-    # 設定より sqlite・ログ・認証情報が大半を占めるので data 側に置く
     CODEX_HOME = "${xdg.dataHome}/codex";
     PLATFORMIO_CORE_DIR = "${xdg.dataHome}/platformio";
   };
