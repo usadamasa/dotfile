@@ -1,9 +1,10 @@
 # Dock や Spotlight から起動した GUI アプリ (Claude Desktop など) は .zshenv を読まず、launchd の環境だけを引き継ぐ。
-# その子プロセス (plugin の hook の go build、npx の MCP サーバ、VS Code の PlatformIO 拡張) が
-# ~/go と ~/.npm と ~/.platformio を作らないよう、ログイン時に渡す
+# その子プロセス (plugin の hook の go build、npx の MCP サーバ、VS Code の PlatformIO 拡張) や
+# ChatGPT アプリ (同梱の Codex) が ~/go と ~/.npm と ~/.platformio と ~/.codex を作らないよう、ログイン時に渡す
 { config, lib, ... }:
 let
   variables = lib.getAttrs [
+    "CODEX_HOME"
     "GOPATH"
     "NPM_CONFIG_CACHE"
     "NPM_CONFIG_INIT_MODULE"
