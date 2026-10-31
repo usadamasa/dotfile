@@ -4,6 +4,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    _1password-cli
     # この端末では使っていないが、別の端末で使う (home/ の設定は全端末で共有する)
     aqua
     bashInteractive

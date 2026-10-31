@@ -21,7 +21,10 @@
       # CLI は $USER@<hostname> の候補のうち最後に一致した名前を採るため名前が安定しない
       users = [ "masaru_uchida" "usadamasa" ];
       mkHome = username: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "1password-cli" ];
+        };
         modules = [ ./home ];
         extraSpecialArgs = { inherit username; };
       };
