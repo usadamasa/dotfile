@@ -4,7 +4,7 @@
 # nixos-unstable の nodejs_24 は 24.21.0 のまま。追いつくまでこれを home.packages に入れる。
 # 進み具合: https://nixpk.gs/pr-tracker.html?pr=576777
 # nixos-unstable の nodejs が 24.22.1 以上になったら、packages.nix を pkgs.nodejs に戻してこのファイルを消す (#136)。
-# version と sha256 は直書きなので Dependabot では進まない。次の security release が出たら手で上げる。
+# version と sha256 は直書きなので Dependabot では進まない。手で上げる条件は #136 にある。
 #
 # macOS のバイナリはビルド済みのまま動くので、fixup (strip / shebang の書き換え / 再署名) をかけない。
 # Mach-O の署名を保ったまま store へ置く
