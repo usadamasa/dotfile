@@ -1,9 +1,9 @@
 # dotfiles
 
-macOS 開発環境用の dotfiles リポジトリです。[go-task](https://taskfile.dev/) でセットアップを自動化し、
-日常使いのツールは [Homebrew](https://brew.sh/)、このリポジトリの開発ツールは [Nix](https://nixos.org/) の devShell で管理します。
-ホーム環境 (パッケージと設定ファイルの配置) は [home-manager](https://nix-community.github.io/home-manager/) へ
-段階的に移しています ([#105](https://github.com/usadamasa/dotfile/issues/105))。
+macOS の開発環境を組む dotfiles。セットアップの手順は [go-task](https://taskfile.dev/) の task にまとめてある。
+日常使いのパッケージと設定ファイルの配置は [home-manager](https://nix-community.github.io/home-manager/) が担い、
+このリポジトリの開発ツールは [Nix](https://nixos.org/) の devShell に置く。
+[Homebrew](https://brew.sh/) で入れるものは [Brewfile](Brewfile) に並べる。
 
 ## 🚀 セットアップ
 
@@ -31,6 +31,7 @@ task                  # タスク一覧表示
 task setup            # 完全セットアップ (導入済みのマシンで設定を収束させる)
 task status           # 状況確認
 task test             # bats でシェルスクリプトのテストを実行
+task lint             # yamllint で YAML を検査
 task format           # editorconfig-checker でチェック
 task nix:check-flake  # flake.nix の devShell を検証
 task nix:update       # flake.lock の nixpkgs を更新
@@ -43,19 +44,16 @@ flake.lock は Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) も
 
 ## 🛠️ ツールの管理
 
-- **Homebrew**: 日常使いのツールとフォント。一覧は [Brewfile](Brewfile)。
-- **Nix**: [Determinate Nix](https://determinate.systems/) を入れ、このリポジトリのテストと lint のツールを
-  [flake.nix](flake.nix) の devShell に置く。direnv (`.envrc` の `use flake`) がリポジトリに入ったときに読み込む。
-  nix の設定は `/etc/nix/nix.conf` を Determinate Nix が管理するので、
-  [config/nix/nix.custom.conf](config/nix/nix.custom.conf) を `/etc/nix/nix.custom.conf` へコピーして
-  `!include` させる (`task nix:install-custom-conf`)。
-- **home-manager**: `flake.nix` の `homeConfigurations.<ユーザー名>` を [home/](home/) のモジュールで組む
-  (端末ごとのユーザー名は `flake.nix` の `users` に並べる)。
-  設定ファイルは `mkOutOfStoreSymlink` でリポジトリの作業ツリーへ symlink する (編集が即反映される)。
-  `programs.*` が生成する設定は store に入るので、`builtins.readFile` で取り込んだファイルを変えたら
-  `task hm:switch` で反映する。
-  適用は `task hm:switch` (`home/switch.sh` が flake の `home-manager` CLI をビルドして `switch --flake .` を呼ぶ)。
-  世代の確認と戻しは profile に入る `home-manager generations` / `home-manager switch --rollback`。
+### Homebrew
+
+一覧は [Brewfile](Brewfile)。`task setup` が `brew bundle install` で入れる。
+
+### Nix
+
+[Determinate Nix](https://determinate.systems/) を入れ、設定は [config/nix/nix.custom.conf](config/nix/nix.custom.conf) に置く。
+
+- **devShell**: このリポジトリのテストと lint のツール。[flake.nix](flake.nix) に置き、direnv が読み込む。
+- **home-manager**: 日常使いのパッケージと設定ファイル。モジュールは [home/](home/)、適用は `task hm:switch`。
 
 ## 📁 構成
 
@@ -67,11 +65,5 @@ dotfile/
 ├── flake.nix     # 開発ツールの devShell と homeConfigurations
 ├── home/         # home-manager のモジュールと switch.sh / status.sh
 ├── config/       # 各種設定ファイル
-│   ├── direnv/
-│   ├── git/
-│   ├── nix/      # nix.custom.conf (/etc/nix へコピーする) と nix 関連の task
-│   ├── npm/
-│   ├── vim/
-│   └── zsh/
 └── tests/        # bats のテスト
 ```
