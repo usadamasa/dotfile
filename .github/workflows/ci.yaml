@@ -44,6 +44,9 @@ jobs:
       - name: Run bats tests
         run: task test
 
+      - name: Lint YAML
+        run: task lint
+
   actions-lock:
     name: actions-lock verify
     runs-on: ubuntu-latest

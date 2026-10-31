@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```sh
 task test    # bats でシェルスクリプトのテストを実行 (tests/*.bats)
+task lint    # yamllint で YAML を検査 (.yamllint.yaml)
 task format  # editorconfig-checker で .editorconfig 準拠をチェック
 ```
 

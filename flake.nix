@@ -34,7 +34,7 @@
         # mkShellNoCC: シェルスクリプトだけなので clang / Apple SDK を持ち込まない。
         # stdenv の coreutils / gnused / gnugrep / findutils は残り、PATH の先頭で GNU 版が macOS 版を隠す。
         default = pkgs.mkShellNoCC {
-          # 辞書順。日常的に使うツールは Brewfile に残し、ここにはこのリポジトリの開発・テストに要るものだけ置く
+          # 辞書順。日常的に使うツールは home-manager (home/packages.nix) に置き、ここにはこのリポジトリの開発・テストに要るものだけ置く
           packages = with pkgs; [
             bats
             editorconfig-checker

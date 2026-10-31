@@ -12,23 +12,18 @@ tasks:
 
   # 新しいマシンの初回は bootstrap.sh (Homebrew と Nix を入れて clone し、devShell の task でこれを呼ぶ)
   setup:
-    desc: 完全セットアップ(ツール + 設定ファイル + シェル環境)
+    desc: 完全セットアップ
     cmds:
-      - echo "⚙️ セットアップを開始します..."
-      - task: _install-tools
+      - brew bundle install --file Brewfile --quiet
       # use-xdg-base-directories を効かせてから profile を作るため、hm:switch より先に system 側の設定を置く
       - task: nix:install-custom-conf
       - task: hm:switch
-      - echo "✅ セットアップ完了"
 
   status:
     desc: セットアップ状況を確認
     cmds:
-      - echo "=== セットアップ状況 ==="
       - |
-        echo "Homebrew: $(command -v brew >/dev/null && echo '✓' || echo '✗')"
-        echo "主要ツール: $(command -v git >/dev/null && command -v gh >/dev/null && echo '✓' || echo '✗')"
-        echo "Nix: $(test -x /nix/var/nix/profiles/default/bin/nix && echo '✓' || echo '✗')"
+        echo "Brewfile: $(brew bundle check --file Brewfile >/dev/null 2>&1 && echo '✓' || echo '✗')"
         echo "nix.custom.conf: $(cmp -s config/nix/nix.custom.conf /etc/nix/nix.custom.conf && echo '✓' || echo '✗')"
       # home-manager 管理のもの (設定ファイルとパッケージ) は世代の一致で 1 行にまとめる
       - ./home/status.sh
@@ -36,25 +31,14 @@ tasks:
   test:
     desc: テストを実行
     cmds:
-      - echo "🧪 テストを実行中..."
       - bats tests/
-      - echo "✅ テスト完了"
+
+  lint:
+    desc: YAML を検査
+    cmds:
+      - yamllint --strict .
 
   format:
-    desc: .editorconfigに従ってファイルをフォーマット・修正
+    desc: .editorconfig 準拠をチェック
     cmds:
-      - echo "📝 .editorconfigに従ってフォーマット中..."
-      - |
-        if ! command -v editorconfig-checker &> /dev/null; then
-          echo "⚠️ editorconfig-checkerが見つかりません。editorconfig-checkerをインストールしてください"
-          exit 1
-        fi
-        echo "🔍 editorconfig-checkerでチェック中..."
-        editorconfig-checker
-        echo "✅ フォーマットチェック完了"
-
-  _install-tools:
-    internal: true
-    cmds:
-      - echo "🛠️ 開発ツールをインストール中..."
-      - brew bundle install --file Brewfile --quiet
+      - editorconfig-checker
