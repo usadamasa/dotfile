@@ -6,5 +6,7 @@
   xdg.dataFile = {
     # config/git/git-mc が gh poi を呼ぶ
     "gh/extensions/gh-poi".source = "${pkgs.gh-poi}/bin";
+    # stacked PR を gh stack merge でマージする
+    "gh/extensions/gh-stack".source = "${pkgs.gh-stack}/bin";
   };
 }
