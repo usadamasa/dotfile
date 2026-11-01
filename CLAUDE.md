@@ -66,16 +66,16 @@ When working with long commands in this repository:
 
 ## Claude Code Configuration
 
-Claude Code のグローバル設定は **`usadamasa/claude-config`** リポジトリで管理する｡
+Claude Code のグローバル設定は **`usadamasa/agents-config`** リポジトリで管理する｡
 
 ```sh
-ghq get github.com/usadamasa/claude-config
-cd ~/src/github.com/usadamasa/claude-config
+ghq get github.com/usadamasa/agents-config
+cd ~/src/github.com/usadamasa/agents-config
 task setup
 ```
 
-dotfile の Taskfile.yml は claude-config の task を呼ばない｡claude-config 側のセットアップは上のコマンドで別に行う｡
+dotfile の Taskfile.yml は agents-config の task を呼ばない｡agents-config 側のセットアップは上のコマンドで別に行う｡
 
 ### Note on Skill Scope
-- **Global skills** → `usadamasa/claude-config` リポジトリの `skills/` に配置 (全プロジェクトで利用可能)
+- **Global skills** → `usadamasa/agents-config` リポジトリの `dotclaude/skills/` に配置 (全プロジェクトで利用可能)
 - **Project-specific skills** → プロジェクトの `.claude/skills/` に配置

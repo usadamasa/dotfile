@@ -16,7 +16,7 @@ usage() {
 
 repo=$(cd "$(dirname "$0")/../../../.." && pwd)
 repos_root="$HOME/src/github.com/usadamasa"
-hooks_dir="$HOME/src/github.com/usadamasa/claude-config/shared/hooks"
+hooks_dir="$HOME/src/github.com/usadamasa/agents-config/shared/hooks"
 out=""
 while [ $# -gt 0 ]; do
   case $1 in
@@ -106,7 +106,7 @@ while IFS= read -r f; do
   flakes+=("$f")
 done < "$flakes_list"
 
-# direnv の外から参照される場所: このリポジトリの設定・Taskfile・home-manager と、claude-config の global hook
+# direnv の外から参照される場所: このリポジトリの設定・Taskfile・home-manager と、agents-config の global hook
 consumer_paths=()
 for p in "$repo/config" "$repo/home" "$repo/Taskfile.yml" "$hooks_dir"; do
   if [ -e "$p" ]; then

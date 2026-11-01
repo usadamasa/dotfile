@@ -53,7 +53,7 @@
     pre-commit
     python315
     ripgrep
-    # claude-config の global hook (shellcheck-on-write.sh) がどのリポジトリでも command -v で探す。
+    # agents-config の global hook (shellcheck-on-write.sh) がどのリポジトリでも command -v で探す。
     # devShell だけにあるツール (bats など) と違い、direnv の外でも要る
     shellcheck
     tig

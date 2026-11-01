@@ -34,7 +34,7 @@ xdg-ninja --skip-ok --skip-unsupported > ./tmp/xdg-ninja.txt 2>&1
 | 設定済みで残る (古い) | 設定はあり、`ls -la` で見た $HOME 側の更新日時が古い | 残骸の片付けの issue を立てる。移行先に同じ中身があるかも書く |
 | 設定済みで残る (新しい) | 設定はあり、$HOME 側に最近の更新がある | zsh の起動ファイルを読まない経路 (launchd、GUI アプリ、zsh 以外のシェル) が作り直している。原因の調査を issue にする |
 | macOS で移せない | `~/.trash`、`$XDG_RUNTIME_DIR` の未設定 | issue にしない。報告に理由を 1 行書く |
-| 管轄外 | `~/.claude` | このリポジトリでは扱わない。claude-config が symlink と sandbox のパスを持つ (filing-issues skill) |
+| 管轄外 | `~/.claude` | このリポジトリでは扱わない。agents-config が symlink と sandbox のパスを持つ (filing-issues skill) |
 | zsh の起点 | `~/.zshenv` | 移さない。`ZDOTDIR` を決めるファイルで、置き換え先の `/etc/zshenv` は sudo が要る |
 
 `$HOME` 側の設定ファイル (`~/.zprofile` など) を読むときは、guard がホーム直下の Read を止めることがある。
