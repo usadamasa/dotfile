@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # home-manager の設定をビルドして適用する。
-# `nix run home-manager -- switch` は claude-config の guard-bash が止めるため、flake の packages に置いた
+# `nix run home-manager -- switch` は agents-config の guard-bash が止めるため、flake の packages に置いた
 # home-manager CLI をビルドし、その `switch --flake .` を呼ぶ。CLI は $USER の homeConfigurations を選ぶ。
 # 初回も 2 回目以降も同じ経路
 set -euo pipefail

@@ -34,9 +34,10 @@ export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
 
-# claude-config: `task build:bin` が cmd/ の Go CLI をここへ出力する。
+# agents-config: `task go:build` が cmd/ の Go CLI を shared/bin/ へ出力し、
+# `task setup` がそれを ~/.claude/bin へ symlink する。
 # hook は同じ実体を絶対パスで起動するので、PATH に載せるのは skill から
-# `cc-dream` のように名前で叩くため。
+# `cc-rm` のように名前で叩くため。
 export PATH="$HOME/.claude/bin:$PATH"
 
 # Docker CLI completions
