@@ -53,9 +53,6 @@ flake.lock は Dependabot (`.github/dependabot.yml`) も週次で更新する。
 - `readonly` と代入は分離する (`VAR=$(cmd); readonly VAR`)
 - コメント・エラーメッセージは日本語
 
-`set -euo pipefail` と `printf` の使用方針はグローバル CLAUDE.md の
-"Shell Script Quality" に記載。
-
 ## Code Formatting Guidelines
 
 When working with long commands in this repository:
