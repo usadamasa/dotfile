@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+readonly SCRIPT_DIR
+PATTERNS_FILE="$SCRIPT_DIR/private-ref-patterns.txt"
+readonly PATTERNS_FILE
+
+if [ ! -f "$PATTERNS_FILE" ]; then
+  printf 'git-guard-private-ref: パターンファイルが見つからない: %s\n' "$PATTERNS_FILE" >&2
+  exit 1
+fi
+
+# pre-commit のステージ済み差分から、追加された行だけを "path:line:content" で取り出す。
+# -U0 なので各ハンクは +/- の変更行のみで、文脈行 (context) は出てこない。
+extract_added_pre_commit() {
+  git diff --cached -U0 --no-color --no-ext-diff --no-prefix -- | awk '
+    /^\+\+\+ / { file = substr($0, 5); next }
+    /^@@ / {
+      match($0, /\+[0-9]+/)
+      newline = substr($0, RSTART + 1, RLENGTH - 1) + 0
+      next
+    }
+    /^\+/ {
+      print file ":" newline ":" substr($0, 2)
+      newline++
+      next
+    }
+  '
+}
+
+# commit-msg のメッセージ本文から、コメント行と scissors (commit -v の "# --- >8 ---") 以降を除いて
+# "line:content" で取り出す。scissors より下は git が差分をそのまま貼るだけでコメント化されないため、
+# コメント行除去だけでは落とせない。
+extract_added_commit_msg() {
+  local msg_file="$1"
+  local comment_char
+  comment_char=$(git config --get core.commentChar) || comment_char='#'
+  [ "$comment_char" = 'auto' ] && comment_char='#'
+
+  awk -v cc="$comment_char" '
+    index($0, cc) == 1 && index($0, ">8") > 0 { exit }
+    index($0, cc) == 1 { next }
+    { print NR ":" $0 }
+  ' "$msg_file"
+}
+
+# 取り出した行を 1 パターンずつ走査する。grep -F の終了コード 1 (無一致) は正常系なので、
+# if で受けて exit_code には反映しない。終了コード 2 (grep 自体の異常) は無一致と区別せず
+# 「検出なし」側に倒れるが、固定文字列検索のみで発生し得ない入力しか与えていない。
+scan_added_content() {
+  local added_lines="$1"
+  local pattern
+  local matched_lines
+  local exit_code=0
+
+  while IFS= read -r pattern; do
+    case "$pattern" in
+      '' | '#'*) continue ;;
+    esac
+
+    if matched_lines=$(printf '%s\n' "$added_lines" | grep -F -- "$pattern"); then
+      exit_code=1
+      printf 'git-guard-private-ref: 個人 skill・個人 OSS への言及を検出 (pattern: %s)\n' "$pattern" >&2
+      printf '%s\n' "$matched_lines" >&2
+    fi
+  done < "$PATTERNS_FILE"
+
+  return "$exit_code"
+}
+
+mode="${1:-}"
+case "$mode" in
+  pre-commit)
+    added_lines=$(extract_added_pre_commit)
+    ;;
+  commit-msg)
+    msg_file="${2:-}"
+    if [ -z "$msg_file" ]; then
+      printf 'git-guard-private-ref: commit-msg のメッセージファイルが指定されていない\n' >&2
+      exit 1
+    fi
+    added_lines=$(extract_added_commit_msg "$msg_file")
+    ;;
+  *)
+    printf 'git-guard-private-ref: 不明なモード: %s\n' "$mode" >&2
+    exit 1
+    ;;
+esac
+
+scan_added_content "$added_lines"

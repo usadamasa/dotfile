@@ -46,6 +46,24 @@ nixpkgs の cacert は Mozilla の CA bundle に追従して先に直り、flake
 - `.envrc` があれば `direnv allow` を自動実行
 - worktree の配置先: `../worktrees/{gitroot}`
 
+### 業務 org への commit guard (gitconfig.guard)
+
+`gitconfig.guard` は、業務 org のリポジトリにコミットする際、個人 skill・個人 OSS への言及
+(`git-guard-private-ref` が `private-ref-patterns.txt` と照合) を pre-commit / commit-msg で止める
+git 2.56 の config-based hook 定義。org 名はここには書かない (ユーザー自動切替と同じ理由、上記参照)。
+
+有効化は端末ローカルの `gitconfig.local` 側で、業務 org の `includeIf` ブロックへ 1 行足す手動ステップ。
+
+```
+[includeIf "gitdir:<業務 org のディレクトリ>"]
+  path = ~/.config/git/gitconfig.local.work
+  path = ~/.config/git/gitconfig.guard
+```
+
+`includeIf "gitdir:..."` は linked worktree から見るとき **realpath で比較される**
+(symlink のままのパスでは一致しない)。`~/src/github.com/...` 配下に symlink が無ければ問題ないが、
+`$HOME` や `~/src` 自体が symlink の環境では、`gitdir:` の条件も realpath で書く必要がある。
+
 ## その他の注意事項
 
 - `config` 内のパスは `~/.config/git/` を基準にしているため、シンプリンク先を意識すること

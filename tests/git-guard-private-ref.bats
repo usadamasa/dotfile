@@ -173,9 +173,13 @@ setup_guard_home() {
   GUARD_GLOBAL_CONFIG="$BATS_TEST_TMPDIR/gitconfig.global"
   WORK_DIR="$BATS_TEST_TMPDIR/work"
   mkdir -p "$WORK_DIR"
+  # includeIf の gitdir: は linked worktree からだと realpath で比較される
+  # (config/git/CLAUDE.md 参照)。$TMPDIR 自体が symlink (macOS の /tmp -> /private/tmp) なので
+  # symlink のままのパスを書くと worktree からの一致だけが抜け落ちる
+  WORK_DIR_REAL=$(cd "$WORK_DIR" && pwd -P)
 
   cat > "$GUARD_GLOBAL_CONFIG" <<CONF
-[includeIf "gitdir:$WORK_DIR/"]
+[includeIf "gitdir:$WORK_DIR_REAL/"]
   path = ~/.config/git/gitconfig.guard
 CONF
 
