@@ -9,30 +9,13 @@
 #     owner 付きの参照は usadamasa/ 側で拾う
 #   - gh actions-lock / actions.lock: github/gh-actions-lock (GitHub 公式) を指す語で個人プロジェクトではない
 
-# owner 付きの参照。これが一致すれば配下のリポジトリ名は問わない
-usadamasa/
-github.com/usadamasa
-
-# 個人 Claude Code harness の常駐デーモン
-agents-daemon
-
-# 個人の plugin marketplace
-agents-marketplace
-
-# agents-config の旧名。リネーム後も古い参照が残っていたら検出したい
 agents-config
-
-# 日本語ライティング支援の個人 plugin
-japanese-writer
-
-# O'Reilly 調査用の個人 skill・MCP サーバー
-orm-discovery
-
-# kubectl プラグインの個人 OSS
-kubectl-localmesh
-
-# UI コンポーネントの個人 OSS
-twigpui
-
-# 業務 org への PR レビューで実際に混入した個人 action
+agents-daemon
+agents-marketplace
 gh-manage
+github.com/usadamasa
+japanese-writer
+kubectl-localmesh
+orm-discovery
+twigpui
+usadamasa/
