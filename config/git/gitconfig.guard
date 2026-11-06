@@ -1,0 +1,8 @@
+# 業務 org のリポジトリにだけ include する guard hook 定義 (git 2.56 config-based hooks)。
+# org 名はここには書かない。scoping は端末ローカルの gitconfig.local 側で行う (config/git/CLAUDE.md 参照)。
+[hook "guard-private-ref-pre-commit"]
+  event = pre-commit
+  command = ~/.config/git/git-guard-private-ref pre-commit
+[hook "guard-private-ref-commit-msg"]
+  event = commit-msg
+  command = ~/.config/git/git-guard-private-ref commit-msg
