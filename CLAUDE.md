@@ -35,15 +35,18 @@ flake.lock は Dependabot (`.github/dependabot.yml`) も週次で更新する。
 
 ### ディレクトリ単位のリンクをファイル単位の生成へ移す
 
-`home/files.nix` でディレクトリごと張っているリンク (`"git".source = link "config/git"` など) を外し、
+`home/files.nix` でディレクトリごと張っているリンクを外し、
 home-manager にその配下のファイルを生成させると、`~/.config/<name>` が古い generation へのリンクのまま残る。
-新しいファイルへのリンクはそのリンクをたどった先、つまりリポジトリの `config/<name>/` の中に untracked で作られる。
-home-manager の内部でなぜそうなるかは挙動からの推測で、ソースでは確かめていない。
+ディレクトリごとのリンクは `"git".source = link "config/git"` のような書き方を指す。
+古い generation の中のエントリはリポジトリの `config/<name>/` を指すので、新しいファイルへのリンクは
+このリンクを 2 段たどった先、つまりリポジトリの中に untracked で作られる。
+home-manager が配下にファイルを持つパスの古いリンクを消さず、既存のリンクの先へ書くためと推測している。
+ソースでは確かめていない。
 
 - activation の `checkDirLinks` (`home/check-dir-links.sh`) が、nix store を指すリンクが残っていれば switch を止める。
   表示された `rm` をそのまま打ち、`task hm:switch` をやり直す
 - switch の後、`ls -la ~/.config/<name>` が実ディレクトリであること、`git status` に生成物が出ていないことを確かめる。
-  `checkDirLinks` は 1 段目のリンク先が nix store のときだけ止めるので、store の外を指すリンクは素通りする
+  `checkDirLinks` は 1 段目のリンク先が nix store のときだけ止めるので、store の外を指すリンクを検出しない
 
 ## シェルスクリプト開発ガイド
 
