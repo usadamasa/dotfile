@@ -31,6 +31,20 @@ task format  # editorconfig-checker で .editorconfig 準拠をチェック
 flake.lock は Dependabot (`.github/dependabot.yml`) も週次で更新する。
 `lint-shell.sh` フックは claude を起動したシェルの PATH で動くので、リポジトリ内のシェルから claude を起動する。
 
+## home-manager
+
+### ディレクトリ単位のリンクをファイル単位の生成へ移す
+
+`home/files.nix` でディレクトリごと張っているリンク (`"git".source = link "config/git"` など) を外し、
+home-manager にその配下のファイルを生成させると、`~/.config/<name>` が古い generation へのリンクのまま残る。
+新しいファイルへのリンクはそのリンクをたどった先、つまりリポジトリの `config/<name>/` の中に untracked で作られる。
+home-manager の内部でなぜそうなるかは挙動からの推測で、ソースでは確かめていない。
+
+- activation の `checkDirLinks` (`home/check-dir-links.sh`) が、nix store を指すリンクが残っていれば switch を止める。
+  表示された `rm` をそのまま打ち、`task hm:switch` をやり直す
+- switch の後、`ls -la ~/.config/<name>` が実ディレクトリであること、`git status` に生成物が出ていないことを確かめる。
+  `checkDirLinks` は 1 段目のリンク先が nix store のときだけ止めるので、store の外を指すリンクは素通りする
+
 ## シェルスクリプト開発ガイド
 
 ### ディレクトリ構成
