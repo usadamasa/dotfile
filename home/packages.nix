@@ -49,7 +49,13 @@
     # nixpkgs の nodejs が 24.22.1 (2026-10-21 の security release) に追いつくまで公式バイナリで代替する。
     # 追いついたら `nodejs` に戻す (理由と確認先は nodejs-bin.nix)
     (callPackage ./nodejs-bin.nix { })
+    # cargo の openssl-sys crate が pkg-config 経由で見つける用。.pc は dev 出力にあり、
+    # bin/man だけの既定出力 (outputsToInstall) では入らないので dev を明示する
+    openssl.dev
     peco
+    # pkgconf の実行ファイル名は pkgconf で pkg-config ではないため、pkg-config という名前を置く
+    # こちらの属性を使う。PKG_CONFIG_PATH は home/zsh.nix の home.sessionVariables が通す
+    pkg-config
     pre-commit
     python315
     ripgrep
