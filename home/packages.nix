@@ -53,8 +53,9 @@
     # bin/man だけの既定出力 (outputsToInstall) では入らないので dev を明示する
     openssl.dev
     peco
-    # pkg-config コマンド本体。PKG_CONFIG_PATH は home/zsh.nix の home.sessionVariables が通す
-    pkgconf
+    # pkgconf の実行ファイル名は pkgconf で pkg-config ではないため、pkg-config という名前を置く
+    # こちらの属性を使う。PKG_CONFIG_PATH は home/zsh.nix の home.sessionVariables が通す
+    pkg-config
     pre-commit
     python315
     ripgrep
