@@ -95,6 +95,9 @@ in
     RUSTUP_HOME = "${xdg.dataHome}/rustup";
     CODEX_HOME = "${xdg.dataHome}/codex";
     PLATFORMIO_CORE_DIR = "${xdg.dataHome}/platformio";
+    # pkg-config は既定で profile を探さない。home.packages の各パッケージの lib/pkgconfig は
+    # profileDirectory 配下へ 1 箇所に merge されるので、ここだけ通せば足りる (openssl 用に限らない)
+    PKG_CONFIG_PATH = "${config.home.profileDirectory}/lib/pkgconfig";
   };
 
   home.activation.createToolDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
