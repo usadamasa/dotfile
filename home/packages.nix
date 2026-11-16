@@ -1,7 +1,7 @@
 # Brewfile から移した CLI ツール (辞書順)。
 # PATH は config/zsh/zprofile が nix の profile を brew と /usr/bin より前に置くのでこちらが使われるが、
 # brew 版が残ると更新だけ続くので、ここへ移したら Brewfile から消して brew uninstall するまでが 1 単位
-{ pkgs, ... }:
+{ pkgs, lib, username, ... }:
 {
   home.packages = with pkgs; [
     _1password-cli
@@ -63,5 +63,9 @@
     wget
     # zsh 本体と ZLE の plugin は programs.zsh (zsh.nix) が入れる。補完は profile の site-functions から読まれる
     zsh-completions
+  ]
+  ++ lib.optionals (username == "masaru_uchida") [
+    postgresql
+    rustup
   ];
 }
