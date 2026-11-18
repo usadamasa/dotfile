@@ -23,8 +23,21 @@
     git-filter-repo
     git-wt
     # plugin (agents-daemon、orm-discovery、acm-discovery) の SessionStart hook が direnv の外で go build する。
-    # orm-discovery の go.mod が 1.27.3 を要り、1.26 系の `go` だと GOTOOLCHAIN=auto で toolchain を取りに行くので版付きの attr を使う
-    go_1_27
+    # orm-discovery の go.mod が 1.27.3 を要り、1.26 系の `go` だと GOTOOLCHAIN=auto で toolchain を取りに行くので版付きの attr を使う。
+    #
+    # 2026-11-10 の security release (cgo のビルド時コード実行ほか 12 件、GO-2026-6859 ほか) の修正版 1.27.4 が
+    # nixpkgs では staging 止まりで、nixos-unstable の go_1_27 は 1.27.3 のまま。
+    # NixOS/nixpkgs#586269 (staging へ 2026-11-11 に merge 済み) が version と hash だけの差分と確認したうえで、
+    # 同じ src (go.dev の go1.27.4.src.tar.gz、sha256 は同 PR の hash と一致確認済み) を当てて追いつく。
+    # 進み具合: https://nixpk.gs/pr-tracker.html?pr=586269
+    # nixos-unstable の go_1_27 が 1.27.4 以上になったら、この overrideAttrs を外して `go_1_27` に戻す
+    (go_1_27.overrideAttrs (finalAttrs: _: {
+      version = "1.27.4";
+      src = fetchurl {
+        url = "https://go.dev/dl/go${finalAttrs.version}.src.tar.gz";
+        sha256 = "73cfb8571aec0c01177687db87163d46aa20e9779672772891aa17654d9a6099";
+      };
+    }))
     # masaru_uchida の端末で cask の gcloud-cli から移した。store が読み取り専用で `gcloud components install` は効かないので、
     # components はここへ足す (bq、gsutil、gcloud-crc32c は本体に入る)。zsh の補完は profile の site-functions から読まれる
     (google-cloud-sdk.withExtraComponents (
