@@ -11,5 +11,7 @@ in
     "direnv/direnv.toml".source = link "config/direnv/direnv.toml";
     "git".source = link "config/git";
     "vim".source = link "config/vim";
+    # ~/.config/pup は pup 自身が sessions.json とトークンファイルを書くので、ディレクトリごとではなく config.yaml だけ張る
+    "pup/config.yaml".source = link "config/pup/config.yaml";
   };
 }
